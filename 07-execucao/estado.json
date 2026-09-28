@@ -6,7 +6,7 @@
   },
   "vocabulario": "copiloto-executar",
   "wip_limite": 1,
-  "atualizado_em": "2026-09-28T22:05:07.546Z",
+  "atualizado_em": "2026-09-28T22:20:27.918Z",
   "nos": [
     {
       "id": "E0",
@@ -1433,6 +1433,15 @@
           "classe": "A_OBSERVADO",
           "registrada_em": "2026-09-28T22:05:07.546Z",
           "ator": "maestro"
+        },
+        {
+          "id": "EVD-CF-ROUTE-0001-3",
+          "caminho": "07-execucao/evidencias/cloudflare-worker/deploy-temporario-e-probe.txt",
+          "criterio": "tentativa real de publicacao: `wrangler deploy --temporary` publicou de fato (upload aceito, Durable Object resolvido) em conta temporaria nao reivindicada; o probe HTTP real (scripts/configure-cloudflare-route.mjs) confirmou que a rota NAO esta utilizavel -- Cloudflare intercepta com challenge JS (cf-mitigated: challenge, HTTP 403) requisicoes sem navegador nessa conta. Nao prova o DoD; prova por que ele continua em aberto.",
+          "classe": "A_OBSERVADO",
+          "registrada_em": "2026-09-28T22:20:27.909Z",
+          "ator": "maestro",
+          "nota": "Nao fecha D14 nem escreve URL em .mcp.json -- I-02/I-03. A Claim URL da conta temporaria (token de posse, janela de 60 min a partir de 2026-09-28T22:15:22Z) foi entregue apenas em chat ao usuario, nunca gravada em arquivo versionado -- evita vazamento de credencial."
         }
       ],
       "gaps": [
@@ -1486,7 +1495,7 @@
           "ator": "maestro"
         }
       ],
-      "atualizado_em": "2026-09-28T22:05:07.546Z"
+      "atualizado_em": "2026-09-28T22:20:27.909Z"
     }
   ],
   "decisoes": [
@@ -2002,7 +2011,8 @@
       "titulo": "URL real da rota MCP remota (Cloudflare Workers)",
       "onde": "cloudflare-worker/README.md",
       "status": "ABERTA",
-      "recomendacao": "Rodar `cd cloudflare-worker && npm install && npx wrangler login && npm run deploy` (na sua conta Cloudflare) e depois `node scripts/configure-cloudflare-route.mjs <URL impressa>` na raiz — o script confirma que o Worker responde de verdade antes de gravar a URL em .mcp.json e fechar esta decisão.",
+      "recomendacao": "Duas opcoes, sob decisao do usuario: (a) reivindicar a conta temporaria 'Uncovered Parenthesis' na Claim URL entregue em chat (janela de 60 min a partir de 2026-09-28T22:15:22Z) e testar se o challenge da Cloudflare desaparece; se desaparecer, rodar `node scripts/configure-cloudflare-route.mjs https://maestro-mcp-remote.uncovered-parenthesis.workers.dev` para confirmar e fechar D14; (b) ignorar a conta temporaria (expira sozinha) e publicar na conta real do usuario com `cd cloudflare-worker && npx wrangler login && npm run deploy`, depois o mesmo script de configuracao com a URL definitiva.",
+      "fonte": "sessao atual -- deploy real tentado via `wrangler deploy --temporary` (unica via disponivel sem credencial); probe HTTP real mostrou a rota bloqueada por challenge anti-abuso da Cloudflare nessa conta temporaria",
       "bloqueia": [],
       "historico": [
         {
@@ -2014,6 +2024,11 @@
           "em": "2026-09-28T22:01:57.811Z",
           "status": "ABERTA",
           "nota": "Código pronto e testado localmente (tsc limpo, wrangler deploy --dry-run empacota, handshake MCP completo via wrangler dev com dados reais do ledger). Não publicado por esta sessão: o conector Cloudflare Developer Platform disponível aqui só lista/lê Workers e gerencia D1/KV/R2/Hyperdrive — sem ferramenta de deploy — e wrangler não está autenticado neste ambiente (sem CLOUDFLARE_API_TOKEN). Nunca inventar a URL (I-02): fica A DEFINIR até o deploy real."
+        },
+        {
+          "em": "2026-09-28T22:20:27.918Z",
+          "status": "ABERTA",
+          "nota": "Nova tentativa registrada: deploy real ocorreu (conta temporaria, nao a do usuario), mas o probe (I-02/I-03) nao confirmou a rota utilizavel -- HTTP 403 com cf-mitigated: challenge, nao a resposta do Worker. D14 continua ABERTA; ver evidencia em CF-ROUTE-0001. Claim URL da conta temporaria entregue apenas em chat (credencial -- nunca em arquivo versionado)."
         }
       ]
     }

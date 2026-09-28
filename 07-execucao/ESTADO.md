@@ -4,7 +4,7 @@
 > Vocabulário canônico: `BACKLOG_VALIDATED · READY · DOING · VERIFY · DONE · BLOCKED` (rótulos PT: VALIDADO ⬜ · PRONTO ⬜ · EM EXECUÇÃO 🔄 · VERIFICAR 🔎 · CONCLUÍDO ✅ · BLOQUEADO ⛔).
 > **WIP = 1.** Nenhum nó vira ✅ sem evidência (I-04). Progresso é derivado (I-09).
 
-**Última atualização:** 2026-09-28T22:05:07.546Z
+**Última atualização:** 2026-09-28T22:20:27.918Z
 **Nó ativo (WIP):** nenhum
 **Próximo elegível:** TASKSPACE-0001 — Processar TASK-SPACE/ (3 lotes: runbook Copiloto-ops CSV 68 linhas; 2 planos operacionais via plano-operacional-rastreavel) em GitHub Issues
 **Progresso derivado:** Trilha S 3/15 (20%) · Trilha L 0/10 (0%)
@@ -32,7 +32,7 @@
 | ING-0002 | Ingestão do pacote Maestro (handoff multiagente) | ✅ CONCLUÍDO | repo | — | — | `ingestion/received/ING-0002/MANIFEST.sha256`, `ingestion/records/ING-0002-pacote-maestro-handoff-multiagente.md` |
 | BUILD-0.1.0 | Construção do plugin maestro v0.1.0 (agents, skills, commands, MCP, hooks, testes) | ✅ CONCLUÍDO | repo | ING-0001, ING-0002 | — | `07-execucao/evidencias/BUILD-0.1.0/check.log`, `07-execucao/evidencias/e2e/resultado.json`, `07-execucao/E5-relatorio.md` |
 | TASKSPACE-0001 | Processar TASK-SPACE/ (3 lotes: runbook Copiloto-ops CSV 68 linhas; 2 planos operacionais via plano-operacional-rastreavel) em GitHub Issues | ⬜ PRONTO | repo | — | — |  |
-| CF-ROUTE-0001 | Publicar a rota MCP remota (Cloudflare Workers) na conta real e registrar a URL | ⛔ BLOQUEADO · `USER_ACTION_REQUIRED` | repo | — | — | `07-execucao/evidencias/cloudflare-worker/dry-run-e-dev.log`, `07-execucao/evidencias/cloudflare-worker/dry-run-e-dev.txt` |
+| CF-ROUTE-0001 | Publicar a rota MCP remota (Cloudflare Workers) na conta real e registrar a URL | ⛔ BLOQUEADO · `USER_ACTION_REQUIRED` | repo | — | — | `07-execucao/evidencias/cloudflare-worker/dry-run-e-dev.log`, `07-execucao/evidencias/cloudflare-worker/dry-run-e-dev.txt`, `07-execucao/evidencias/cloudflare-worker/deploy-temporario-e-probe.txt` |
 
 ## Trilha L — Operar o lançamento (PEM-D16) — abre só após gate de E6
 
@@ -106,7 +106,7 @@
 | D4-v1 | (herdada do handoff v1 / F0) Power BI (licença/custo/auth) | F0 | ABERTA |  |  |  |
 | D5-v1 | (herdada do handoff v1 / F0) uso de app.css em site público | F0 | ABERTA |  |  |  |
 | D6-v1 | (herdada do handoff v1 / F0) leitura de 'twland'/'adotidade' | F0 | ABERTA |  |  |  |
-| D14 | URL real da rota MCP remota (Cloudflare Workers) | cloudflare-worker/README.md | ABERTA | _recomendação:_ Rodar `cd cloudflare-worker && npm install && npx wrangler login && npm run deploy` (na sua conta Cloudflare) e depois `node scripts/configure-cloudflare-route.mjs <URL impressa>` na raiz — o script confirma que o Worker responde de verdade antes de gravar a URL em .mcp.json e fechar esta decisão. |  |  |
+| D14 | URL real da rota MCP remota (Cloudflare Workers) | cloudflare-worker/README.md | ABERTA | _recomendação:_ Duas opcoes, sob decisao do usuario: (a) reivindicar a conta temporaria 'Uncovered Parenthesis' na Claim URL entregue em chat (janela de 60 min a partir de 2026-09-28T22:15:22Z) e testar se o challenge da Cloudflare desaparece; se desaparecer, rodar `node scripts/configure-cloudflare-route.mjs https://maestro-mcp-remote.uncovered-parenthesis.workers.dev` para confirmar e fechar D14; (b) ignorar a conta temporaria (expira sozinha) e publicar na conta real do usuario com `cd cloudflare-worker && npx wrangler login && npm run deploy`, depois o mesmo script de configuracao com a URL definitiva. | sessao atual -- deploy real tentado via `wrangler deploy --temporary` (unica via disponivel sem credencial); probe HTTP real mostrou a rota bloqueada por challenge anti-abuso da Cloudflare nessa conta temporaria |  |
 
 ## Divergências registradas (I-08)
 
