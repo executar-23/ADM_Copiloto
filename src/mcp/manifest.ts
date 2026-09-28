@@ -3,12 +3,15 @@
 export const PLUGIN_NAME = "maestro";
 
 export interface ToolMeta {
-  server: "estado" | "registry";
+  server: "estado" | "registry" | "remote";
   name: string;
   title: string;
   readOnly: boolean;
   destructive: boolean;
 }
+
+/** Servidores locais (stdio, `.mcp.json`) vs. hospedado (Cloudflare Worker, HTTP — ver `cloudflare-worker/`). */
+export const REMOTE_SERVERS = new Set<ToolMeta["server"]>(["remote"]);
 
 export const TOOLS: readonly ToolMeta[] = [
   // estado — ledger + máquina de estados (C-01)
@@ -38,6 +41,13 @@ export const TOOLS: readonly ToolMeta[] = [
   { server: "registry", name: "ingestion_list", title: "Listar ingestões", readOnly: true, destructive: false },
   { server: "registry", name: "ingestion_start", title: "Abrir ingestão (RECEIVE)", readOnly: false, destructive: false },
   { server: "registry", name: "catalog_register", title: "Registrar componente no catálogo", readOnly: false, destructive: false },
+  // remote — espelho público somente leitura, hospedado em Cloudflare Workers (cloudflare-worker/).
+  // Sem filesystem: lê `07-execucao/estado.json` e `mapa/roteamento.json` via raw.githubusercontent.com
+  // (repositório público) e reaplica as MESMAS funções puras de src/lib — nunca reimplementa a regra.
+  { server: "remote", name: "state_summary", title: "Resumo do estado (espelho público)", readOnly: true, destructive: false },
+  { server: "remote", name: "node_get", title: "Obter nó (espelho público)", readOnly: true, destructive: false },
+  { server: "remote", name: "decision_list", title: "Listar decisões (espelho público)", readOnly: true, destructive: false },
+  { server: "remote", name: "routing_lookup", title: "Consultar roteamento (espelho público)", readOnly: true, destructive: false },
 ];
 
 export const fullToolName = (t: Pick<ToolMeta, "server" | "name">) => `mcp__plugin_${PLUGIN_NAME}_${t.server}__${t.name}`;

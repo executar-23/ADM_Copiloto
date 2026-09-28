@@ -6,7 +6,7 @@
   },
   "vocabulario": "copiloto-executar",
   "wip_limite": 1,
-  "atualizado_em": "2026-09-28T18:55:17.208Z",
+  "atualizado_em": "2026-09-28T22:05:07.546Z",
   "nos": [
     {
       "id": "E0",
@@ -1391,6 +1391,102 @@
         }
       ],
       "atualizado_em": "2026-09-28T18:55:17.194Z"
+    },
+    {
+      "id": "CF-ROUTE-0001",
+      "trilha": "S",
+      "tipo": "tarefa",
+      "titulo": "Publicar a rota MCP remota (Cloudflare Workers) na conta real e registrar a URL",
+      "lane": null,
+      "skill": null,
+      "skill_version": null,
+      "playbook": null,
+      "status": "BLOCKED",
+      "motivo_bloqueio": {
+        "codigo": "USER_ACTION_REQUIRED",
+        "detalhe": "Rodar 'npm run cloudflare:deploy' com uma conta Cloudflare autenticada, depois 'node scripts/configure-cloudflare-route.mjs <URL>' — ver cloudflare-worker/README.md e a decisão D14."
+      },
+      "dono_canonico": "repo",
+      "depends_on": [],
+      "dod": "D14 RESPONDIDA com a URL real (confirmada por probe HTTP, via scripts/configure-cloudflare-route.mjs) e .mcp.json com o servidor 'remote' apontando para ela.",
+      "efeito_externo": true,
+      "autorizacao": null,
+      "escopo_escrita": [],
+      "output": [
+        "cloudflare-worker/",
+        "scripts/configure-cloudflare-route.mjs",
+        "07-execucao/evidencias/cloudflare-worker/dry-run-e-dev.log"
+      ],
+      "evidencias": [
+        {
+          "id": "EVD-CF-ROUTE-0001-1",
+          "caminho": "07-execucao/evidencias/cloudflare-worker/dry-run-e-dev.log",
+          "criterio": "código correto: tsc --noEmit limpo, wrangler deploy --dry-run empacota, handshake MCP completo (initialize/tools-list/tools-call) via wrangler dev local, com dados reais do ledger público",
+          "classe": "A_OBSERVADO",
+          "registrada_em": "2026-09-28T22:02:14.540Z",
+          "ator": "maestro"
+        },
+        {
+          "id": "EVD-CF-ROUTE-0001-2",
+          "caminho": "07-execucao/evidencias/cloudflare-worker/dry-run-e-dev.txt",
+          "criterio": "correção: a evidência anterior apontava para dry-run-e-dev.log, que o .gitignore da raiz (*.log) excluía do commit — mesmo conteúdo, arquivo renomeado para .txt (I-10: soma, não apaga a entrada anterior)",
+          "classe": "A_OBSERVADO",
+          "registrada_em": "2026-09-28T22:05:07.546Z",
+          "ator": "maestro"
+        }
+      ],
+      "gaps": [
+        "Nenhuma ferramenta de deploy no conector Cloudflare Developer Platform disponível nesta sessão (só leitura de Workers + gestão de D1/KV/R2/Hyperdrive)",
+        "wrangler sem CLOUDFLARE_API_TOKEN neste ambiente (`wrangler whoami` → não autenticado)"
+      ],
+      "conflitos": [],
+      "decisao": null,
+      "refs": [],
+      "historico": [
+        {
+          "em": "2026-09-28T22:01:52.700Z",
+          "de": null,
+          "para": "BACKLOG_VALIDATED",
+          "motivo": "criado a partir do handoff do usuário: 'Use conector cloudflare para criação da rota do Mcp e inclua no plugin'",
+          "ator": "maestro"
+        },
+        {
+          "em": "2026-09-28T22:01:52.700Z",
+          "de": "BACKLOG_VALIDATED",
+          "para": "READY",
+          "motivo": "dependências concluídas na criação",
+          "ator": "maestro"
+        },
+        {
+          "em": "2026-09-28T22:02:08.198Z",
+          "de": "READY",
+          "para": "DOING",
+          "motivo": "código da rota construído e testado localmente nesta sessão",
+          "ator": "maestro"
+        },
+        {
+          "em": "2026-09-28T22:02:08.208Z",
+          "de": "DOING",
+          "para": "DOING",
+          "motivo": "atualização [output]: código pronto, testado localmente; falta o deploy real (efeito externo, fora do alcance desta sessão)",
+          "ator": "maestro"
+        },
+        {
+          "em": "2026-09-28T22:02:14.531Z",
+          "de": "DOING",
+          "para": "VERIFY",
+          "motivo": "saída registrada",
+          "ator": "maestro"
+        },
+        {
+          "em": "2026-09-28T22:02:14.548Z",
+          "de": "VERIFY",
+          "para": "BLOCKED",
+          "motivo": "publicação (efeito externo) exige credencial real da conta Cloudflare, ausente nesta sessão",
+          "ator": "maestro"
+        }
+      ],
+      "atualizado_em": "2026-09-28T22:05:07.546Z"
     }
   ],
   "decisoes": [
@@ -1897,6 +1993,27 @@
           "em": "2026-09-28T18:55:17.170Z",
           "status": "REGISTRADA",
           "nota": "Reconciliado por fast-forward antes do merge automático para main."
+        }
+      ]
+    },
+    {
+      "id": "D14",
+      "tipo": "decisao",
+      "titulo": "URL real da rota MCP remota (Cloudflare Workers)",
+      "onde": "cloudflare-worker/README.md",
+      "status": "ABERTA",
+      "recomendacao": "Rodar `cd cloudflare-worker && npm install && npx wrangler login && npm run deploy` (na sua conta Cloudflare) e depois `node scripts/configure-cloudflare-route.mjs <URL impressa>` na raiz — o script confirma que o Worker responde de verdade antes de gravar a URL em .mcp.json e fechar esta decisão.",
+      "bloqueia": [],
+      "historico": [
+        {
+          "em": "2026-09-28T22:01:52.691Z",
+          "status": "ABERTA",
+          "nota": "Código pronto e testado localmente (tsc limpo, wrangler deploy --dry-run empacota, handshake MCP completo via wrangler dev com dados reais do ledger). Não publicado por esta sessão: o conector Cloudflare Developer Platform disponível aqui só lista/lê Workers e gerencia D1/KV/R2/Hyperdrive — sem ferramenta de deploy — e wrangler não está autenticado neste ambiente (sem CLOUDFLARE_API_TOKEN). Nunca inventar a URL (I-02): fica A DEFINIR até o deploy real."
+        },
+        {
+          "em": "2026-09-28T22:01:57.811Z",
+          "status": "ABERTA",
+          "nota": "Código pronto e testado localmente (tsc limpo, wrangler deploy --dry-run empacota, handshake MCP completo via wrangler dev com dados reais do ledger). Não publicado por esta sessão: o conector Cloudflare Developer Platform disponível aqui só lista/lê Workers e gerencia D1/KV/R2/Hyperdrive — sem ferramenta de deploy — e wrangler não está autenticado neste ambiente (sem CLOUDFLARE_API_TOKEN). Nunca inventar a URL (I-02): fica A DEFINIR até o deploy real."
         }
       ]
     }

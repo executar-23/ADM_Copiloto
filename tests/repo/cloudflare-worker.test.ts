@@ -1,0 +1,59 @@
+// Consistência da rota MCP remota: ela existe, é rastreada no catálogo/ledger e (quando node_modules
+// está instalado) o bundle real do Worker continua fechando — a mesma verificação que
+// `npm run cloudflare:check` roda, só que sob `node --test` para entrar no gate padrão.
+import { test } from "node:test";
+import assert from "node:assert/strict";
+import { execFileSync } from "node:child_process";
+import { existsSync, readFileSync, rmSync } from "node:fs";
+import { join } from "node:path";
+import { loadCatalog } from "../../src/lib/catalog/store.ts";
+import { loadEstado } from "../../src/lib/estado/store.ts";
+import { TOOLS } from "../../src/mcp/manifest.ts";
+import { REPO } from "../helpers.ts";
+
+const WORKER_DIR = join(REPO, "cloudflare-worker");
+
+test("cloudflare-worker/ existe com o manifesto e o código-fonte esperados", () => {
+  for (const f of ["package.json", "tsconfig.json", "wrangler.jsonc", "src/index.ts", "README.md"]) {
+    assert.ok(existsSync(join(WORKER_DIR, f)), f);
+  }
+  const src = readFileSync(join(WORKER_DIR, "src/index.ts"), "utf8");
+  for (const tool of TOOLS.filter((t) => t.server === "remote")) {
+    assert.match(src, new RegExp(`"${tool.name}"`), `${tool.name} registrado no Worker`);
+  }
+});
+
+test("catálogo tem o servidor remote e as 4 ferramentas, status coerente com 'não publicado ainda'", () => {
+  const entries = loadCatalog(REPO).entries.map((e) => e.record);
+  const server = entries.find((r) => r.id === "mcp-server:remote");
+  assert.ok(server, "mcp-server:remote registrado");
+  assert.equal(server!.status, "experimental");
+  for (const tool of TOOLS.filter((t) => t.server === "remote")) {
+    assert.ok(entries.some((r) => r.id === `mcp-tool:remote.${tool.name}`), tool.name);
+  }
+});
+
+test("ledger: D14 (URL real) e CF-ROUTE-0001 registrados; nenhuma URL foi inventada", () => {
+  const e = loadEstado(REPO);
+  const d14 = e.decisoes.find((d) => d.id === "D14")!;
+  assert.ok(d14, "D14 existe");
+  if (d14.status !== "RESPONDIDA") {
+    assert.equal(d14.resposta, undefined, "sem deploy real, D14 não tem URL (I-02: nunca inventar)");
+  } else {
+    assert.match(d14.resposta ?? "", /^https:\/\//, "quando respondida, a URL é real (https)");
+  }
+  const node = e.nos.find((n) => n.id === "CF-ROUTE-0001")!;
+  assert.ok(node, "CF-ROUTE-0001 existe");
+  assert.equal(node.efeito_externo, true);
+});
+
+test("bundle real do Worker fecha (wrangler deploy --dry-run) — pulado se cloudflare-worker/node_modules não estiver instalado", (t) => {
+  if (!existsSync(join(WORKER_DIR, "node_modules"))) return t.skip("cloudflare-worker/node_modules ausente — rode npm install lá para incluir este teste");
+  try {
+    const out = execFileSync("npx", ["wrangler", "deploy", "--dry-run", "--outdir", ".wrangler-check-out"], { cwd: WORKER_DIR, encoding: "utf8", stdio: ["ignore", "pipe", "pipe"] });
+    assert.match(out, /Total Upload:/);
+    assert.match(out, /--dry-run: exiting now/);
+  } finally {
+    rmSync(join(WORKER_DIR, ".wrangler-check-out"), { recursive: true, force: true });
+  }
+});

@@ -79,5 +79,21 @@ Skills descrevem categorias, não produtos: `~~tracker`, `~~knowledge base`, `~~
 |---|---|---|
 | `~~knowledge base` | Notion; Drive (EXECUTAR_CONTROL_CENTER) | esquemas não lidos — pendente |
 | `~~tracker` | Linear (Executar-Rotina / EXE) | conflito CONF-01 aberto — reverificar antes de escrever |
-| `~~deploy` | Vercel, Railway, Supabase | esquemas não lidos; Cloudflare **sem conector** |
+| `~~deploy` | Vercel, Railway, Supabase | esquemas não lidos |
+| `~~cloudflare` | Cloudflare Developer Platform | presente em algumas sessões (`DIV-006`); só lista/lê Workers e gerencia D1/KV/R2/Hyperdrive — **sem ferramenta de deploy**. Usado para a rota remota abaixo (verificação, não publicação) |
 | `executar` | conector proprietário | esquema não lido |
+
+## Rota remota (Cloudflare Workers)
+
+Além dos dois servidores locais, o repositório inclui um **terceiro servidor MCP, remoto e somente
+leitura**: `cloudflare-worker/` — um espelho público de `07-execucao/estado.json` e
+`mapa/roteamento.json`, pensado para ser adicionado como conector direto em `claude.ai` (ou qualquer
+cliente MCP), sem clonar o repositório. Detalhe completo, deploy e o que já foi testado (mas não
+publicado, por falta de credencial nesta sessão): `cloudflare-worker/README.md`. Registro no ledger:
+nó `CF-ROUTE-0001` (`BLOCKED` · `USER_ACTION_REQUIRED`) e decisão `D14` (URL real, após o deploy).
+
+Diferença de arquitetura: um Worker não tem filesystem — por isso este servidor **não** é uma cópia dos
+locais. Ele busca o JSON via `raw.githubusercontent.com` a cada chamada e reaplica as mesmas funções
+puras de `src/lib/estado/machine.ts`/`src/lib/routing/routing.ts`, sem duplicar regra de negócio.
+Ferramentas de escrita (`registry`, `estado` write) continuam só locais — não fazem sentido sem
+filesystem nem sem o mecanismo de aprovação (I-05) que os hooks locais impõem.

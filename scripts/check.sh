@@ -36,4 +36,12 @@ else
   [ "${CI:-}" = "true" ] && exit 1
 fi
 
+step "rota remota Cloudflare (typecheck + bundle --dry-run, sem publicar, sem credencial)"
+if [ -d cloudflare-worker/node_modules ] || [ "${CI:-}" = "true" ]; then
+  [ -d cloudflare-worker/node_modules ] || (cd cloudflare-worker && npm ci --silent)
+  npm run --silent cloudflare:check
+else
+  echo "⚠ cloudflare-worker/node_modules ausente — rode 'cd cloudflare-worker && npm install' para incluir este passo." >&2
+fi
+
 printf '\n\033[32m✔ check verde\033[0m\n'

@@ -49,10 +49,11 @@ Em outro projeto, o Maestro cria o ledger local com a ferramenta `state_init` qu
 | Agents | `maestro` (thread principal), `qa-reviewer`, `evidence-researcher`, `component-analyst` |
 | Skills | `maestro-operacao`, `roteamento-lanes`, `estagios-bpm`, `component-ingestion`, `component-authoring` |
 | Commands | `estado`, `executar`, `verificar`, `decidir`, `ingerir`, `validar`, `catalogo` |
-| MCP | `estado` (13 ferramentas: ledger/máquina de estados), `registry` (12: catálogo, ingestão, roteamento, upstream, fingerprint, validação) |
+| MCP (local) | `estado` (13 ferramentas: ledger/máquina de estados), `registry` (12: catálogo, ingestão, roteamento, upstream, fingerprint, validação) |
+| MCP (remoto) | `remote` — 4 ferramentas somente leitura, hospedadas em Cloudflare Workers, espelho público do ledger/roteamento. Código testado; **publicação pendente** (`D14`) — ver [`cloudflare-worker/README.md`](cloudflare-worker/README.md) |
 | Hooks | `session-context` (SessionStart), `guard-write` e `guard-external` (PreToolUse), `validate-on-write` (PostToolUse) |
 
-Catálogo completo (55 registros, incluindo plugins externos e upstreams): [`catalog/CATALOG.md`](catalog/CATALOG.md).
+Catálogo completo (60 registros, incluindo plugins externos, upstreams e a rota remota): [`catalog/CATALOG.md`](catalog/CATALOG.md).
 
 ## Estado do projeto
 

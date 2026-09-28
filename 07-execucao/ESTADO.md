@@ -4,10 +4,10 @@
 > Vocabulário canônico: `BACKLOG_VALIDATED · READY · DOING · VERIFY · DONE · BLOCKED` (rótulos PT: VALIDADO ⬜ · PRONTO ⬜ · EM EXECUÇÃO 🔄 · VERIFICAR 🔎 · CONCLUÍDO ✅ · BLOQUEADO ⛔).
 > **WIP = 1.** Nenhum nó vira ✅ sem evidência (I-04). Progresso é derivado (I-09).
 
-**Última atualização:** 2026-09-28T18:55:17.208Z
+**Última atualização:** 2026-09-28T22:05:07.546Z
 **Nó ativo (WIP):** nenhum
 **Próximo elegível:** TASKSPACE-0001 — Processar TASK-SPACE/ (3 lotes: runbook Copiloto-ops CSV 68 linhas; 2 planos operacionais via plano-operacional-rastreavel) em GitHub Issues
-**Progresso derivado:** Trilha S 3/14 (21%) · Trilha L 0/10 (0%)
+**Progresso derivado:** Trilha S 3/15 (20%) · Trilha L 0/10 (0%)
 
 ## Trilha S — Construir o Maestro
 
@@ -32,6 +32,7 @@
 | ING-0002 | Ingestão do pacote Maestro (handoff multiagente) | ✅ CONCLUÍDO | repo | — | — | `ingestion/received/ING-0002/MANIFEST.sha256`, `ingestion/records/ING-0002-pacote-maestro-handoff-multiagente.md` |
 | BUILD-0.1.0 | Construção do plugin maestro v0.1.0 (agents, skills, commands, MCP, hooks, testes) | ✅ CONCLUÍDO | repo | ING-0001, ING-0002 | — | `07-execucao/evidencias/BUILD-0.1.0/check.log`, `07-execucao/evidencias/e2e/resultado.json`, `07-execucao/E5-relatorio.md` |
 | TASKSPACE-0001 | Processar TASK-SPACE/ (3 lotes: runbook Copiloto-ops CSV 68 linhas; 2 planos operacionais via plano-operacional-rastreavel) em GitHub Issues | ⬜ PRONTO | repo | — | — |  |
+| CF-ROUTE-0001 | Publicar a rota MCP remota (Cloudflare Workers) na conta real e registrar a URL | ⛔ BLOQUEADO · `USER_ACTION_REQUIRED` | repo | — | — | `07-execucao/evidencias/cloudflare-worker/dry-run-e-dev.log`, `07-execucao/evidencias/cloudflare-worker/dry-run-e-dev.txt` |
 
 ## Trilha L — Operar o lançamento (PEM-D16) — abre só após gate de E6
 
@@ -78,8 +79,9 @@
 
 - **E0** `USER_ACTION_REQUIRED` — Rodar E0 na máquina local (scripts/e2e.sh + skill_fingerprint das cópias enviadas × instaladas, rc-cognitive-risk-expert), dar acesso ao EXECUTAR_SKILLS_REGISTRY e responder D6 (mangemnet), D7 (DRP), D8 (workbook)
 - **F7** `USER_ACTION_REQUIRED` — Dar acesso ao EXECUTAR_SKILLS_REGISTRY (projeto exe) para calcular o delta; insumo parcial: 07-execucao/evidencias/E0/skills-da-conta.jsonl
+- **CF-ROUTE-0001** `USER_ACTION_REQUIRED` — Rodar 'npm run cloudflare:deploy' com uma conta Cloudflare autenticada, depois 'node scripts/configure-cloudflare-route.mjs <URL>' — ver cloudflare-worker/README.md e a decisão D14.
 
-> 2 nó(s) aguardam **ação do usuário**.
+> 3 nó(s) aguardam **ação do usuário**.
 
 ## Decisões
 
@@ -104,6 +106,7 @@
 | D4-v1 | (herdada do handoff v1 / F0) Power BI (licença/custo/auth) | F0 | ABERTA |  |  |  |
 | D5-v1 | (herdada do handoff v1 / F0) uso de app.css em site público | F0 | ABERTA |  |  |  |
 | D6-v1 | (herdada do handoff v1 / F0) leitura de 'twland'/'adotidade' | F0 | ABERTA |  |  |  |
+| D14 | URL real da rota MCP remota (Cloudflare Workers) | cloudflare-worker/README.md | ABERTA | _recomendação:_ Rodar `cd cloudflare-worker && npm install && npx wrangler login && npm run deploy` (na sua conta Cloudflare) e depois `node scripts/configure-cloudflare-route.mjs <URL impressa>` na raiz — o script confirma que o Worker responde de verdade antes de gravar a URL em .mcp.json e fechar esta decisão. |  |  |
 
 ## Divergências registradas (I-08)
 
