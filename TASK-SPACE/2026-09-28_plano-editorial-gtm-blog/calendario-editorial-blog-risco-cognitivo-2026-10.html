@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<title>Calendário Editorial — Blog Risco Cognitivo — Outubro/2026</title>
+<style>
+  :root{
+    --ink:#1c1d21; --muted:#5b5f6b; --line:#d8dadf; --bg:#ffffff; --panel:#f5f6f8;
+    --p1:#2f5fd6; --p2:#0f9d78; --p3:#b5670c; --gov:#8654c9; --dst:#c7402a;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);
+    font-family:-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;}
+  body{padding:26px 32px;}
+  h1{font-size:21px;margin:0 0 2px 0;}
+  .sub{color:var(--muted);font-size:12.5px;margin:0 0 16px 0;}
+  .gantt{border:1px solid var(--line);border-radius:10px;overflow:hidden;margin-bottom:16px;}
+  .gantt-head{display:grid;grid-template-columns:170px repeat(5,1fr);background:var(--panel);border-bottom:1px solid var(--line);}
+  .gantt-head div{padding:7px 8px;font-size:11px;font-weight:600;color:var(--muted);border-left:1px solid var(--line);}
+  .gantt-head div:first-child{border-left:none;}
+  .gantt-row{display:grid;grid-template-columns:170px repeat(5,1fr);align-items:center;border-top:1px solid var(--line);}
+  .gantt-row:first-of-type{border-top:none;}
+  .gantt-row .label{padding:10px 8px;font-size:12px;font-weight:600;border-right:1px solid var(--line);}
+  .gantt-row .track{position:relative;padding:6px;border-left:1px solid var(--line);min-height:44px;display:flex;align-items:center;}
+  .bar{color:#fff;font-size:10.5px;line-height:1.2;border-radius:6px;padding:5px 7px;width:100%;}
+  .bar.soft{background:var(--panel);color:var(--ink);border:1px dashed var(--line);}
+  .legend{display:flex;gap:14px;flex-wrap:wrap;align-items:center;font-size:11.5px;color:var(--muted);margin:6px 0 18px 2px;}
+  .swatch{width:11px;height:11px;border-radius:3px;display:inline-block;margin-right:5px;vertical-align:-1px;}
+  .weeks{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;}
+  .week{border:1px solid var(--line);border-radius:10px;padding:10px 12px;background:var(--panel);}
+  .week h3{margin:0 0 2px 0;font-size:12.5px;}
+  .week .dates{color:var(--muted);font-size:10.5px;margin-bottom:6px;}
+  .week ul{margin:0;padding-left:15px;font-size:11px;line-height:1.45;}
+  .week .gate{margin-top:6px;font-size:10.5px;color:var(--dst);font-weight:600;}
+  footer{margin-top:18px;font-size:10.5px;color:var(--muted);border-top:1px solid var(--line);padding-top:8px;}
+  @media print{ @page{ size: landscape; margin: 9mm; } body{padding:0;} }
+</style>
+</head>
+<body>
+  <h1>Calendário Editorial — Blog Risco Cognitivo</h1>
+  <p class="sub">Período: 28/09/2026 a 31/10/2026 · Frentes: Pilares 1-3, Governança editorial, Distribuição (início) · Engenharia é frente separada, fora deste calendário</p>
+
+  <div class="gantt">
+    <div class="gantt-head">
+      <div>Frente</div>
+      <div>Sem. 1 (28/09–04/10)</div>
+      <div>Sem. 2 (05–11/10)</div>
+      <div>Sem. 3 (12–18/10)</div>
+      <div>Sem. 4 (19–25/10)</div>
+      <div>Sem. 5 (26–31/10)</div>
+    </div>
+    <div class="gantt-row">
+      <div class="label">Pilar 1 — Riscos Cognitivos</div>
+      <div class="track"><div class="bar" style="background:var(--p1)">Pesquisa → redação<br>→ publicação (02/10)</div></div>
+      <div class="track"></div>
+      <div class="track"></div>
+      <div class="track"></div>
+      <div class="track"></div>
+    </div>
+    <div class="gantt-row">
+      <div class="label">Pilar 2 — Processos Neuroadaptativos</div>
+      <div class="track"></div>
+      <div class="track"><div class="bar" style="background:var(--p2)">Pesquisa → redação<br>→ publicação (09/10)</div></div>
+      <div class="track"></div>
+      <div class="track"></div>
+      <div class="track"></div>
+    </div>
+    <div class="gantt-row">
+      <div class="label">Pilar 3 — Ferramentas e Soluções</div>
+      <div class="track"></div>
+      <div class="track"></div>
+      <div class="track"><div class="bar" style="background:var(--p3)">Pesquisa → redação<br>→ publicação (16/10)</div></div>
+      <div class="track"></div>
+      <div class="track"></div>
+    </div>
+    <div class="gantt-row">
+      <div class="label">Governança editorial</div>
+      <div class="track"><div class="bar" style="background:var(--gov)">Aprovar pilares</div></div>
+      <div class="track"></div>
+      <div class="track"><div class="bar" style="background:var(--gov)">Consolidar plano<br>de mídias sociais</div></div>
+      <div class="track"><div class="bar" style="background:var(--gov)">Definir pipeline</div></div>
+      <div class="track"></div>
+    </div>
+    <div class="gantt-row">
+      <div class="label">Distribuição</div>
+      <div class="track"></div>
+      <div class="track"></div>
+      <div class="track"></div>
+      <div class="track"><div class="bar" style="background:var(--dst)">Priorizar canais</div></div>
+      <div class="track"><div class="bar" style="background:var(--dst)">Definir metas</div></div>
+    </div>
+  </div>
+
+  <div class="legend">
+    <span><span class="swatch" style="background:#2f5fd6"></span>Pilar 1</span>
+    <span><span class="swatch" style="background:#0f9d78"></span>Pilar 2</span>
+    <span><span class="swatch" style="background:#b5670c"></span>Pilar 3</span>
+    <span><span class="swatch" style="background:#8654c9"></span>Governança</span>
+    <span><span class="swatch" style="background:#c7402a"></span>Distribuição</span>
+  </div>
+
+  <div class="weeks">
+    <div class="week">
+      <h3>Semana 1</h3>
+      <div class="dates">28/09 a 04/10</div>
+      <ul>
+        <li>Pesquisar, definir vocabulário, esboçar, redigir e publicar o Pilar 1</li>
+        <li>Aprovar pilares e níveis de leitura</li>
+      </ul>
+      <div class="gate">● Pilar 1 publicado (02/10)</div>
+    </div>
+    <div class="week">
+      <h3>Semana 2</h3>
+      <div class="dates">05/10 a 11/10</div>
+      <ul>
+        <li>Pesquisar, definir terminologia, esboçar, redigir e publicar o Pilar 2</li>
+      </ul>
+      <div class="gate">● Pilar 2 publicado (09/10)</div>
+    </div>
+    <div class="week">
+      <h3>Semana 3</h3>
+      <div class="dates">12/10 a 18/10</div>
+      <ul>
+        <li>Pesquisar, definir aplicação, esboçar, redigir e publicar o Pilar 3</li>
+        <li>Consolidar plano de mídias sociais</li>
+      </ul>
+      <div class="gate">● Pilar 3 publicado — 3 pilares completos (16/10)</div>
+    </div>
+    <div class="week">
+      <h3>Semana 4</h3>
+      <div class="dates">19/10 a 25/10</div>
+      <ul>
+        <li>Definir pipeline de produção completo</li>
+        <li>Priorizar canais de distribuição</li>
+      </ul>
+      <div class="gate">● Canais priorizados</div>
+    </div>
+    <div class="week">
+      <h3>Semana 5</h3>
+      <div class="dates">26/10 a 31/10</div>
+      <ul>
+        <li>Definir metas de resultado da distribuição</li>
+        <li>Fechamento do mês</li>
+      </ul>
+      <div class="gate">● Metas de distribuição definidas</div>
+    </div>
+  </div>
+
+  <footer>Emitido em 28/09/2026 — EXECUTAR / Blog Risco Cognitivo (frente editorial). A frente de engenharia (blog full stack, schema, agentes, loja de soluções, mapa cognitivo) é acompanhada em outra sessão.</footer>
+</body>
+</html>
