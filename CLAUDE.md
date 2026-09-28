@@ -31,6 +31,7 @@
 - Guardrails vão em `hooks/hooks.json`, nunca no frontmatter de agents (subagentes de plugin ignoram `hooks`, `mcpServers`, `permissionMode`).
 - Regras de negócio ficam em `src/lib/` (testáveis); servidores MCP e hooks só adaptam entrada/saída.
 - Mudou `src/`? `npm run build` e **commite `dist/`**. Ferramenta MCP nova? atualize `src/mcp/manifest.ts` e o catálogo.
+- `cloudflare-worker/` é um subprojeto à parte (própria `package.json`/`node_modules`/`tsconfig.json`) — a rota MCP remota (somente leitura). Mudou `cloudflare-worker/src/`? rode `npm run cloudflare:check` (typecheck + `wrangler deploy --dry-run`, sem publicar). **Nunca** grave a URL do Worker em `.mcp.json` à mão — só via `node scripts/configure-cloudflare-route.mjs <URL>`, que confirma a URL real antes de gravar (I-02).
 - Mudança em `contratos/` exige change control (`CC-###`) — o hook pede confirmação.
 - Idioma: documentação e componentes em português do Brasil; identificadores de código em inglês.
 

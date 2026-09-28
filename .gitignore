@@ -8,3 +8,7 @@ node_modules/
 evals/results/
 .tmp/
 coverage/
+# Cloudflare Workers (rota MCP remota) — estado local de dev/build, nunca versionado
+cloudflare-worker/.wrangler/
+cloudflare-worker/.wrangler-check-out/
+cloudflare-worker/.dev.vars

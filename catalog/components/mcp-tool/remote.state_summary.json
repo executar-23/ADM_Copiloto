@@ -1,0 +1,31 @@
+{
+  "id": "mcp-tool:remote.state_summary",
+  "name": "remote.state_summary",
+  "type": "mcp-tool",
+  "path": "cloudflare-worker/src/index.ts",
+  "parent": "mcp-server:remote",
+  "origin": {
+    "kind": "proprietary",
+    "source": "handoff do usuário (2026-09-28)"
+  },
+  "responsibility": "Resumo do estado (espelho público) (somente leitura; consulta o ledger/roteamento públicos ao vivo, sem escrita).",
+  "dependencies": [],
+  "tools": [
+    "state_summary"
+  ],
+  "related": {
+    "skills": [],
+    "agents": [],
+    "commands": []
+  },
+  "status": "experimental",
+  "version": "0.1.0",
+  "integration": {
+    "date": "2026-09-28",
+    "reason": "Handoff do usuário (2026-09-28): 'Use conector cloudflare para criação da rota do Mcp e inclua no plugin'.",
+    "ingestion": null
+  },
+  "tests": [
+    "07-execucao/evidencias/cloudflare-worker/dry-run-e-dev.txt"
+  ]
+}

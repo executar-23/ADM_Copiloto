@@ -1,0 +1,46 @@
+{
+  "id": "mcp-server:remote",
+  "name": "remote",
+  "type": "mcp-server",
+  "path": "cloudflare-worker/src/index.ts",
+  "origin": {
+    "kind": "proprietary",
+    "source": "handoff do usuário (2026-09-28)"
+  },
+  "responsibility": "Servidor MCP remoto (streamable HTTP), hospedado em Cloudflare Workers: espelho público somente leitura do ledger (07-execucao/estado.json) e do roteamento (mapa/roteamento.json), lidos ao vivo de raw.githubusercontent.com — sem filesystem, sem escrita. Reaplica as funções puras de src/lib/estado/machine.ts e src/lib/routing/routing.ts.",
+  "dependencies": [
+    "@modelcontextprotocol/sdk",
+    "agents (Cloudflare McpAgent)",
+    "zod",
+    "src/lib/estado",
+    "src/lib/routing"
+  ],
+  "tools": [
+    "state_summary",
+    "node_get",
+    "decision_list",
+    "routing_lookup"
+  ],
+  "related": {
+    "skills": [],
+    "agents": [],
+    "commands": []
+  },
+  "status": "experimental",
+  "version": "0.1.0",
+  "integration": {
+    "date": "2026-09-28",
+    "reason": "Handoff do usuário (2026-09-28): 'Use conector cloudflare para criação da rota do Mcp e inclua no plugin'.",
+    "ingestion": null
+  },
+  "tests": [
+    "07-execucao/evidencias/cloudflare-worker/dry-run-e-dev.txt"
+  ],
+  "anti_overkill": {
+    "reuso": "Não copia os servidores estado/registry: um Worker não tem filesystem, então reaplica só as funções puras já testadas pelos 76 testes da suíte (src/lib/estado/machine.ts, src/lib/routing/routing.ts) sobre dados buscados do GitHub.",
+    "necessidade": "Pedido explícito do usuário: uma rota MCP acessível de claude.ai (ou qualquer cliente HTTP) sem precisar clonar o repositório ou rodar o plugin localmente.",
+    "custo": "1 subprojeto (cloudflare-worker/, ~4 arquivos + deps próprias) + 1 script de configuração pós-deploy; zero custo de manutenção de dado (busca ao vivo, sem sincronização a manter).",
+    "reversao": "Remover cloudflare-worker/ e o servidor remote de .mcp.json (se registrado); não afeta estado/registry nem o funcionamento local do plugin — é aditivo."
+  },
+  "notes": "Testado localmente (tsc --noEmit limpo, `wrangler deploy --dry-run` empacota, handshake MCP completo via `wrangler dev` com chamadas reais a state_summary/routing_lookup buscando o ledger verdadeiro). NÃO publicado por esta sessão: o conector Cloudflare disponível (Cloudflare Developer Platform) só lista/lê Workers e gerencia D1/KV/R2/Hyperdrive — sem ferramenta de deploy — e não há CLOUDFLARE_API_TOKEN neste ambiente para o wrangler publicar na conta real. Publicação e URL real: decisão D14 (ver cloudflare-worker/README.md e scripts/configure-cloudflare-route.mjs)."
+}

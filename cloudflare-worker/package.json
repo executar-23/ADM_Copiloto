@@ -1,0 +1,22 @@
+{
+  "name": "maestro-mcp-remote",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Rota MCP remota do plugin maestro (Cloudflare Workers) — espelho público somente leitura do ledger e do roteamento.",
+  "type": "module",
+  "scripts": {
+    "dev": "wrangler dev",
+    "check": "tsc --noEmit && wrangler deploy --dry-run --outdir .wrangler-check-out",
+    "deploy": "wrangler deploy"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "1.30.0",
+    "agents": "0.24.0",
+    "zod": "4.6.5"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "5.20260928.1",
+    "typescript": "7.0.2",
+    "wrangler": "4.143.0"
+  }
+}

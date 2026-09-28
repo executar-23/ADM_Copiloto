@@ -17,7 +17,10 @@
     "validate:plugin": "node scripts/validate-official.mjs",
     "check": "bash scripts/check.sh",
     "upstream:sync": "bash scripts/upstream-sync.sh",
-    "upstream:status": "git submodule status vendor/upstream"
+    "upstream:status": "git submodule status vendor/upstream",
+    "cloudflare:check": "cd cloudflare-worker && npm run check",
+    "cloudflare:deploy": "cd cloudflare-worker && npm run deploy",
+    "cloudflare:configure": "node scripts/configure-cloudflare-route.mjs"
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "1.30.1",

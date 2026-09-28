@@ -77,5 +77,14 @@ export function discoverPluginComponents(root: string): { components: DiskCompon
       }
     }
   }
+  // Servidor "remote" (Cloudflare Worker, HTTP): não entra em .mcp.json — o plugin local nunca o
+  // auto-inicia — mas existe de verdade em cloudflare-worker/ e é isso que conta como "no disco".
+  const workerEntry = join(root, "cloudflare-worker", "src", "index.ts");
+  if (existsSync(workerEntry)) {
+    out.push({ id: "mcp-server:remote", type: "mcp-server", name: "remote", path: "cloudflare-worker/src/index.ts" });
+    for (const t of TOOLS) {
+      if (t.server === "remote") out.push({ id: `mcp-tool:remote.${t.name}`, type: "mcp-tool", name: `remote.${t.name}`, path: "cloudflare-worker/src/index.ts" });
+    }
+  }
   return { components: out, findings };
 }

@@ -3,7 +3,7 @@
 > **Gerado de `catalog/components/**/*.json` — não editar à mão.** Fonte de verdade para expansão.
 > Registrar/atualizar: ferramenta MCP `catalog_register` (servidor `registry`) ou editar o JSON e rodar `npm run render`.
 
-**Total:** 55 · agent: 4 · skill: 5 · command: 7 · hook: 4 · mcp-server: 2 · mcp-tool: 25 · external-plugin: 6 · upstream-reference: 2
+**Total:** 60 · agent: 4 · skill: 5 · command: 7 · hook: 4 · mcp-server: 3 · mcp-tool: 29 · external-plugin: 6 · upstream-reference: 2
 
 ## agent
 
@@ -51,6 +51,7 @@
 |---|---|---|---|---|---|---|---|
 | `estado` | active | 0.1.0 | proprietary | Servidor stdio do ledger único: vocabulário canônico, máquina de estados com WIP=1, evidência, decisões, divergências, change control e autorização externa. | agent:maestro, skill:maestro-operacao, skill:estagios-bpm, command:estado, command:executar, command:verificar, command:decidir | ING-0002 | 2 |
 | `registry` | active | 0.1.0 | proprietary | Servidor stdio de componentes: catálogo, inspeção/classificação, conflitos, comparação com upstream, roteamento, fingerprint de skills, validação e ingestão. | agent:maestro, agent:component-analyst, agent:qa-reviewer, skill:component-ingestion, skill:roteamento-lanes, command:ingerir, command:catalogo, command:validar | ING-0002 | 1 |
+| `remote` | experimental | 0.1.0 | proprietary | Servidor MCP remoto (streamable HTTP), hospedado em Cloudflare Workers: espelho público somente leitura do ledger (07-execucao/estado.json) e do roteamento (mapa/roteamento.json), lidos ao vivo de raw.githubusercontent.com — sem filesystem, sem escrita. Reaplica as funções puras de src/lib/estado/machine.ts e src/lib/routing/routing.ts. | — | — | 1 |
 
 ## mcp-tool
 
@@ -81,6 +82,10 @@
 | `registry.skill_fingerprint` | active | 0.1.0 | proprietary | Localizar skill e medir drift (somente leitura). | mcp-server:registry | ING-0002 | 1 |
 | `registry.upstream_search` | active | 0.1.0 | proprietary | Buscar nos upstreams oficiais (somente leitura). | mcp-server:registry | ING-0002 | 1 |
 | `registry.workspace_validate` | active | 0.1.0 | proprietary | Validar workspace (somente leitura). | mcp-server:registry | ING-0002 | 1 |
+| `remote.decision_list` | experimental | 0.1.0 | proprietary | Listar decisões (espelho público) (somente leitura; consulta o ledger/roteamento públicos ao vivo, sem escrita). | mcp-server:remote | — | 1 |
+| `remote.node_get` | experimental | 0.1.0 | proprietary | Obter nó (espelho público) (somente leitura; consulta o ledger/roteamento públicos ao vivo, sem escrita). | mcp-server:remote | — | 1 |
+| `remote.routing_lookup` | experimental | 0.1.0 | proprietary | Consultar roteamento (espelho público) (somente leitura; consulta o ledger/roteamento públicos ao vivo, sem escrita). | mcp-server:remote | — | 1 |
+| `remote.state_summary` | experimental | 0.1.0 | proprietary | Resumo do estado (espelho público) (somente leitura; consulta o ledger/roteamento públicos ao vivo, sem escrita). | mcp-server:remote | — | 1 |
 
 ## external-plugin
 

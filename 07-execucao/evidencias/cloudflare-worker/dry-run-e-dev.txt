@@ -1,0 +1,45 @@
+# Verificação local da rota MCP remota — 2026-09-28T22:00:38Z
+
+## npx tsc --noEmit
+(sem saída = sem erros)
+
+## npx wrangler deploy --dry-run --outdir .wrangler-check-out
+
+
+
+ ⛅️ wrangler 4.143.0
+────────────────────
+Total Upload: 4014.53 KiB / gzip: 724.95 KiB
+Your Worker has access to the following bindings:
+Binding                             Resource            
+env.MCP_OBJECT (MaestroRemote)      Durable Object      
+
+--dry-run: exiting now.
+
+## wrangler dev local + handshake MCP real (initialize, tools/list, tools/call state_summary/routing_lookup)
+### iniciando...
+### GET /
+Maestro — rota MCP remota (somente leitura)
+
+Espelho público de executar-23/ADM_Copiloto@main. Ferramentas: state_summary, node_get, decision_list, routing_lookup.
+
+Endpoint MCP: POST /mcp (streamable HTTP)
+Repositório e instalação local: https://github.com/executar-23/ADM_Copiloto
+
+
+### POST /mcp initialize
+event: message
+id: EZPyCi60SjwURH0CxybfI:0000000000000001
+data: {"result":{"protocolVersion":"2025-06-18","capabilities":{"tools":{"listChanged":true}},"serverInfo":{"name":"maestro-remote","version":"0.1.0"},"instructions":"Espelho público somente leitura do plugin Maestro (executar-23/ADM_Copiloto). Mostra o ledger (estado.json) e o roteamento (mapa/roteamento.json) da branch main. Não escreve nada — para operar o Maestro de verdade (criar/transicionar nós, ingerir componentes), use o plugin local via Claude Code."},"jsonrpc":"2.0","id":1}
+
+
+### POST /mcp tools/list (nomes só)
+"name":"state_summary"
+"name":"node_get"
+"name":"decision_list"
+"name":"routing_lookup"
+
+### POST /mcp tools/call state_summary (busca ao vivo em raw.githubusercontent.com/executar-23/ADM_Copiloto@main)
+event: message
+id: 2V_2U_L5l7N2irf-x1D2n:0000000000000001
+data: {"result":{"content":[{"type":"text","text":"[espelho público] WIP: nenhum · próximo: TASKSPACE-0001\n\n{\n  \"repositorio\": \"executar-23/ADM_Copiloto@main\",\n  \"projeto\": {\n    \"id\": \"PEM-D16\",\n    \"nome\": \"Maestro · PEM-D16 (Risco cognitivo)\"\n  },\n  \"atualizado_em\": \"2026-09-28T18:55:17.208Z\",\n  \"wip\": null,\n  \"proximo_elegivel\": {\n    \"id\": \"TASKSPACE-0001\",\n    \"titulo\": \"Processar TASK-SPACE/ (3 lotes: runbook Copiloto-ops CSV 68 linhas; 2 planos operacionais via plano-operacional-rastr…

@@ -1,0 +1,14 @@
+{
+  // Rota MCP remota do Maestro. Ver README.md deste diretório para o deploy.
+  "name": "maestro-mcp-remote",
+  "main": "src/index.ts",
+  "compatibility_date": "2026-09-28",
+  "compatibility_flags": ["nodejs_compat"],
+  // McpAgent usa Durable Objects para estado de sessão MCP (não para os dados do Maestro —
+  // esses continuam vindo, a cada chamada, de raw.githubusercontent.com). Boilerplate do pacote `agents`.
+  "migrations": [{ "new_sqlite_classes": ["MaestroRemote"], "tag": "v1" }],
+  "durable_objects": {
+    "bindings": [{ "class_name": "MaestroRemote", "name": "MCP_OBJECT" }]
+  },
+  "observability": { "enabled": true }
+}
