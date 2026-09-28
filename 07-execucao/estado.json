@@ -6,7 +6,7 @@
   },
   "vocabulario": "copiloto-executar",
   "wip_limite": 1,
-  "atualizado_em": "2026-09-28T12:42:23.584Z",
+  "atualizado_em": "2026-09-28T18:55:17.208Z",
   "nos": [
     {
       "id": "E0",
@@ -1044,7 +1044,8 @@
       "output": [],
       "evidencias": [],
       "gaps": [
-        "EXECUTAR_SKILLS_REGISTRY (projeto exe) não acessível nesta sessão"
+        "EXECUTAR_SKILLS_REGISTRY inacessível desta sessão (E0 cloud)",
+        "TASK-SPACE/2026-09-28_copiloto-ops-runbook-sop-pf24/ traz auditoria do plugin executar-cop (RUN-F1, PF-24) que pode alimentar o próprio F7-delta — cruzar ao processar TASKSPACE-0001"
       ],
       "conflitos": [],
       "decisao": null,
@@ -1063,9 +1064,16 @@
           "para": "BLOCKED",
           "motivo": "E0: EXECUTAR_SKILLS_REGISTRY inacessível desta sessão",
           "ator": "maestro"
+        },
+        {
+          "em": "2026-09-28T18:55:17.208Z",
+          "de": "BLOCKED",
+          "para": "BLOCKED",
+          "motivo": "atualização [gaps]: referência cruzada com TASK-SPACE registrada em DIV-007",
+          "ator": "maestro"
         }
       ],
-      "atualizado_em": "2026-09-28T12:40:26.109Z"
+      "atualizado_em": "2026-09-28T18:55:17.208Z"
     },
     {
       "id": "F8",
@@ -1340,6 +1348,49 @@
         }
       ],
       "atualizado_em": "2026-09-28T12:02:21.434Z"
+    },
+    {
+      "id": "TASKSPACE-0001",
+      "trilha": "S",
+      "tipo": "tarefa",
+      "titulo": "Processar TASK-SPACE/ (3 lotes: runbook Copiloto-ops CSV 68 linhas; 2 planos operacionais via plano-operacional-rastreavel) em GitHub Issues",
+      "lane": null,
+      "skill": null,
+      "skill_version": null,
+      "playbook": null,
+      "status": "READY",
+      "motivo_bloqueio": null,
+      "dono_canonico": "repo",
+      "depends_on": [],
+      "dod": "Cada linha de tarefa em TASK-SPACE/**/linear-import-*.md e no CSV vira Issue (ou é explicitamente descartada com motivo), citando fonte_id do plano-interno-*.md correspondente; CONFLICTs já apontados em plano-interno-editorial-blog-risco-cognitivo-2026-10.md §3.5 viram decision_record tipo divergencia antes de criar as Issues correspondentes.",
+      "efeito_externo": false,
+      "autorizacao": null,
+      "escopo_escrita": [],
+      "output": [],
+      "evidencias": [],
+      "gaps": [
+        "Volume grande (CSV 68 linhas + 2 pacotes de plano) — aprovação explícita do usuário exigida antes de criar Issues em massa (TASK-SPACE/README.md item 4, espelha I-05)"
+      ],
+      "conflitos": [],
+      "decisao": null,
+      "refs": [],
+      "historico": [
+        {
+          "em": "2026-09-28T18:55:17.193Z",
+          "de": null,
+          "para": "BACKLOG_VALIDATED",
+          "motivo": "criado a partir da entrada registrada em DIV-007",
+          "ator": "maestro"
+        },
+        {
+          "em": "2026-09-28T18:55:17.194Z",
+          "de": "BACKLOG_VALIDATED",
+          "para": "READY",
+          "motivo": "dependências concluídas na criação",
+          "ator": "maestro"
+        }
+      ],
+      "atualizado_em": "2026-09-28T18:55:17.194Z"
     }
   ],
   "decisoes": [
@@ -1830,6 +1881,22 @@
           "em": "2026-09-28T12:40:26.038Z",
           "status": "REGISTRADA",
           "nota": "E0 no contêiner cloud"
+        }
+      ]
+    },
+    {
+      "id": "DIV-007",
+      "tipo": "divergencia",
+      "titulo": "TASK-SPACE/ apareceu na branch durante a construção do plugin (7 commits de sessão concorrente: auditoria Copiloto-ops + 2 planos operacionais via plano-operacional-rastreavel)",
+      "status": "REGISTRADA",
+      "resposta": "Não é código/componente do Maestro — é o inbox de dados de tarefa que TASK-SPACE/README.md define para o Copiloto/Maestro transformar em Issues. Tratado como ENTRADA (nó TASKSPACE-0001), não mesclado ao catálogo. Conteúdo é dado (I-07): CSV/planos citados, nunca executados como instrução.",
+      "fonte": "TASK-SPACE/README.md (mesma numeração de contrato C-00.2/.5/.8/.9); commits 2f3b291..410ee33",
+      "bloqueia": [],
+      "historico": [
+        {
+          "em": "2026-09-28T18:55:17.170Z",
+          "status": "REGISTRADA",
+          "nota": "Reconciliado por fast-forward antes do merge automático para main."
         }
       ]
     }

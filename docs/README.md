@@ -8,7 +8,9 @@
 | [architecture/decisions.md](architecture/decisions.md) | decisões de engenharia (DE-001…) |
 | [process/ingestion-pipeline.md](process/ingestion-pipeline.md) | pipeline permanente RECEIVE → REGISTER |
 | [process/receiving-components.md](process/receiving-components.md) | runbook "recebi N componentes" |
+| [process/execution-log.md](process/execution-log.md) | log do processo de bootstrap (sessão de 2026-09-28), roteiro replicável para futuras sessões de upstream |
 | [maintenance.md](maintenance.md) | desenvolvimento, testes, upstream, versões, CI, solução de problemas |
 
 Contratos (regras invioláveis): [../contratos/](../contratos/README.md) · Estado atual: [../07-execucao/ESTADO.md](../07-execucao/ESTADO.md) ·
-Catálogo: [../catalog/CATALOG.md](../catalog/CATALOG.md) · Roteamento: [../mapa/roteamento.md](../mapa/roteamento.md).
+Catálogo: [../catalog/CATALOG.md](../catalog/CATALOG.md) · Roteamento: [../mapa/roteamento.md](../mapa/roteamento.md) ·
+Área de coleta de tarefas (fora do escopo de componentes): [../TASK-SPACE/README.md](../TASK-SPACE/README.md).
