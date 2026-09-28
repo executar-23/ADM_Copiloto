@@ -1,0 +1,31 @@
+# E1 — Descoberta e definição  (BPM fase 1 · Process Charter + SIPOC + Ficha)
+
+## OBJECTIVE
+Fechar **o que o Maestro é** e **o que o lançamento precisa**, com Process Charter, SIPOC e a Ficha de 22 pontos.
+
+## CONTEXT
+"Necessidade → Entrada → Processo → Controles → Saída → Resultado → Medição → Melhoria" é a fórmula do BPM e Qualidade. Riscos declarados (R1): overkill, ineficiência, retrabalho, não aplicabilidade.
+
+## INPUT
+`E0-verificacao.md`, `02-mapa/ficha-22-pontos.md`, `mapa-lancamento-F0-F8.md`, briefing, `PD-CLB-20260906-F01-DOC-V01`.
+
+## CONSTRAINTS
+- Preencher a Ficha **só com evidência**; `TBD` vira pergunta ou `A DEFINIR`. **Máx. 3 perguntas/rodada, 2 rodadas.**
+- Sem README, ADRs granulares, legenda dos 22 pontos e PRD checklist → `A DEFINIR` (EV-005), nunca inventar.
+- Confirmar as 8 lanes (Editorial é derivada) e a ordem elegível F0–F8.
+
+## EXECUTION
+1. **Process Charter** do Maestro: objetivo, escopo, início/fim, cliente, critério de sucesso (EV-014).
+2. **SIPOC** do Maestro e do lançamento (Fornecedor–Entrada–Processo–Saída–Cliente). Skills: `operations:process-doc`.
+3. Selecionar frameworks estratégicos mínimos com `executar-safe-frameworks` (2–5; justificar descartes).
+4. Preencher a Ficha; pontos `TBD` → 1–2 rodadas de perguntas.
+5. Registrar decisões D2, D9 (e as respondidas em E0) no ESTADO.md.
+
+## OUTPUT CONTRACT
+`07-execucao/E1-charter-sipoc.md`, `07-execucao/E1-ficha-22.md` (nó `FICHA`, uma linha por ponto: valor · fonte · classe_evidencia · status).
+
+## VALIDATION
+Charter tem objetivo/escopo/início-fim/cliente; SIPOC tem 5 colunas; Ficha soma 22 e cada ponto preenchido tem fonte.
+
+## STOP CONDITIONS
+Concluir com pontos `A DEFINIR` é válido. Parar se D2 (SOP × Process Doc) ou D9 (insumos) ficarem sem resposta e bloquearem F1.

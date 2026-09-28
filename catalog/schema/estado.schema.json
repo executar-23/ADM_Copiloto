@@ -1,0 +1,470 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "versao_schema": {
+      "type": "number",
+      "const": 1
+    },
+    "projeto": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "nome": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "nome"
+      ]
+    },
+    "vocabulario": {
+      "type": "string",
+      "const": "copiloto-executar"
+    },
+    "wip_limite": {
+      "type": "number",
+      "const": 1
+    },
+    "atualizado_em": {
+      "type": "string"
+    },
+    "nos": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[A-Z0-9][A-Za-z0-9._-]*$"
+          },
+          "trilha": {
+            "type": "string",
+            "enum": [
+              "S",
+              "L"
+            ]
+          },
+          "tipo": {
+            "type": "string",
+            "enum": [
+              "estagio",
+              "fase",
+              "tarefa",
+              "ficha",
+              "ingestao"
+            ]
+          },
+          "titulo": {
+            "type": "string",
+            "minLength": 2
+          },
+          "literal": {
+            "type": "string"
+          },
+          "lane": {
+            "default": null,
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "skill": {
+            "default": null,
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "skill_version": {
+            "default": null,
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "playbook": {
+            "default": null,
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "BACKLOG_VALIDATED",
+              "READY",
+              "DOING",
+              "VERIFY",
+              "DONE",
+              "BLOCKED"
+            ]
+          },
+          "motivo_bloqueio": {
+            "default": null,
+            "anyOf": [
+              {
+                "type": "object",
+                "properties": {
+                  "codigo": {
+                    "type": "string",
+                    "enum": [
+                      "USER_ACTION_REQUIRED",
+                      "DEPENDENCIA",
+                      "DECISAO_PENDENTE",
+                      "INSUMO_AUSENTE",
+                      "FALHA_GATE",
+                      "OUTRO"
+                    ]
+                  },
+                  "detalhe": {
+                    "type": "string",
+                    "minLength": 3
+                  }
+                },
+                "required": [
+                  "codigo",
+                  "detalhe"
+                ]
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "dono_canonico": {
+            "type": "string",
+            "enum": [
+              "repo",
+              "control-center"
+            ]
+          },
+          "depends_on": {
+            "default": [],
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^[A-Z0-9][A-Za-z0-9._-]*$"
+            }
+          },
+          "dod": {
+            "type": "string",
+            "minLength": 1
+          },
+          "efeito_externo": {
+            "default": false,
+            "type": "boolean"
+          },
+          "autorizacao": {
+            "default": null,
+            "anyOf": [
+              {
+                "type": "object",
+                "properties": {
+                  "escopo": {
+                    "type": "string",
+                    "minLength": 3
+                  },
+                  "concedida_em": {
+                    "type": "string"
+                  },
+                  "fonte": {
+                    "type": "string",
+                    "minLength": 3
+                  }
+                },
+                "required": [
+                  "escopo",
+                  "concedida_em",
+                  "fonte"
+                ]
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "escopo_escrita": {
+            "default": [],
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "output": {
+            "default": [],
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "evidencias": {
+            "default": [],
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string"
+                },
+                "caminho": {
+                  "type": "string"
+                },
+                "url": {
+                  "type": "string"
+                },
+                "criterio": {
+                  "type": "string",
+                  "minLength": 3
+                },
+                "classe": {
+                  "type": "string",
+                  "pattern": "^[A-E]_[A-Z_]+$"
+                },
+                "registrada_em": {
+                  "type": "string"
+                },
+                "ator": {
+                  "default": "maestro",
+                  "type": "string"
+                },
+                "nota": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "id",
+                "criterio",
+                "classe",
+                "registrada_em"
+              ]
+            }
+          },
+          "gaps": {
+            "default": [],
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "conflitos": {
+            "default": [],
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "decisao": {
+            "default": null,
+            "anyOf": [
+              {
+                "type": "string",
+                "enum": [
+                  "SKIPPED",
+                  "DEPRECATED"
+                ]
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "refs": {
+            "default": [],
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "dados": {
+            "type": "object",
+            "propertyNames": {
+              "type": "string"
+            },
+            "additionalProperties": {}
+          },
+          "historico": {
+            "default": [],
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "em": {
+                  "type": "string"
+                },
+                "de": {
+                  "anyOf": [
+                    {
+                      "type": "string",
+                      "enum": [
+                        "BACKLOG_VALIDATED",
+                        "READY",
+                        "DOING",
+                        "VERIFY",
+                        "DONE",
+                        "BLOCKED"
+                      ]
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "para": {
+                  "type": "string",
+                  "enum": [
+                    "BACKLOG_VALIDATED",
+                    "READY",
+                    "DOING",
+                    "VERIFY",
+                    "DONE",
+                    "BLOCKED"
+                  ]
+                },
+                "motivo": {
+                  "type": "string"
+                },
+                "ator": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "em",
+                "de",
+                "para",
+                "motivo",
+                "ator"
+              ]
+            }
+          },
+          "atualizado_em": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "trilha",
+          "tipo",
+          "titulo",
+          "status",
+          "dono_canonico",
+          "dod",
+          "atualizado_em"
+        ]
+      }
+    },
+    "decisoes": {
+      "default": [],
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^(D\\d+(-v\\d+)?|DIV-\\d{3,}|CC-\\d{3,})$"
+          },
+          "tipo": {
+            "type": "string",
+            "enum": [
+              "decisao",
+              "divergencia",
+              "change-control"
+            ]
+          },
+          "titulo": {
+            "type": "string",
+            "minLength": 3
+          },
+          "onde": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "ABERTA",
+              "PARCIAL",
+              "RESPONDIDA",
+              "SUPERADA",
+              "REGISTRADA"
+            ]
+          },
+          "recomendacao": {
+            "type": "string"
+          },
+          "opcoes": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "resposta": {
+            "type": "string"
+          },
+          "fonte": {
+            "type": "string"
+          },
+          "data": {
+            "type": "string"
+          },
+          "bloqueia": {
+            "default": [],
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "detalhes": {
+            "type": "object",
+            "propertyNames": {
+              "type": "string"
+            },
+            "additionalProperties": {
+              "type": "string"
+            }
+          },
+          "historico": {
+            "default": [],
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "em": {
+                  "type": "string"
+                },
+                "status": {
+                  "type": "string"
+                },
+                "nota": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "em",
+                "status",
+                "nota"
+              ]
+            }
+          }
+        },
+        "required": [
+          "id",
+          "tipo",
+          "titulo",
+          "status"
+        ]
+      }
+    }
+  },
+  "required": [
+    "versao_schema",
+    "projeto",
+    "vocabulario",
+    "wip_limite",
+    "atualizado_em",
+    "nos"
+  ]
+}

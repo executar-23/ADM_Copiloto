@@ -1,0 +1,35 @@
+{
+  "id": "hook:guard-external",
+  "name": "guard-external",
+  "type": "hook",
+  "path": "src/hooks/guard-external.ts",
+  "origin": {
+    "kind": "proprietary",
+    "source": "ING-0002 topologia §4 (imposição por hook)"
+  },
+  "responsibility": "PreToolUse Bash/MCP: detecta efeito externo (push, publish, deploy, escrita em conector) e força confirmação humana salvo autorização registrada no nó ativo.",
+  "dependencies": [],
+  "tools": [],
+  "related": {
+    "skills": [],
+    "agents": [],
+    "commands": []
+  },
+  "status": "active",
+  "version": "0.1.0",
+  "integration": {
+    "date": "2026-09-28",
+    "reason": "I-05 imposto por mecanismo, não só por prompt.",
+    "ingestion": "ING-0002"
+  },
+  "tests": [
+    "tests/integration/hooks.test.ts",
+    "tests/unit/guard-external.test.ts"
+  ],
+  "anti_overkill": {
+    "reuso": "O modo de permissão do Claude Code pode estar liberado (auto/bypass); o hook força 'ask' só para efeito externo.",
+    "necessidade": "Ação externa sem aprovação é o risco irreversível do sistema (EV-003).",
+    "custo": "~70 linhas; ~0,1 s por chamada Bash/MCP.",
+    "reversao": "Remover a entrada PreToolUse Bash|mcp__ ou definir MAESTRO_EXTERNAL_GUARD=off."
+  }
+}

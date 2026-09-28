@@ -1,0 +1,31 @@
+{
+  "id": "mcp-tool:estado.state_validate",
+  "name": "estado.state_validate",
+  "type": "mcp-tool",
+  "path": "src/mcp/estado.ts",
+  "parent": "mcp-server:estado",
+  "origin": {
+    "kind": "proprietary",
+    "source": "servidor estado"
+  },
+  "responsibility": "Validar ledger (somente leitura).",
+  "dependencies": [],
+  "tools": [
+    "mcp__plugin_maestro_estado__state_validate"
+  ],
+  "related": {
+    "skills": [],
+    "agents": [],
+    "commands": []
+  },
+  "status": "active",
+  "version": "0.1.0",
+  "integration": {
+    "date": "2026-09-28",
+    "reason": "Ferramenta do servidor estado.",
+    "ingestion": "ING-0002"
+  },
+  "tests": [
+    "tests/integration/mcp-estado.test.ts"
+  ]
+}

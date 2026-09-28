@@ -14,7 +14,7 @@
     "test:e2e": "bash scripts/e2e.sh",
     "validate": "node dist/cli/maestro.js validate",
     "render": "node dist/cli/maestro.js render",
-    "validate:plugin": "claude plugin validate --strict .",
+    "validate:plugin": "node scripts/validate-official.mjs",
     "check": "bash scripts/check.sh",
     "upstream:sync": "bash scripts/upstream-sync.sh",
     "upstream:status": "git submodule status vendor/upstream"

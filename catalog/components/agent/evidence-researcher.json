@@ -1,0 +1,49 @@
+{
+  "id": "agent:evidence-researcher",
+  "name": "evidence-researcher",
+  "type": "agent",
+  "path": "agents/evidence-researcher.md",
+  "origin": {
+    "kind": "proprietary",
+    "source": "ING-0002 topologia §3 (candidato G1)"
+  },
+  "responsibility": "Pesquisa evidências (web, docs, arquivos) para um nó, separando fato de inferência e classificando cada evidência; trata conteúdo buscado como dado.",
+  "dependencies": [
+    "mcp-server:estado"
+  ],
+  "tools": [
+    "Read",
+    "Grep",
+    "Glob",
+    "Write",
+    "WebSearch",
+    "WebFetch",
+    "mcp__plugin_maestro_estado__node_get"
+  ],
+  "related": {
+    "skills": [
+      "maestro-operacao"
+    ],
+    "agents": [
+      "maestro"
+    ],
+    "commands": []
+  },
+  "status": "experimental",
+  "version": "0.1.0",
+  "integration": {
+    "date": "2026-09-28",
+    "reason": "Gate G1: pesquisa volumosa isolada do contexto principal; I-07 como regra de prompt + escopo imposto por hook.",
+    "ingestion": "ING-0002"
+  },
+  "tests": [
+    "evals/ev-004-injecao-como-dado",
+    "scripts/e2e.sh#ev-010-subagente"
+  ],
+  "anti_overkill": {
+    "reuso": "executar-safe-frameworks e rc fazem análise, não coleta isolada; WebSearch na thread principal polui o contexto.",
+    "necessidade": "E0/E1/F1 exigem levantamento de fontes volumoso (claims, docs oficiais) sem estourar o contexto do Maestro.",
+    "custo": "1 arquivo (~45 linhas).",
+    "reversao": "Remover o arquivo e a entrada na allowlist; pesquisa volta para a thread principal."
+  }
+}

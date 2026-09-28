@@ -1,0 +1,33 @@
+{
+  "id": "external-plugin:operations@knowledge-work-plugins",
+  "name": "operations@knowledge-work-plugins",
+  "type": "external-plugin",
+  "path": "vendor/upstream/knowledge-work-plugins/operations",
+  "origin": {
+    "kind": "upstream",
+    "source": "knowledge-work-plugins/operations",
+    "sha": "da38ec1ee89d41e5380e652a97382695003396e7",
+    "license": "Apache-2.0"
+  },
+  "responsibility": "Skills de operações (process-doc, runbook, risk-assessment, status-report…) — lanes Operações/DevOps/Stakeholders.",
+  "dependencies": [
+    "upstream-reference:knowledge-work-plugins"
+  ],
+  "tools": [],
+  "related": {
+    "skills": [
+      "roteamento-lanes"
+    ],
+    "agents": [],
+    "commands": []
+  },
+  "status": "reference",
+  "version": "upstream@da38ec1e",
+  "integration": {
+    "date": "2026-09-28",
+    "reason": "Skills oficiais roteadas pelas lanes (mapa/roteamento.json).",
+    "ingestion": "ING-0001"
+  },
+  "tests": [],
+  "notes": "Instalar com: claude plugin install operations@knowledge-work-plugins (ação do usuário)."
+}

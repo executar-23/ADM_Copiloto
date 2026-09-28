@@ -1,0 +1,62 @@
+{
+  "id": "mcp-server:registry",
+  "name": "registry",
+  "type": "mcp-server",
+  "path": "src/mcp/registry.ts",
+  "origin": {
+    "kind": "proprietary",
+    "source": "pipeline de ingestão + roteamento (handoff do usuário, 2026-09-28; ING-0002 matriz)"
+  },
+  "responsibility": "Servidor stdio de componentes: catálogo, inspeção/classificação, conflitos, comparação com upstream, roteamento, fingerprint de skills, validação e ingestão.",
+  "dependencies": [
+    "node>=20",
+    "git (opcional, SHA de upstream)",
+    "unzip (opcional, compactados)"
+  ],
+  "tools": [
+    "mcp__plugin_maestro_registry__catalog_list",
+    "mcp__plugin_maestro_registry__catalog_get",
+    "mcp__plugin_maestro_registry__catalog_search",
+    "mcp__plugin_maestro_registry__component_inspect",
+    "mcp__plugin_maestro_registry__conflict_check",
+    "mcp__plugin_maestro_registry__upstream_search",
+    "mcp__plugin_maestro_registry__routing_lookup",
+    "mcp__plugin_maestro_registry__skill_fingerprint",
+    "mcp__plugin_maestro_registry__workspace_validate",
+    "mcp__plugin_maestro_registry__ingestion_list",
+    "mcp__plugin_maestro_registry__ingestion_start",
+    "mcp__plugin_maestro_registry__catalog_register"
+  ],
+  "related": {
+    "skills": [
+      "component-ingestion",
+      "roteamento-lanes"
+    ],
+    "agents": [
+      "maestro",
+      "component-analyst",
+      "qa-reviewer"
+    ],
+    "commands": [
+      "ingerir",
+      "catalogo",
+      "validar"
+    ]
+  },
+  "status": "active",
+  "version": "0.1.0",
+  "integration": {
+    "date": "2026-09-28",
+    "reason": "Capacidades executáveis do pipeline de ingestão e do roteamento (camada MCP Tool).",
+    "ingestion": "ING-0002"
+  },
+  "tests": [
+    "tests/integration/mcp-registry.test.ts"
+  ],
+  "anti_overkill": {
+    "reuso": "Nenhum upstream oferece catálogo/ingestão; plugin-dev valida só estrutura.",
+    "necessidade": "Pipeline repetível para lotes contínuos exige operações determinísticas (hash, inspeção, conflito) em vez de leitura manual.",
+    "custo": "~300 linhas TS + lib testada.",
+    "reversao": "Remover do .mcp.json; skills continuam descrevendo o processo manual."
+  }
+}

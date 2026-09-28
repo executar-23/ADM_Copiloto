@@ -1,0 +1,45 @@
+{
+  "id": "skill:roteamento-lanes",
+  "name": "roteamento-lanes",
+  "type": "skill",
+  "path": "skills/roteamento-lanes/SKILL.md",
+  "origin": {
+    "kind": "adapted",
+    "source": "ING-0002: 02-mapa/matriz-entregas-x-lanes.md + inventario-skills.md §D"
+  },
+  "responsibility": "Roteia intenção/entrega para lane e uma skill vencedora, aplicando sobreposições, fallbacks e lacunas declaradas.",
+  "dependencies": [
+    "mcp-server:registry"
+  ],
+  "tools": [
+    "mcp__plugin_maestro_registry__routing_lookup",
+    "mcp__plugin_maestro_registry__skill_fingerprint"
+  ],
+  "related": {
+    "skills": [
+      "maestro-operacao"
+    ],
+    "agents": [
+      "maestro"
+    ],
+    "commands": [
+      "executar"
+    ]
+  },
+  "status": "active",
+  "version": "0.1.0",
+  "integration": {
+    "date": "2026-09-28",
+    "reason": "Roteia intenção/entrega para lane e uma skill vencedora, aplicando sobreposições, fallbacks e lacunas declaradas.",
+    "ingestion": "ING-0002"
+  },
+  "tests": [
+    "tests/unit/routing.test.ts"
+  ],
+  "anti_overkill": {
+    "reuso": "Não existe roteador entre skills oficiais e proprietárias (achado central do pacote).",
+    "necessidade": "Sobreposições (competitive-brief, research-synthesis, content-creation × draft-content) causam invocação ambígua sem regra única.",
+    "custo": "SKILL.md + 1 reference + mapa/roteamento.json.",
+    "reversao": "Remover; o roteamento volta a ser consulta manual de mapa/roteamento.md."
+  }
+}

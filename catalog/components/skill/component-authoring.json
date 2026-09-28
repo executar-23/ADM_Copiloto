@@ -1,0 +1,38 @@
+{
+  "id": "skill:component-authoring",
+  "name": "component-authoring",
+  "type": "skill",
+  "path": "skills/component-authoring/SKILL.md",
+  "origin": {
+    "kind": "adapted",
+    "source": "ING-0001: plugin-dev (agent/skill/command/hook-development, plugin-structure) + mcp-server-dev (build-mcp-server/tool-design)"
+  },
+  "responsibility": "Convenções de autoria/adaptação de agents, skills, commands, hooks e ferramentas MCP do plugin, com anti-overkill.",
+  "dependencies": [],
+  "tools": [],
+  "related": {
+    "skills": [
+      "component-ingestion"
+    ],
+    "agents": [],
+    "commands": [
+      "ingerir"
+    ]
+  },
+  "status": "active",
+  "version": "0.1.0",
+  "integration": {
+    "date": "2026-09-28",
+    "reason": "Convenções de autoria/adaptação de agents, skills, commands, hooks e ferramentas MCP do plugin, com anti-overkill.",
+    "ingestion": "ING-0002"
+  },
+  "tests": [
+    "tests/unit/lint.test.ts"
+  ],
+  "anti_overkill": {
+    "reuso": "plugin-dev é genérico e fica em vendor (pode não estar instalado); esta skill condensa só o que o Maestro exige a mais (sem README em agents/, guardrail em hook, manifesto MCP).",
+    "necessidade": "ADAPT precisa de um padrão local verificável pelo lint; sem ele cada componente adaptado segue uma convenção.",
+    "custo": "SKILL.md + 5 references curtas.",
+    "reversao": "Remover; usar plugin-dev diretamente (habilitado em .claude/settings.json)."
+  }
+}

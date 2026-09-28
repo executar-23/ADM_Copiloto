@@ -1,0 +1,33 @@
+{
+  "id": "external-plugin:product-management@knowledge-work-plugins",
+  "name": "product-management@knowledge-work-plugins",
+  "type": "external-plugin",
+  "path": "vendor/upstream/knowledge-work-plugins/product-management",
+  "origin": {
+    "kind": "upstream",
+    "source": "knowledge-work-plugins/product-management",
+    "sha": "da38ec1ee89d41e5380e652a97382695003396e7",
+    "license": "Apache-2.0"
+  },
+  "responsibility": "Skills de produto (write-spec, roadmap-update, synthesize-research…) — lane Produto; não instalado no ambiente do usuário (D4).",
+  "dependencies": [
+    "upstream-reference:knowledge-work-plugins"
+  ],
+  "tools": [],
+  "related": {
+    "skills": [
+      "roteamento-lanes"
+    ],
+    "agents": [],
+    "commands": []
+  },
+  "status": "reference",
+  "version": "upstream@da38ec1e",
+  "integration": {
+    "date": "2026-09-28",
+    "reason": "Skills oficiais roteadas pelas lanes (mapa/roteamento.json).",
+    "ingestion": "ING-0001"
+  },
+  "tests": [],
+  "notes": "Instalar com: claude plugin install product-management@knowledge-work-plugins (ação do usuário)."
+}

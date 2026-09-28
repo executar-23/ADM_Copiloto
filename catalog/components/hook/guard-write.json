@@ -1,0 +1,36 @@
+{
+  "id": "hook:guard-write",
+  "name": "guard-write",
+  "type": "hook",
+  "path": "src/hooks/guard-write.ts",
+  "origin": {
+    "kind": "proprietary",
+    "source": "ING-0002 topologia §4 (imposição por hook)"
+  },
+  "responsibility": "PreToolUse Write/Edit: bloqueia upstream, originais recebidos, ledger e projeções geradas; pede confirmação em contratos; impõe o escopo de escrita do nó ativo.",
+  "dependencies": [],
+  "tools": [],
+  "related": {
+    "skills": [],
+    "agents": [],
+    "commands": []
+  },
+  "status": "active",
+  "version": "0.1.0",
+  "integration": {
+    "date": "2026-09-28",
+    "reason": "I-06, I-10, C-04 regra 2 e imutabilidade de upstream/received impostos por mecanismo (valem em subagentes — EV-010).",
+    "ingestion": "ING-0002"
+  },
+  "tests": [
+    "tests/integration/hooks.test.ts",
+    "scripts/e2e.sh#guard-write",
+    "scripts/e2e.sh#ev-010-subagente"
+  ],
+  "anti_overkill": {
+    "reuso": "permissions.deny de settings.json não viaja com o plugin nem conhece o escopo do nó.",
+    "necessidade": "Pedir por prompt não garante; subagentes de plugin ignoram hooks no frontmatter.",
+    "custo": "~50 linhas; ~0,1 s por escrita.",
+    "reversao": "Remover a entrada PreToolUse Write|Edit de hooks/hooks.json."
+  }
+}

@@ -1,0 +1,65 @@
+{
+  "id": "skill:maestro-operacao",
+  "name": "maestro-operacao",
+  "type": "skill",
+  "path": "skills/maestro-operacao/SKILL.md",
+  "origin": {
+    "kind": "adapted",
+    "source": "ING-0002: contratos C-01 (adaptador) e C-04 (handoff)"
+  },
+  "responsibility": "Procedimento operacional do Maestro: laço do nó pelo adaptador C-01, verificação, promoção, decisões, autorizações e delegação C-04.",
+  "dependencies": [
+    "mcp-server:estado",
+    "mcp-server:registry"
+  ],
+  "tools": [
+    "mcp__plugin_maestro_estado__state_summary",
+    "mcp__plugin_maestro_estado__node_list",
+    "mcp__plugin_maestro_estado__node_get",
+    "mcp__plugin_maestro_estado__node_next",
+    "mcp__plugin_maestro_estado__decision_list",
+    "mcp__plugin_maestro_estado__state_validate",
+    "mcp__plugin_maestro_estado__state_init",
+    "mcp__plugin_maestro_estado__node_create",
+    "mcp__plugin_maestro_estado__node_update",
+    "mcp__plugin_maestro_estado__node_transition",
+    "mcp__plugin_maestro_estado__evidence_add",
+    "mcp__plugin_maestro_estado__decision_record",
+    "mcp__plugin_maestro_estado__authorization_grant",
+    "mcp__plugin_maestro_registry__routing_lookup",
+    "mcp__plugin_maestro_registry__skill_fingerprint"
+  ],
+  "related": {
+    "skills": [
+      "roteamento-lanes",
+      "estagios-bpm"
+    ],
+    "agents": [
+      "maestro",
+      "qa-reviewer"
+    ],
+    "commands": [
+      "estado",
+      "executar",
+      "verificar",
+      "decidir"
+    ]
+  },
+  "status": "active",
+  "version": "0.1.0",
+  "integration": {
+    "date": "2026-09-28",
+    "reason": "Procedimento operacional do Maestro: laço do nó pelo adaptador C-01, verificação, promoção, decisões, autorizações e delegação C-04.",
+    "ingestion": "ING-0002"
+  },
+  "tests": [
+    "evals/ev-011-rascunho-oficial",
+    "evals/ev-014-aceite-produto"
+  ],
+  "anti_overkill": {
+    "reuso": "copiloto-executar opera a rotina diária sobre o Control Center, não o adaptador de skills oficiais; nenhuma skill oficial tem estado.",
+    "necessidade": "Sem o procedimento, cada sessão reinventa o laço e o usuário precisa explicar o sistema (falha EV-014).",
+    "custo": "SKILL.md + 3 references (~250 linhas).",
+    "reversao": "Remover o diretório; o agente maestro perde o procedimento detalhado (continua com o resumo do prompt)."
+  }
+}

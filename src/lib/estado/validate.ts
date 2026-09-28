@@ -85,13 +85,25 @@ export function validateEstadoWorkspace(root: string): Finding[] {
     f.push({ level: "error", code: "PROJECTION_DIVERGENT", message: `${PATHS.estadoMd} diverge de estado.json (EV-012) — rode \`maestro render\`; nunca editar a projeção` });
   }
   // Ledger paralelo: outro ESTADO*.md / estado*.json fora de 07-execucao e das áreas de referência.
-  const ignore = /^(vendor|node_modules|ingestion\/received|tests\/fixtures|dist|\.git)\//;
+  // Heurística por conteúdo: JSON com `nos` + `wip_limite`, ou markdown com cabeçalho de ESTADO + WIP.
+  const ignore = /^(vendor|node_modules|ingestion\/received|tests\/fixtures|dist|\.git|\.tmp)\//;
   for (const file of walkFiles(root, { maxDepth: 6 })) {
     const rel = toPosix(relative(root, file));
     if (ignore.test(rel) || rel.startsWith(`${PATHS.execucaoDir}/`)) continue;
     const base = rel.split("/").pop()!;
-    if (/^estado.*\.(md|json)$/i.test(base)) {
-      f.push({ level: "warning", code: "PARALLEL_LEDGER", message: `possível ledger paralelo: ${rel} (I-06) — há um só ledger por trilha`, ref: rel });
+    let suspicious = false;
+    if (/^estado.*\.json$/i.test(base)) {
+      try {
+        const j = readJson<Record<string, unknown>>(file);
+        suspicious = Array.isArray(j.nos) || "wip_limite" in j;
+      } catch {
+        suspicious = false;
+      }
+    } else if (/^estado.*\.md$/i.test(base)) {
+      suspicious = /^#\s*ESTADO\b/m.test(readText(file)) && /\bWIP\b/.test(readText(file));
+    }
+    if (suspicious) {
+      f.push({ level: "error", code: "PARALLEL_LEDGER", message: `ledger paralelo: ${rel} (I-06) — há um só ledger (07-execucao/estado.json)`, ref: rel });
     }
   }
   return f;

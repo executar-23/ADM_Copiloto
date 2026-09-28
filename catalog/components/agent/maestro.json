@@ -1,0 +1,91 @@
+{
+  "id": "agent:maestro",
+  "name": "maestro",
+  "type": "agent",
+  "path": "agents/maestro.md",
+  "origin": {
+    "kind": "proprietary",
+    "source": "ING-0002: 03-arquitetura-alvo/maestro-topologia.md + maestro.agent-spec.md (H-arq-1)"
+  },
+  "responsibility": "Orquestrador de thread principal: resolve o próximo nó (WIP=1), roteia intenção → lane → skill, aplica o adaptador C-01, verifica DoD com evidência e promove estados; delega só para as folhas aprovadas.",
+  "dependencies": [
+    "mcp-server:estado",
+    "mcp-server:registry",
+    "skill:maestro-operacao"
+  ],
+  "tools": [
+    "Agent(qa-reviewer, evidence-researcher, component-analyst)",
+    "Read",
+    "Grep",
+    "Glob",
+    "Write",
+    "Edit",
+    "Bash",
+    "Skill",
+    "WebSearch",
+    "WebFetch",
+    "mcp__plugin_maestro_estado__state_summary",
+    "mcp__plugin_maestro_estado__node_list",
+    "mcp__plugin_maestro_estado__node_get",
+    "mcp__plugin_maestro_estado__node_next",
+    "mcp__plugin_maestro_estado__decision_list",
+    "mcp__plugin_maestro_estado__state_validate",
+    "mcp__plugin_maestro_estado__state_init",
+    "mcp__plugin_maestro_estado__node_create",
+    "mcp__plugin_maestro_estado__node_update",
+    "mcp__plugin_maestro_estado__node_transition",
+    "mcp__plugin_maestro_estado__evidence_add",
+    "mcp__plugin_maestro_estado__decision_record",
+    "mcp__plugin_maestro_estado__authorization_grant",
+    "mcp__plugin_maestro_registry__catalog_list",
+    "mcp__plugin_maestro_registry__catalog_get",
+    "mcp__plugin_maestro_registry__catalog_search",
+    "mcp__plugin_maestro_registry__component_inspect",
+    "mcp__plugin_maestro_registry__conflict_check",
+    "mcp__plugin_maestro_registry__upstream_search",
+    "mcp__plugin_maestro_registry__routing_lookup",
+    "mcp__plugin_maestro_registry__skill_fingerprint",
+    "mcp__plugin_maestro_registry__workspace_validate",
+    "mcp__plugin_maestro_registry__ingestion_list",
+    "mcp__plugin_maestro_registry__ingestion_start",
+    "mcp__plugin_maestro_registry__catalog_register"
+  ],
+  "related": {
+    "skills": [
+      "maestro-operacao",
+      "roteamento-lanes",
+      "estagios-bpm",
+      "component-ingestion",
+      "component-authoring"
+    ],
+    "agents": [
+      "qa-reviewer",
+      "evidence-researcher",
+      "component-analyst"
+    ],
+    "commands": [
+      "estado",
+      "executar",
+      "verificar",
+      "decidir",
+      "ingerir"
+    ]
+  },
+  "status": "active",
+  "version": "0.1.0",
+  "integration": {
+    "date": "2026-09-28",
+    "reason": "Núcleo do Maestro: um agente de thread principal + lanes como roteamento (topologia do pacote).",
+    "ingestion": "ING-0002"
+  },
+  "tests": [
+    "scripts/e2e.sh#agent-delegacao",
+    "evals/ev-014-aceite-produto"
+  ],
+  "anti_overkill": {
+    "reuso": "copiloto-executar governa a rotina diária, não produção/engenharia multi-lane; nenhuma skill oficial tem estado (C-00).",
+    "necessidade": "Sem orquestrador único as 6 vocabulários de estado e 60+ skills continuam sem tradutor/roteador (problema declarado no pacote).",
+    "custo": "1 arquivo (~80 linhas) + Agent Spec em 07-execucao/E4-agent-specs.",
+    "reversao": "Remover agents/maestro.md; commands e skills continuam funcionando na thread comum."
+  }
+}

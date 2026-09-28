@@ -1,0 +1,550 @@
+{
+  "versao": 1,
+  "status_global": "HIPOTESE",
+  "fonte": "ING-0002: 02-mapa/matriz-entregas-x-lanes.md (sha256 7e353301a452…) + 02-mapa/inventario-skills.md §D (sha256 0a2bf6d262c3…)",
+  "nota": "Disponibilidade = verificação do pacote no ambiente do usuário (não reverificada nesta sessão; E0 local). Toda linha é HIPÓTESE até E2 validar executando a skill num caso real.",
+  "lanes": [
+    {
+      "id": "produto",
+      "nome": "Produto",
+      "origem": "macro",
+      "skills_oficiais": [
+        "product-management:*"
+      ],
+      "skills_proprietarias": [
+        "rc-cognitive-risk-expert",
+        "executar-safe-frameworks"
+      ],
+      "nota": "plugin Product Management não instalado (D4)"
+    },
+    {
+      "id": "engenharia",
+      "nome": "Engenharia",
+      "origem": "macro",
+      "skills_oficiais": [
+        "engineering:architecture",
+        "engineering:system-design",
+        "engineering:code-review",
+        "engineering:documentation",
+        "engineering:tech-debt"
+      ],
+      "skills_proprietarias": [
+        "rc-cognitive-risk-expert"
+      ]
+    },
+    {
+      "id": "design",
+      "nome": "Design",
+      "origem": "macro",
+      "skills_oficiais": [
+        "design:accessibility-review",
+        "design:design-critique",
+        "design:design-handoff",
+        "design:design-system",
+        "design:research-synthesis",
+        "design:user-research",
+        "design:ux-copy"
+      ],
+      "skills_proprietarias": [
+        "executar-design",
+        "executar-block-quick-frameworks"
+      ]
+    },
+    {
+      "id": "qa",
+      "nome": "QA",
+      "origem": "macro",
+      "skills_oficiais": [
+        "engineering:testing-strategy",
+        "engineering:code-review",
+        "engineering:debug",
+        "design:accessibility-review"
+      ],
+      "skills_proprietarias": [
+        "rc-cognitive-risk-expert"
+      ],
+      "nota": "validadores das próprias skills; subagente qa-reviewer (somente leitura)"
+    },
+    {
+      "id": "devops",
+      "nome": "DevOps",
+      "origem": "macro",
+      "skills_oficiais": [
+        "engineering:deploy-checklist",
+        "engineering:incident-response",
+        "operations:change-request",
+        "operations:runbook"
+      ],
+      "skills_proprietarias": [],
+      "nota": "conectores Railway/Vercel/Supabase (esquemas não lidos); Cloudflare sem conector identificado"
+    },
+    {
+      "id": "stakeholders",
+      "nome": "Stakeholders",
+      "origem": "macro",
+      "skills_oficiais": [
+        "operations:status-report",
+        "product-management:stakeholder-update"
+      ],
+      "skills_proprietarias": [
+        "executar-business-docx"
+      ],
+      "nota": "product-management:stakeholder-update não instalada (D4)"
+    },
+    {
+      "id": "operacoes",
+      "nome": "Operações",
+      "origem": "macro",
+      "skills_oficiais": [
+        "operations:*"
+      ],
+      "skills_proprietarias": [
+        "copiloto-executar",
+        "executar-mapa-os",
+        "plano-operacional-rastreavel"
+      ]
+    },
+    {
+      "id": "editorial",
+      "nome": "Editorial",
+      "origem": "derivada",
+      "skills_oficiais": [
+        "marketing:*"
+      ],
+      "skills_proprietarias": [
+        "obsidian-editorial-pipeline",
+        "executar-block-quick-frameworks",
+        "rc-cognitive-risk-expert"
+      ],
+      "nota": "lane derivada de 'linha editorial e campanhas' — confirmar em E1; obsidian-editorial-pipeline não instalada (D5)"
+    }
+  ],
+  "entregas": [
+    {
+      "id": "R-001",
+      "entrega": "PRD",
+      "grupo": "Produto e requisitos",
+      "lane": "produto",
+      "primaria": {
+        "skill": "product-management:write-spec",
+        "disponivel": "nao"
+      },
+      "apoio": [
+        "rc-cognitive-risk-expert (templates/prd.md, 13 seções)"
+      ],
+      "lacuna": "Plugin PM não instalado; fallback disponível: template RC (Problem … Release state)",
+      "status": "HIPOTESE",
+      "decisao_ref": [
+        "D4"
+      ]
+    },
+    {
+      "id": "R-002",
+      "entrega": "UX / flows",
+      "grupo": "Produto e requisitos",
+      "lane": "design",
+      "primaria": {
+        "skill": null,
+        "disponivel": "A DEFINIR"
+      },
+      "apoio": [
+        "design:user-research",
+        "design:design-critique",
+        "design:design-handoff",
+        "design:ux-copy",
+        "rc-cognitive-risk-expert (§ User journey)"
+      ],
+      "lacuna": "Sem skill dedicada a 'flows'; fluxos em Mermaid flowchart TD (padrão do Quick Frameworks)",
+      "status": "HIPOTESE",
+      "decisao_ref": []
+    },
+    {
+      "id": "R-003",
+      "entrega": "FRD",
+      "grupo": "Produto e requisitos",
+      "lane": "produto",
+      "primaria": {
+        "skill": "rc-cognitive-risk-expert",
+        "disponivel": "sim"
+      },
+      "apoio": [
+        "engineering:system-design (requisitos)"
+      ],
+      "lacuna": "FRD como documento separado ou seção do PRD? A DEFINIR",
+      "status": "HIPOTESE",
+      "decisao_ref": []
+    },
+    {
+      "id": "R-004",
+      "entrega": "AC (acceptance criteria)",
+      "grupo": "Produto e requisitos",
+      "lane": "produto",
+      "primaria": {
+        "skill": "rc-cognitive-risk-expert",
+        "disponivel": "sim"
+      },
+      "apoio": [
+        "engineering:testing-strategy"
+      ],
+      "lacuna": null,
+      "status": "HIPOTESE",
+      "decisao_ref": []
+    },
+    {
+      "id": "R-005",
+      "entrega": "NFR",
+      "grupo": "Produto e requisitos",
+      "lane": "engenharia",
+      "primaria": {
+        "skill": "engineering:system-design",
+        "disponivel": "sim"
+      },
+      "apoio": [
+        "design:accessibility-review",
+        "rc-cognitive-risk-expert (§ Accessibility/NFR)"
+      ],
+      "lacuna": null,
+      "status": "HIPOTESE",
+      "decisao_ref": []
+    },
+    {
+      "id": "R-006",
+      "entrega": "Data / Integration requirements",
+      "grupo": "Produto e requisitos",
+      "lane": "engenharia",
+      "primaria": {
+        "skill": "engineering:system-design",
+        "disponivel": "sim"
+      },
+      "apoio": [
+        "rc-cognitive-risk-expert (§ Data/claim requirements)"
+      ],
+      "lacuna": "Integration depende de conectores cujos esquemas não foram lidos",
+      "status": "HIPOTESE",
+      "decisao_ref": []
+    },
+    {
+      "id": "R-007",
+      "entrega": "Analytics",
+      "grupo": "Produto e requisitos",
+      "lane": "operacoes",
+      "primaria": {
+        "skill": "marketing:performance-report",
+        "disponivel": "sim"
+      },
+      "apoio": [
+        "product-management:metrics-review (não instalada)",
+        "Power BI (D4-v1)"
+      ],
+      "lacuna": "Metas numéricas A DEFINIR (briefing não fornece)",
+      "status": "HIPOTESE",
+      "decisao_ref": [
+        "D4",
+        "D4-v1"
+      ]
+    },
+    {
+      "id": "R-008",
+      "entrega": "Release constraints",
+      "grupo": "Produto e requisitos",
+      "lane": "devops",
+      "primaria": {
+        "skill": "engineering:deploy-checklist",
+        "disponivel": "sim"
+      },
+      "apoio": [
+        "operations:change-request",
+        "rc-cognitive-risk-expert (§ Release state)"
+      ],
+      "lacuna": "RC 'release state' ≠ 'release constraints' — distinguir em E2",
+      "status": "HIPOTESE",
+      "decisao_ref": []
+    },
+    {
+      "id": "R-009",
+      "entrega": "Eng review",
+      "grupo": "Engenharia",
+      "lane": "engenharia",
+      "primaria": {
+        "skill": "engineering:code-review",
+        "disponivel": "sim"
+      },
+      "apoio": [
+        "engineering:architecture (desenho)"
+      ],
+      "lacuna": null,
+      "status": "HIPOTESE",
+      "decisao_ref": []
+    },
+    {
+      "id": "R-010",
+      "entrega": "Spec",
+      "grupo": "Engenharia",
+      "lane": "engenharia",
+      "primaria": {
+        "skill": "engineering:system-design",
+        "disponivel": "sim"
+      },
+      "apoio": [
+        "rc-cognitive-risk-expert (agent-handoff.md)"
+      ],
+      "lacuna": null,
+      "status": "HIPOTESE",
+      "decisao_ref": []
+    },
+    {
+      "id": "R-011",
+      "entrega": "ADRs",
+      "grupo": "Engenharia",
+      "lane": "engenharia",
+      "primaria": {
+        "skill": "engineering:architecture",
+        "disponivel": "sim"
+      },
+      "apoio": [
+        "rc-cognitive-risk-expert (templates/adr.md)"
+      ],
+      "lacuna": "Dois formatos de ADR (oficial × RC) — escolher um",
+      "status": "HIPOTESE",
+      "decisao_ref": [
+        "D10"
+      ]
+    },
+    {
+      "id": "R-012",
+      "entrega": "API contracts",
+      "grupo": "Engenharia",
+      "lane": "engenharia",
+      "primaria": {
+        "skill": "engineering:system-design",
+        "disponivel": "sim"
+      },
+      "apoio": [],
+      "lacuna": "Formato formal (ex.: OpenAPI): A DEFINIR",
+      "status": "HIPOTESE",
+      "decisao_ref": []
+    },
+    {
+      "id": "R-013",
+      "entrega": "Data model",
+      "grupo": "Engenharia",
+      "lane": "engenharia",
+      "primaria": {
+        "skill": "engineering:system-design",
+        "disponivel": "sim"
+      },
+      "apoio": [],
+      "lacuna": null,
+      "status": "HIPOTESE",
+      "decisao_ref": []
+    },
+    {
+      "id": "R-014",
+      "entrega": "Test plan",
+      "grupo": "Engenharia",
+      "lane": "qa",
+      "primaria": {
+        "skill": "engineering:testing-strategy",
+        "disponivel": "sim"
+      },
+      "apoio": [
+        "contratos/C-03-eval-suite.md"
+      ],
+      "lacuna": "Eval de agente ≠ teste de código: cobrir ambos",
+      "status": "HIPOTESE",
+      "decisao_ref": []
+    },
+    {
+      "id": "R-015",
+      "entrega": "Implementation plan",
+      "grupo": "Engenharia",
+      "lane": "engenharia",
+      "primaria": {
+        "skill": null,
+        "disponivel": "A DEFINIR"
+      },
+      "apoio": [
+        "executar-arvore-roadmap (hipótese)"
+      ],
+      "lacuna": "Sem skill oficial dedicada",
+      "status": "HIPOTESE",
+      "decisao_ref": []
+    },
+    {
+      "id": "R-016",
+      "entrega": "Epic issues",
+      "grupo": "Engenharia",
+      "lane": "operacoes",
+      "primaria": {
+        "skill": null,
+        "disponivel": "A DEFINIR"
+      },
+      "apoio": [
+        "conector de tracker (Linear)",
+        "copiloto-executar"
+      ],
+      "lacuna": "Tracker Linear (workspace Executar-Rotina, time EXE) com conflito CONF-01 aberto × Sas-Executar/SAS — reverificar em E0 antes de qualquer escrita",
+      "status": "HIPOTESE",
+      "decisao_ref": []
+    },
+    {
+      "id": "R-017",
+      "entrega": "SOP",
+      "grupo": "Engenharia",
+      "lane": "operacoes",
+      "primaria": {
+        "skill": "operations:process-doc",
+        "disponivel": "sim"
+      },
+      "apoio": [
+        "SOP-KP-001 (editorial)"
+      ],
+      "lacuna": "Não duplicar o SOP editorial",
+      "status": "HIPOTESE",
+      "decisao_ref": []
+    },
+    {
+      "id": "R-018",
+      "entrega": "Runbooks",
+      "grupo": "Engenharia",
+      "lane": "devops",
+      "primaria": {
+        "skill": "operations:runbook",
+        "disponivel": "sim"
+      },
+      "apoio": [
+        "engineering:documentation"
+      ],
+      "lacuna": null,
+      "status": "HIPOTESE",
+      "decisao_ref": []
+    },
+    {
+      "id": "R-019",
+      "entrega": "Linha editorial e campanhas",
+      "grupo": "Editorial e gestão",
+      "lane": "editorial",
+      "primaria": {
+        "skill": "marketing:campaign-plan",
+        "disponivel": "sim"
+      },
+      "apoio": [
+        "marketing:content-creation | marketing:draft-content (uma, em E2)",
+        "marketing:email-sequence",
+        "marketing:seo-audit",
+        "marketing:brand-review",
+        "obsidian-editorial-pipeline (motor, D5)",
+        "Process Doc (governança)",
+        "rc-cognitive-risk-expert (claims)"
+      ],
+      "lacuna": "Lacunas do SOP-KP-001: GEO, Topic Pack, arco, nomenclatura",
+      "status": "HIPOTESE",
+      "decisao_ref": [
+        "D2",
+        "D5"
+      ]
+    },
+    {
+      "id": "R-020",
+      "entrega": "Ficha de caracterização (22 pontos)",
+      "grupo": "Editorial e gestão",
+      "lane": "operacoes",
+      "primaria": {
+        "skill": null,
+        "disponivel": "A DEFINIR"
+      },
+      "apoio": [
+        "nó FICHA do ledger",
+        "executar-safe-frameworks (5W2H etc.)"
+      ],
+      "lacuna": "Legenda dos 22 pontos não fornecida — não inventar títulos",
+      "status": "HIPOTESE",
+      "decisao_ref": [
+        "D9"
+      ]
+    },
+    {
+      "id": "R-021",
+      "entrega": "PRD checklist",
+      "grupo": "Editorial e gestão",
+      "lane": "produto",
+      "primaria": {
+        "skill": null,
+        "disponivel": "A DEFINIR"
+      },
+      "apoio": [
+        "rc-cognitive-risk-expert templates/prd.md",
+        "product-management:write-spec"
+      ],
+      "lacuna": "Fonte ausente — não inventar checklist; propor derivação para aprovação",
+      "status": "HIPOTESE",
+      "decisao_ref": [
+        "D9"
+      ]
+    }
+  ],
+  "sobreposicoes": [
+    {
+      "intencao": "análise competitiva",
+      "concorrentes": [
+        "marketing:competitive-brief",
+        "product-management:competitive-brief"
+      ],
+      "proposta": "marketing:competitive-brief",
+      "motivo": "Product Management não instalado",
+      "status": "HIPOTESE"
+    },
+    {
+      "intencao": "síntese de pesquisa",
+      "concorrentes": [
+        "design:research-synthesis",
+        "product-management:synthesize-research"
+      ],
+      "proposta": "design:research-synthesis",
+      "motivo": "PM não instalado; Design instalado",
+      "status": "HIPOTESE"
+    },
+    {
+      "intencao": "conteúdo de marketing",
+      "concorrentes": [
+        "marketing:content-creation",
+        "marketing:draft-content"
+      ],
+      "proposta": null,
+      "motivo": "descrições quase idênticas — escolher uma em E2 após ler ambas",
+      "status": "HIPOTESE"
+    },
+    {
+      "intencao": "framework/estratégia",
+      "concorrentes": [
+        "skills oficiais (engineering/operations/…)",
+        "executar-safe-frameworks"
+      ],
+      "proposta": "executar-safe-frameworks para análise rastreável; oficial para artefato de formato fixo",
+      "motivo": "separa fato × inferência com gates",
+      "status": "HIPOTESE"
+    }
+  ],
+  "fallbacks": [
+    {
+      "quando": "product-management:write-spec indisponível (D4)",
+      "usar": "rc-cognitive-risk-expert templates/prd.md (13 seções) + engineering:system-design — sujeito à aprovação do usuário",
+      "fonte": "matriz-entregas-x-lanes.md; divergencias-e-lacunas.md §4"
+    },
+    {
+      "quando": "obsidian-editorial-pipeline não instalada (D5)",
+      "usar": "USER_ACTION_REQUIRED: instalar a skill enviada (v2.3); nenhum pack editorial avança sem o motor SOP-KP-001",
+      "fonte": "divergencias-e-lacunas.md §3"
+    },
+    {
+      "quando": "executar-block-quick-frameworks com drift (D3)",
+      "usar": "skill_fingerprint nas duas cópias + decisão D3 antes de usar",
+      "fonte": "divergencias-e-lacunas.md §3"
+    },
+    {
+      "quando": "hosting Cloudflare (blog) sem conector",
+      "usar": "lacuna declarada — USER_ACTION_REQUIRED; sem substituto definido",
+      "fonte": "inventario-skills.md §C"
+    }
+  ]
+}

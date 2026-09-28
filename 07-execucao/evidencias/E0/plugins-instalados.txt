@@ -1,0 +1,2 @@
+# claude plugin list (contêiner cloud)
+No plugins installed. Use `claude plugin install` to install a plugin.

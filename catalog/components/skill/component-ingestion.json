@@ -1,0 +1,63 @@
+{
+  "id": "skill:component-ingestion",
+  "name": "component-ingestion",
+  "type": "skill",
+  "path": "skills/component-ingestion/SKILL.md",
+  "origin": {
+    "kind": "proprietary",
+    "source": "handoff do usuário (2026-09-28): processo permanente de ingestão"
+  },
+  "responsibility": "Pipeline permanente de ingestão RECEIVE → REGISTER para qualquer componente novo, com registro ING-NNNN e catálogo.",
+  "dependencies": [
+    "mcp-server:registry",
+    "mcp-server:estado"
+  ],
+  "tools": [
+    "mcp__plugin_maestro_registry__catalog_list",
+    "mcp__plugin_maestro_registry__catalog_get",
+    "mcp__plugin_maestro_registry__catalog_search",
+    "mcp__plugin_maestro_registry__component_inspect",
+    "mcp__plugin_maestro_registry__conflict_check",
+    "mcp__plugin_maestro_registry__upstream_search",
+    "mcp__plugin_maestro_registry__routing_lookup",
+    "mcp__plugin_maestro_registry__skill_fingerprint",
+    "mcp__plugin_maestro_registry__workspace_validate",
+    "mcp__plugin_maestro_registry__ingestion_list",
+    "mcp__plugin_maestro_registry__ingestion_start",
+    "mcp__plugin_maestro_registry__catalog_register",
+    "mcp__plugin_maestro_estado__node_create",
+    "mcp__plugin_maestro_estado__node_transition",
+    "mcp__plugin_maestro_estado__evidence_add"
+  ],
+  "related": {
+    "skills": [
+      "component-authoring"
+    ],
+    "agents": [
+      "component-analyst",
+      "qa-reviewer"
+    ],
+    "commands": [
+      "ingerir",
+      "catalogo",
+      "validar"
+    ]
+  },
+  "status": "active",
+  "version": "0.1.0",
+  "integration": {
+    "date": "2026-09-28",
+    "reason": "Pipeline permanente de ingestão RECEIVE → REGISTER para qualquer componente novo, com registro ING-NNNN e catálogo.",
+    "ingestion": "ING-0002"
+  },
+  "tests": [
+    "tests/unit/ingestion.test.ts",
+    "tests/integration/mcp-registry.test.ts"
+  ],
+  "anti_overkill": {
+    "reuso": "cowork-plugin-management e plugin-dev:create-plugin criam/customizam plugins, mas não têm registro de ingestão, comparação com catálogo nem decisão por componente.",
+    "necessidade": "O repositório receberá lotes contínuos de componentes; sem o pipeline cada lote é integrado de um jeito (retrabalho, duplicação).",
+    "custo": "SKILL.md + 3 references + docs/process.",
+    "reversao": "Remover; o processo continua descrito em docs/process/ingestion-pipeline.md."
+  }
+}

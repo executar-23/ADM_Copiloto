@@ -1,0 +1,57 @@
+{
+  "id": "command:ingerir",
+  "name": "ingerir",
+  "type": "command",
+  "path": "commands/ingerir.md",
+  "origin": {
+    "kind": "proprietary",
+    "source": "camada Command (handoff do usuário, 2026-09-28)"
+  },
+  "responsibility": "Ingere componentes novos pelo pipeline RECEIVE → REGISTER.",
+  "dependencies": [
+    "skill:component-ingestion",
+    "skill:component-authoring"
+  ],
+  "tools": [
+    "Skill",
+    "Agent",
+    "mcp__plugin_maestro_registry__catalog_list",
+    "mcp__plugin_maestro_registry__catalog_get",
+    "mcp__plugin_maestro_registry__catalog_search",
+    "mcp__plugin_maestro_registry__component_inspect",
+    "mcp__plugin_maestro_registry__conflict_check",
+    "mcp__plugin_maestro_registry__upstream_search",
+    "mcp__plugin_maestro_registry__routing_lookup",
+    "mcp__plugin_maestro_registry__skill_fingerprint",
+    "mcp__plugin_maestro_registry__workspace_validate",
+    "mcp__plugin_maestro_registry__ingestion_list",
+    "mcp__plugin_maestro_registry__ingestion_start"
+  ],
+  "related": {
+    "skills": [
+      "component-ingestion",
+      "component-authoring"
+    ],
+    "agents": [
+      "component-analyst",
+      "qa-reviewer"
+    ],
+    "commands": []
+  },
+  "status": "active",
+  "version": "0.1.0",
+  "integration": {
+    "date": "2026-09-28",
+    "reason": "Entrada explícita de workflow (camada Command).",
+    "ingestion": "ING-0002"
+  },
+  "tests": [
+    "tests/integration/mcp-registry.test.ts"
+  ],
+  "anti_overkill": {
+    "reuso": "Skills disparam por contexto; o usuário pediu entrada explícita separada (Command × Skill).",
+    "necessidade": "Ponto de entrada /maestro:ingerir previsível para o usuário.",
+    "custo": "1 arquivo curto que só delega.",
+    "reversao": "Remover o arquivo; a skill correspondente continua disparando por contexto."
+  }
+}

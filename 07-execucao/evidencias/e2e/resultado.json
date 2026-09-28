@@ -1,0 +1,38 @@
+{
+  "executado_em": "2026-09-28T12:29:34Z",
+  "claude_code": "2.1.283 (Claude Code)",
+  "aprovados": 6,
+  "reprovados": 0,
+  "casos": [
+    {
+      "id": "inventario",
+      "status": "PASS",
+      "detalhe": "12 skills/commands, 4 agents, 3 eventos de hook, 2 servidores MCP"
+    },
+    {
+      "id": "mcp-estado",
+      "status": "PASS",
+      "detalhe": "state_summary chamado via MCP; resposta: E0 "
+    },
+    {
+      "id": "command-estado",
+      "status": "PASS",
+      "detalhe": "/maestro:estado leu o ledger e citou E0"
+    },
+    {
+      "id": "guard-write",
+      "status": "PASS",
+      "detalhe": "Write em vendor/upstream bloqueado pelo hook (exit 2)"
+    },
+    {
+      "id": "agent-delegacao",
+      "status": "PASS",
+      "detalhe": "maestro (thread principal) delegou ao qa-reviewer com CLAUDE_CODE_MAX_SUBAGENT_SPAWN_DEPTH=1"
+    },
+    {
+      "id": "ev-010-subagente",
+      "status": "PASS",
+      "detalhe": "Write do subagente de plugin bloqueado pelo hook do plugin"
+    }
+  ]
+}

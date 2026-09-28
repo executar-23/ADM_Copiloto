@@ -142,7 +142,17 @@ export function transition(estado: Estado, input: TransitionInput): Node {
   const fullMotivo = para === "DONE" ? `${motivo} | verificação: ${input.verificacao}` : motivo;
   if (para !== "BLOCKED" && node.status === "BLOCKED") node.motivo_bloqueio = null;
   push(node, para, fullMotivo, ator);
+  if (para === "DONE") promoteDependents(estado, node.id);
   return node;
+}
+
+/** BACKLOG_VALIDATED → READY para quem acabou de ter todas as dependências concluídas (regra do Copiloto). */
+function promoteDependents(estado: Estado, doneId: string) {
+  for (const n of estado.nos) {
+    if (n.status === "BACKLOG_VALIDATED" && n.depends_on.includes(doneId) && openDeps(estado, n).length === 0) {
+      push(n, "READY", `dependências concluídas (última: ${doneId})`, "maestro");
+    }
+  }
 }
 
 /** Próximo nó elegível: respeita WIP e dependências; ordem do ledger desempata (dependência vence numeração). */

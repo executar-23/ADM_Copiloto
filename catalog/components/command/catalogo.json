@@ -1,0 +1,42 @@
+{
+  "id": "command:catalogo",
+  "name": "catalogo",
+  "type": "command",
+  "path": "commands/catalogo.md",
+  "origin": {
+    "kind": "proprietary",
+    "source": "camada Command (handoff do usuário, 2026-09-28)"
+  },
+  "responsibility": "Consulta o catálogo de componentes (lista, busca, detalhe).",
+  "dependencies": [
+    "skill:component-ingestion"
+  ],
+  "tools": [
+    "mcp__plugin_maestro_registry__catalog_list",
+    "mcp__plugin_maestro_registry__catalog_search",
+    "mcp__plugin_maestro_registry__catalog_get"
+  ],
+  "related": {
+    "skills": [
+      "component-ingestion"
+    ],
+    "agents": [],
+    "commands": []
+  },
+  "status": "active",
+  "version": "0.1.0",
+  "integration": {
+    "date": "2026-09-28",
+    "reason": "Entrada explícita de workflow (camada Command).",
+    "ingestion": "ING-0002"
+  },
+  "tests": [
+    "tests/integration/mcp-registry.test.ts"
+  ],
+  "anti_overkill": {
+    "reuso": "Skills disparam por contexto; o usuário pediu entrada explícita separada (Command × Skill).",
+    "necessidade": "Ponto de entrada /maestro:catalogo previsível para o usuário.",
+    "custo": "1 arquivo curto que só delega.",
+    "reversao": "Remover o arquivo; a skill correspondente continua disparando por contexto."
+  }
+}

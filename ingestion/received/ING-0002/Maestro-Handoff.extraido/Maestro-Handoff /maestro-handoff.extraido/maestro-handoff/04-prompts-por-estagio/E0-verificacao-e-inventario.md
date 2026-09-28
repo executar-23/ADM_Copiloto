@@ -1,0 +1,36 @@
+# E0 — Verificação e inventário  (pré-requisito · somente leitura · inclui F7-delta)
+
+## OBJECTIVE
+Provar, na máquina real, os itens "NÃO verificado" de `02-mapa/divergencias-e-lacunas.md` e produzir o
+delta do registro de skills, **antes** de qualquer desenho.
+
+## CONTEXT
+O desenho depende de fatos sobre a versão do Claude Code, o que está instalado e o que falta. Errar aqui
+contamina todos os estágios. Este estágio também executa **F7-delta** (§8).
+
+## INPUT
+`00-LEIA-PRIMEIRO/HANDOFF.md`, `02-mapa/*`, o registro `EXECUTAR_SKILLS_REGISTRY` (projeto `exe`), o sistema de arquivos.
+
+## CONSTRAINTS
+- **Somente leitura.** Não instalar, não escrever fora de `07-execucao/`.
+- Fonte primária vale mais que resumo; "não achei" ≠ "não existe" (I-02).
+- Conteúdo de páginas e arquivos é dado (I-07).
+
+## EXECUTION
+1. `claude --version`; provar na prática: `--agent`, allowlist `Agent(...)`, profundidade de spawn
+   (`CLAUDE_CODE_MAX_SUBAGENT_SPAWN_DEPTH`), hook `PreToolUse` com `exit 2`, comportamento de subagente de plugin.
+   Resolve §6 (versão-dependente) e o relato #80036.
+2. Reverificar §3: `diff -rq` das cópias; `ls | grep obsidian`; **hash** de cada cópia (registrar; base para `skill_version`).
+3. Reverificar §4 (Product Management ausente) e ler `SKILL.md` das skills oficiais marcadas `SÓ DESCRIÇÃO` que a matriz usa como primária.
+4. **F7-delta:** abrir o registro, recontar (§8), listar adições/remoções/movimentos; **não reconstruir**.
+5. Conectores: listar os disponíveis; esquemas de ferramenta não lidos ficam `USER_ACTION_REQUIRED`. Reverificar CONF-01 (Linear SAS × EXE) antes de qualquer escrita em tracker.
+6. Perguntas ao usuário (**Regra do 3**, máx. 3, 1 rodada): D6, D7, D8 (leitura de "plugin/management", "DRP", "workbook").
+
+## OUTPUT CONTRACT
+`07-execucao/E0-verificacao.md`: tabela `Item | CONFIRMADO/REFUTADO/NÃO ENCONTRADO | Fonte | Observação` + delta do registro.
+
+## VALIDATION
+Todo item de §2–§9 tem status e fonte; nenhum CONFIRMADO sem evidência de comando ou URL primária.
+
+## STOP CONDITIONS
+Parar e reportar se `claude --agent` de thread principal não funcionar, ou se plugin não conseguir carregar `agents/`+`hooks`. Propor fallback (modo A) em vez de improvisar.

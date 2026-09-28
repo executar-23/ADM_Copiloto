@@ -21,6 +21,25 @@ function checkToolRefs(tools: string[], where: string, f: Finding[]) {
   }
 }
 
+/**
+ * Em plugin, subagentes são nomeados `<plugin>:<agent>`. `Agent(qa-reviewer)` sem prefixo não casa com nada e a
+ * allowlist fica vazia ("Available agents: none") — verificado no E0 (2026-09-28).
+ */
+function checkAgentAllowlist(tools: string[], pluginRoot: string | undefined, where: string, f: Finding[]) {
+  for (const t of tools) {
+    const m = /^Agent\((.*)\)$/.exec(t.trim());
+    if (!m) continue;
+    for (const raw of m[1]!.split(",").map((x) => x.trim()).filter(Boolean)) {
+      const [plugin, name] = raw.includes(":") ? raw.split(":", 2) : [null, raw];
+      if (plugin !== PLUGIN_NAME) {
+        f.push({ level: "error", code: "AGENT_ALLOWLIST", message: `${where}: Agent(${raw}) — agentes do plugin precisam do prefixo '${PLUGIN_NAME}:' (ex.: ${PLUGIN_NAME}:${name})`, ref: where });
+      } else if (pluginRoot && !existsSync(join(pluginRoot, "agents", `${name}.md`))) {
+        f.push({ level: "error", code: "AGENT_ALLOWLIST", message: `${where}: Agent(${raw}) aponta para agents/${name}.md inexistente`, ref: where });
+      }
+    }
+  }
+}
+
 function checkRelativeRefs(body: string, baseDir: string, pluginRoot: string | undefined, where: string, f: Finding[]) {
   const rel = body.match(/(?<![\w/$.])(?:references|scripts|examples|assets)\/[\w./-]+\.\w+/g) ?? [];
   for (const r of new Set(rel)) {
@@ -84,6 +103,7 @@ export function lintComponent(kind: LintKind, file: string, opts: { pluginRoot?:
     }
     if (wordCount(body) < 60) f.push({ level: "warning", code: "AGENT_PROMPT_SHORT", message: `${where}: system prompt muito curto`, ref: where });
     checkToolRefs([...toolList(fm.tools), ...toolList(fm.disallowedTools)], where, f);
+    checkAgentAllowlist(toolList(fm.tools), opts.pluginRoot, where, f);
     checkRelativeRefs(body, dirname(file), opts.pluginRoot, where, f);
   }
 

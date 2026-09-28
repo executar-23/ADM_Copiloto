@@ -1,0 +1,7 @@
+# ls -d vendor/upstream/knowledge-work-plugins/*/skills/{competitive-brief,research-synthesis,synthesize-research,content-creation,draft-content} @ da38ec1e
+design/skills/research-synthesis
+marketing/skills/competitive-brief
+marketing/skills/content-creation
+marketing/skills/draft-content
+product-management/skills/competitive-brief
+product-management/skills/synthesize-research

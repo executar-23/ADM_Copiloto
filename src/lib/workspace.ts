@@ -54,9 +54,11 @@ function findUp(start: string): string | null {
 
 /**
  * Ordem: MAESTRO_WORKSPACE → cwd (subindo diretórios) → CLAUDE_PROJECT_DIR →
- * CLAUDE_PLUGIN_ROOT (somente leitura) → cwd não inicializado.
+ * CLAUDE_PLUGIN_ROOT (somente leitura; desligável) → cwd não inicializado.
+ * O ledger NUNCA usa a raiz do plugin como fallback (`allowPluginRoot: false`): num projeto sem
+ * ledger, mostrar o ledger do repositório do plugin seria um estado paralelo (I-06).
  */
-export function resolveWorkspace(opts: { cwd?: string; env?: NodeJS.ProcessEnv } = {}): Workspace {
+export function resolveWorkspace(opts: { cwd?: string; env?: NodeJS.ProcessEnv; allowPluginRoot?: boolean } = {}): Workspace {
   const env = opts.env ?? process.env;
   const cwd = opts.cwd ?? process.cwd();
   if (env.MAESTRO_WORKSPACE) {
@@ -67,7 +69,7 @@ export function resolveWorkspace(opts: { cwd?: string; env?: NodeJS.ProcessEnv }
     const found = findUp(start);
     if (found) return { root: found, source: "cwd", readOnly: false, ...markers(found) };
   }
-  if (env.CLAUDE_PLUGIN_ROOT && existsSync(join(env.CLAUDE_PLUGIN_ROOT, PATHS.catalogDir))) {
+  if ((opts.allowPluginRoot ?? true) && env.CLAUDE_PLUGIN_ROOT && existsSync(join(env.CLAUDE_PLUGIN_ROOT, PATHS.catalogDir))) {
     const root = resolve(env.CLAUDE_PLUGIN_ROOT);
     return { root, source: "plugin-root", readOnly: true, ...markers(root) };
   }

@@ -1,0 +1,30 @@
+{
+  "id": "upstream-reference:knowledge-work-plugins",
+  "name": "knowledge-work-plugins",
+  "type": "upstream-reference",
+  "path": "vendor/upstream/knowledge-work-plugins",
+  "origin": {
+    "kind": "upstream",
+    "source": "https://github.com/anthropics/knowledge-work-plugins",
+    "sha": "da38ec1ee89d41e5380e652a97382695003396e7",
+    "license": "Apache-2.0"
+  },
+  "responsibility": "Referência de arquitetura de produção: plugins por função (engineering, product-management, operations…), padrão CONNECTORS (~~categoria) e cowork-plugin-management.",
+  "dependencies": [],
+  "tools": [],
+  "related": {
+    "skills": [],
+    "agents": [],
+    "commands": []
+  },
+  "status": "reference",
+  "version": "da38ec1e",
+  "integration": {
+    "date": "2026-09-28",
+    "reason": "Padrões de skills/commands/connectors em plugins reais.",
+    "ingestion": "ING-0001"
+  },
+  "tests": [
+    "tests/repo/repo.test.ts"
+  ]
+}
