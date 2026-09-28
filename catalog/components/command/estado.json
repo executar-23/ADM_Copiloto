@@ -1,0 +1,42 @@
+{
+  "id": "command:estado",
+  "name": "estado",
+  "type": "command",
+  "path": "commands/estado.md",
+  "origin": {
+    "kind": "proprietary",
+    "source": "camada Command (handoff do usuário, 2026-09-28)"
+  },
+  "responsibility": "Mostra o estado do Maestro a partir do ledger (WIP, próximo elegível, pendências, progresso derivado).",
+  "dependencies": [
+    "skill:maestro-operacao"
+  ],
+  "tools": [
+    "mcp__plugin_maestro_estado__state_summary",
+    "mcp__plugin_maestro_estado__node_get",
+    "mcp__plugin_maestro_estado__decision_list"
+  ],
+  "related": {
+    "skills": [
+      "maestro-operacao"
+    ],
+    "agents": [],
+    "commands": []
+  },
+  "status": "active",
+  "version": "0.1.0",
+  "integration": {
+    "date": "2026-09-28",
+    "reason": "Entrada explícita de workflow (camada Command).",
+    "ingestion": "ING-0002"
+  },
+  "tests": [
+    "scripts/e2e.sh#command-estado"
+  ],
+  "anti_overkill": {
+    "reuso": "Skills disparam por contexto; o usuário pediu entrada explícita separada (Command × Skill).",
+    "necessidade": "Ponto de entrada /maestro:estado previsível para o usuário.",
+    "custo": "1 arquivo curto que só delega.",
+    "reversao": "Remover o arquivo; a skill correspondente continua disparando por contexto."
+  }
+}

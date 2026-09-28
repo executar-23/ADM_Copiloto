@@ -1,10 +1,11 @@
 // Pipeline permanente de ingestão: RECEIVE → … → REGISTER. Registros em ingestion/records/.
 import { execFileSync } from "node:child_process";
 import { cpSync, mkdirSync, readdirSync, rmSync } from "node:fs";
-import { basename, extname, join, relative, resolve } from "node:path";
+import { basename, dirname, extname, join, relative, resolve } from "node:path";
 import { stringify } from "yaml";
 import { parseFrontmatter } from "../components/frontmatter.ts";
 import { loadCatalog } from "../catalog/store.ts";
+import { COMPONENT_TYPES } from "../catalog/schema.ts";
 import { PATHS } from "../workspace.ts";
 import { existsSync, isDir, readText, sha256, today, toPosix, walkFiles, writeTextAtomic } from "../util.ts";
 import { readFileSync } from "node:fs";
@@ -104,14 +105,25 @@ export function writeManifest(dir: string): { file: string; entries: number } {
   return { file, entries: lines.length };
 }
 
-function extractArchive(archive: string, destDir: string): string | null {
+const ARCHIVE_EXT = [".zip", ".skill", ".plugin"];
+
+/** Extrai um compactado (e compactados aninhados, até 3 níveis) ao lado do original. */
+function extractArchive(archive: string, destDir: string, depth = 0): string[] {
   try {
     mkdirSync(destDir, { recursive: true });
     execFileSync("unzip", ["-q", "-o", archive, "-d", destDir, "-x", "__MACOSX/*", "*/.DS_Store"], { stdio: "ignore" });
-    return destDir;
   } catch {
-    return null;
+    return [];
   }
+  const out = [destDir];
+  if (depth < 3) {
+    for (const f of walkFiles(destDir)) {
+      if (ARCHIVE_EXT.includes(extname(f).toLowerCase())) {
+        out.push(...extractArchive(f, join(dirname(f), `${basename(f, extname(f))}.extraido`), depth + 1));
+      }
+    }
+  }
+  return out;
 }
 
 export function renderTemplate(template: string, vars: Record<string, string>): string {
@@ -144,9 +156,10 @@ export function startIngestion(root: string, input: StartInput) {
     if (src.startsWith(resolve(root, PATHS.ingestionReceived))) throw new Error(`já recebido: ${c}`);
     const target = join(dest, basename(src));
     cpSync(src, target, { recursive: true, filter: (p) => !p.includes("__MACOSX") && basename(p) !== ".DS_Store" });
-    if ([".zip", ".skill", ".plugin"].includes(extname(src).toLowerCase())) {
-      const out = extractArchive(src, join(dest, `${basename(src, extname(src))}.extraido`));
-      if (out) extracted.push(toPosix(relative(root, out)));
+    if (ARCHIVE_EXT.includes(extname(src).toLowerCase())) {
+      for (const out of extractArchive(target, join(dest, `${basename(src, extname(src))}.extraido`))) {
+        extracted.push(toPosix(relative(root, out)));
+      }
     }
     if ((input.mover ?? true) && src.startsWith(`${inbox}/`)) {
       rmSync(src, { recursive: true, force: true });
@@ -201,8 +214,10 @@ export function validateRecords(root: string): Finding[] {
       if (r.estagio_atual !== "REGISTER") findings.push({ level: "error", code: "INGESTION_NOT_REGISTERED", message: `${where}: fechado (${r.status}) mas estagio_atual=${r.estagio_atual}`, ref: where });
       if (/\bPENDENTE\b|\{\{\w+\}\}/.test(body)) findings.push({ level: "error", code: "INGESTION_PENDING", message: `${where}: fechado com seção PENDENTE ou placeholder`, ref: where });
       for (const c of r.componentes) {
+        if (!DECISIONS.includes(c.decisao)) findings.push({ level: "error", code: "INGESTION_DECISION", message: `${where}: decisão inválida '${String(c.decisao)}' em ${c.nome}`, ref: where });
         if (c.decisao === "pendente") findings.push({ level: "error", code: "INGESTION_DECISION", message: `${where}: componente ${c.nome} sem decisão`, ref: where });
-        if (["adaptar", "reutilizar", "referenciar"].includes(c.decisao)) {
+        const catalogued = (COMPONENT_TYPES as readonly string[]).includes(c.tipo);
+        if (catalogued && ["adaptar", "reutilizar", "referenciar"].includes(c.decisao)) {
           const rec = c.catalog_id ? catalog.get(c.catalog_id) : undefined;
           if (!rec) findings.push({ level: "error", code: "INGESTION_CATALOG", message: `${where}: ${c.nome} → catalog_id ${c.catalog_id ?? "∅"} inexistente (REGISTER)`, ref: where });
           else if (rec.integration.ingestion !== r.id) {

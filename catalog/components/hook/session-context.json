@@ -1,0 +1,34 @@
+{
+  "id": "hook:session-context",
+  "name": "session-context",
+  "type": "hook",
+  "path": "src/hooks/session-context.ts",
+  "origin": {
+    "kind": "proprietary",
+    "source": "ING-0002 topologia §4 (imposição por hook)"
+  },
+  "responsibility": "SessionStart: injeta nó ativo, próximo elegível, verificações, ações do usuário e decisões abertas no início da sessão.",
+  "dependencies": [],
+  "tools": [],
+  "related": {
+    "skills": [],
+    "agents": [],
+    "commands": []
+  },
+  "status": "active",
+  "version": "0.1.0",
+  "integration": {
+    "date": "2026-09-28",
+    "reason": "EV-014 — o usuário não precisa explicar o sistema ao Maestro.",
+    "ingestion": "ING-0002"
+  },
+  "tests": [
+    "tests/integration/hooks.test.ts"
+  ],
+  "anti_overkill": {
+    "reuso": "CLAUDE.md é estático; o estado muda a cada nó.",
+    "necessidade": "Sem contexto inicial o modelo responde de memória ou pergunta ao usuário (EV-014).",
+    "custo": "~40 linhas; ~0,1 s por sessão; ~150 tokens.",
+    "reversao": "Remover a entrada SessionStart de hooks/hooks.json."
+  }
+}

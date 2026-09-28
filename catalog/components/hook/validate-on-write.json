@@ -1,0 +1,34 @@
+{
+  "id": "hook:validate-on-write",
+  "name": "validate-on-write",
+  "type": "hook",
+  "path": "src/hooks/validate-on-write.ts",
+  "origin": {
+    "kind": "proprietary",
+    "source": "ING-0002 topologia §4 (imposição por hook)"
+  },
+  "responsibility": "PostToolUse Write/Edit: valida na hora registros de catálogo, frontmatter de agents/skills/commands, roteamento e registros de ingestão.",
+  "dependencies": [],
+  "tools": [],
+  "related": {
+    "skills": [],
+    "agents": [],
+    "commands": []
+  },
+  "status": "active",
+  "version": "0.1.0",
+  "integration": {
+    "date": "2026-09-28",
+    "reason": "Erro de contrato detectado no momento da escrita, não só no check.",
+    "ingestion": "ING-0002"
+  },
+  "tests": [
+    "tests/integration/hooks.test.ts"
+  ],
+  "anti_overkill": {
+    "reuso": "claude plugin validate roda sob demanda e não conhece catálogo/roteamento.",
+    "necessidade": "Componentes adaptados em lote (ADAPT) quebram o catálogo silenciosamente sem retorno imediato.",
+    "custo": "~40 linhas; ~0,1 s por escrita relevante.",
+    "reversao": "Remover a entrada PostToolUse de hooks/hooks.json."
+  }
+}

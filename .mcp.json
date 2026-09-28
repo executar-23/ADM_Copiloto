@@ -1,0 +1,12 @@
+{
+  "mcpServers": {
+    "estado": {
+      "command": "node",
+      "args": ["${CLAUDE_PLUGIN_ROOT}/dist/mcp/estado.js"]
+    },
+    "registry": {
+      "command": "node",
+      "args": ["${CLAUDE_PLUGIN_ROOT}/dist/mcp/registry.js"]
+    }
+  }
+}

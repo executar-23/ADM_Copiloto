@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<title>Calendário — Blog Risco Cognitivo — Outubro/2026</title>
+<style>
+  :root{
+    --ink:#1c1d21;
+    --muted:#5b5f6b;
+    --line:#d8dadf;
+    --bg:#ffffff;
+    --panel:#f5f6f8;
+    --accent:#2f5fd6;
+    --accent-soft:#e4ebfc;
+    --gate:#c7402a;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);
+    font-family:-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;}
+  body{padding:28px 34px;}
+  h1{font-size:22px;margin:0 0 2px 0;}
+  .sub{color:var(--muted);font-size:13px;margin:0 0 18px 0;}
+  .gantt{border:1px solid var(--line);border-radius:10px;overflow:hidden;margin-bottom:22px;}
+  .gantt-head{display:grid;grid-template-columns:190px repeat(5,1fr);
+    background:var(--panel);border-bottom:1px solid var(--line);}
+  .gantt-head div{padding:8px 10px;font-size:12px;font-weight:600;color:var(--muted);
+    border-left:1px solid var(--line);}
+  .gantt-head div:first-child{border-left:none;}
+  .gantt-row{display:grid;grid-template-columns:190px repeat(5,1fr);align-items:center;}
+  .gantt-row .label{padding:14px 10px;font-size:13px;font-weight:600;border-right:1px solid var(--line);}
+  .gantt-row .track{position:relative;padding:10px 6px;border-left:1px solid var(--line);}
+  .bar{background:var(--accent);color:#fff;font-size:11px;line-height:1.25;border-radius:6px;
+    padding:6px 8px;min-height:34px;display:flex;align-items:center;}
+  .bar.soft{background:var(--accent-soft);color:var(--ink);}
+  .legend{display:flex;gap:18px;align-items:center;font-size:12px;color:var(--muted);margin:8px 0 22px 2px;}
+  .swatch{width:12px;height:12px;border-radius:3px;display:inline-block;margin-right:6px;vertical-align:-1px;}
+  .weeks{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;}
+  .week{border:1px solid var(--line);border-radius:10px;padding:12px 14px;background:var(--panel);}
+  .week h3{margin:0 0 2px 0;font-size:13px;}
+  .week .dates{color:var(--muted);font-size:11px;margin-bottom:8px;}
+  .week ul{margin:0;padding-left:16px;font-size:12px;line-height:1.5;}
+  .week .gate{margin-top:8px;font-size:11px;color:var(--gate);font-weight:600;}
+  footer{margin-top:22px;font-size:11px;color:var(--muted);border-top:1px solid var(--line);padding-top:10px;}
+
+  @media print{
+    @page{ size: landscape; margin: 10mm; }
+    body{padding:0;}
+  }
+</style>
+</head>
+<body>
+  <h1>Calendário de Produção — EXECUTAR / Blog Risco Cognitivo</h1>
+  <p class="sub">Período: 01/10/2026 a 31/10/2026 · Frente única do mês: Risco Cognitivo (artigo "O que é Risco Cognitivo?" + peças derivadas)</p>
+
+  <div class="gantt">
+    <div class="gantt-head">
+      <div>Frente de trabalho</div>
+      <div>Sem. 1 (01–04/10)</div>
+      <div>Sem. 2 (05–11/10)</div>
+      <div>Sem. 3 (12–18/10)</div>
+      <div>Sem. 4 (19–25/10)</div>
+      <div>Sem. 5 (26–31/10)</div>
+    </div>
+    <div class="gantt-row">
+      <div class="label">Risco Cognitivo</div>
+      <div class="track"><div class="bar">Argumentos<br>e fontes</div></div>
+      <div class="track"><div class="bar">Redação<br>do artigo</div></div>
+      <div class="track"><div class="bar">Peças derivadas<br>e diagrama</div></div>
+      <div class="track"><div class="bar">SEO e<br>calendário</div></div>
+      <div class="track"><div class="bar soft">Fechamento<br>do mês</div></div>
+    </div>
+  </div>
+
+  <div class="legend">
+    <span><span class="swatch" style="background:#2f5fd6"></span>Trabalho em produção</span>
+    <span><span class="swatch" style="background:#e4ebfc"></span>Decisões e governança</span>
+    <span style="color:#c7402a;font-weight:600;">● Ponto de decisão da semana</span>
+  </div>
+
+  <div class="weeks">
+    <div class="week">
+      <h3>Semana 1</h3>
+      <div class="dates">01/10 a 04/10</div>
+      <ul>
+        <li>Completar os 3 argumentos do artigo</li>
+        <li>Completar as 3 fontes do artigo</li>
+      </ul>
+      <div class="gate">● Aprovar avanço para redação</div>
+    </div>
+    <div class="week">
+      <h3>Semana 2</h3>
+      <div class="dates">05/10 a 11/10</div>
+      <ul>
+        <li>Redigir o texto completo do artigo</li>
+      </ul>
+      <div class="gate">● Aprovar avanço para peças derivadas</div>
+    </div>
+    <div class="week">
+      <h3>Semana 3</h3>
+      <div class="dates">12/10 a 18/10</div>
+      <ul>
+        <li>Produzir ≥ 3 peças derivadas</li>
+        <li>Produzir o diagrama visual</li>
+      </ul>
+      <div class="gate">● Aprovar avanço para SEO/calendário</div>
+    </div>
+    <div class="week">
+      <h3>Semana 4</h3>
+      <div class="dates">19/10 a 25/10</div>
+      <ul>
+        <li>Completar links internos de SEO</li>
+        <li>Definir data-alvo de publicação</li>
+      </ul>
+      <div class="gate">● Aprovar fechamento do mês</div>
+    </div>
+    <div class="week">
+      <h3>Semana 5</h3>
+      <div class="dates">26/10 a 31/10</div>
+      <ul>
+        <li>Confirmar responsável pelo artigo</li>
+        <li>Decidir sobre novo tema para novembro</li>
+        <li>Registrar fechamento do mês</li>
+      </ul>
+      <div class="gate">● Aprovar plano de novembro</div>
+    </div>
+  </div>
+
+  <footer>Emitido em 28/09/2026 — EXECUTAR / Blog Risco Cognitivo</footer>
+</body>
+</html>

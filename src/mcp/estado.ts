@@ -15,7 +15,7 @@ import { PATHS } from "../lib/workspace.ts";
 const VERSION = "0.1.0";
 const server = new McpServer({ name: "maestro-estado", version: VERSION });
 
-const ws = () => resolveWorkspace();
+const ws = () => resolveWorkspace({ allowPluginRoot: false });
 const writable = () => {
   const w = ws();
   if (w.readOnly) throw new Error(`workspace somente leitura (${w.root}); abra o Claude Code no projeto ou defina MAESTRO_WORKSPACE`);

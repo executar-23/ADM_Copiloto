@@ -23,6 +23,9 @@ await build({
   format: "esm",
   outExtension: { ".js": ".js" },
   legalComments: "none",
+  minify: true,
+  splitting: true,
+  chunkNames: "chunks/[name]-[hash]",
   logLevel: "warning",
   banner: {
     js: "// Gerado por scripts/build.mjs — não editar. Fonte: src/\nimport { createRequire as __mcr } from 'node:module'; const require = __mcr(import.meta.url);",

@@ -1,0 +1,1904 @@
+{
+  "versao_schema": 1,
+  "projeto": {
+    "id": "PEM-D16",
+    "nome": "Maestro · PEM-D16 (Risco cognitivo)"
+  },
+  "vocabulario": "copiloto-executar",
+  "wip_limite": 1,
+  "atualizado_em": "2026-09-28T18:55:17.208Z",
+  "nos": [
+    {
+      "id": "E0",
+      "trilha": "S",
+      "tipo": "estagio",
+      "titulo": "Verificação e inventário (inclui F7-delta)",
+      "lane": null,
+      "skill": null,
+      "skill_version": null,
+      "playbook": "skills/estagios-bpm/references/E0.md",
+      "status": "BLOCKED",
+      "motivo_bloqueio": {
+        "codigo": "USER_ACTION_REQUIRED",
+        "detalhe": "Rodar E0 na máquina local (scripts/e2e.sh + skill_fingerprint das cópias enviadas × instaladas, rc-cognitive-risk-expert), dar acesso ao EXECUTAR_SKILLS_REGISTRY e responder D6 (mangemnet), D7 (DRP), D8 (workbook)"
+      },
+      "dono_canonico": "repo",
+      "depends_on": [],
+      "dod": "Todo item de §2–§9 de mapa/divergencias-e-lacunas.md tem status (CONFIRMADO/REFUTADO/NÃO ENCONTRADO) e fonte; nenhum CONFIRMADO sem evidência de comando ou URL primária.",
+      "efeito_externo": false,
+      "autorizacao": null,
+      "escopo_escrita": [],
+      "output": [
+        "07-execucao/E0-verificacao.md",
+        "07-execucao/evidencias/E0/"
+      ],
+      "evidencias": [
+        {
+          "id": "EVD-E0-1",
+          "caminho": "07-execucao/E0-verificacao.md",
+          "criterio": "todos os itens §2–§9 com status e fonte, no ambiente cloud",
+          "classe": "A_OBSERVADO",
+          "registrada_em": "2026-09-28T12:42:23.576Z",
+          "ator": "maestro"
+        },
+        {
+          "id": "EVD-E0-2",
+          "caminho": "07-execucao/evidencias/E0/prova-C.jsonl",
+          "criterio": "subagente de plugin ignora hooks do frontmatter (confirmado)",
+          "classe": "A_OBSERVADO",
+          "registrada_em": "2026-09-28T12:42:23.579Z",
+          "ator": "maestro"
+        }
+      ],
+      "gaps": [],
+      "conflitos": [],
+      "decisao": null,
+      "refs": [],
+      "historico": [
+        {
+          "em": "2026-09-28T12:02:21.421Z",
+          "de": null,
+          "para": "BACKLOG_VALIDATED",
+          "motivo": "seed a partir de ING-0002 (07-execucao/ESTADO.md do pacote)",
+          "ator": "maestro"
+        },
+        {
+          "em": "2026-09-28T12:02:21.441Z",
+          "de": "BACKLOG_VALIDATED",
+          "para": "READY",
+          "motivo": "sem dependências abertas",
+          "ator": "maestro"
+        },
+        {
+          "em": "2026-09-28T12:42:23.564Z",
+          "de": "READY",
+          "para": "DOING",
+          "motivo": "E0 no contêiner cloud",
+          "ator": "maestro"
+        },
+        {
+          "em": "2026-09-28T12:42:23.569Z",
+          "de": "DOING",
+          "para": "DOING",
+          "motivo": "atualização [output]: verificação cloud registrada",
+          "ator": "maestro"
+        },
+        {
+          "em": "2026-09-28T12:42:23.572Z",
+          "de": "DOING",
+          "para": "VERIFY",
+          "motivo": "artefato E0 (cloud) salvo",
+          "ator": "maestro"
+        },
+        {
+          "em": "2026-09-28T12:42:23.584Z",
+          "de": "VERIFY",
+          "para": "BLOCKED",
+          "motivo": "fechamento exige o ambiente local do usuário",
+          "ator": "maestro"
+        }
+      ],
+      "atualizado_em": "2026-09-28T12:42:23.584Z"
+    },
+    {
+      "id": "E1",
+      "trilha": "S",
+      "tipo": "estagio",
+      "titulo": "Descoberta e definição (Charter, SIPOC, Ficha 22 pontos)",
+      "lane": null,
+      "skill": null,
+      "skill_version": null,
+      "playbook": "skills/estagios-bpm/references/E1.md",
+      "status": "BACKLOG_VALIDATED",
+      "motivo_bloqueio": null,
+      "dono_canonico": "repo",
+      "depends_on": [
+        "E0"
+      ],
+      "dod": "Charter tem objetivo/escopo/início-fim/cliente; SIPOC tem 5 colunas; Ficha soma 22 e cada ponto preenchido tem fonte.",
+      "efeito_externo": false,
+      "autorizacao": null,
+      "escopo_escrita": [],
+      "output": [],
+      "evidencias": [],
+      "gaps": [],
+      "conflitos": [],
+      "decisao": null,
+      "refs": [],
+      "historico": [
+        {
+          "em": "2026-09-28T12:02:21.430Z",
+          "de": null,
+          "para": "BACKLOG_VALIDATED",
+          "motivo": "seed a partir de ING-0002 (07-execucao/ESTADO.md do pacote)",
+          "ator": "maestro"
+        }
+      ],
+      "atualizado_em": "2026-09-28T12:02:21.430Z"
+    },
+    {
+      "id": "E2",
+      "trilha": "S",
+      "tipo": "estagio",
+      "titulo": "Desenho e modelagem (topologia, roteamento, ADRs, D1–D11)",
+      "lane": null,
+      "skill": null,
+      "skill_version": null,
+      "playbook": "skills/estagios-bpm/references/E2.md",
+      "status": "BACKLOG_VALIDATED",
+      "motivo_bloqueio": null,
+      "dono_canonico": "repo",
+      "depends_on": [
+        "E1"
+      ],
+      "dod": "Toda linha de mapa/roteamento.json tem skill vencedora ou lacuna declarada; nenhuma decisão D# fica implícita.",
+      "efeito_externo": false,
+      "autorizacao": null,
+      "escopo_escrita": [],
+      "output": [],
+      "evidencias": [],
+      "gaps": [],
+      "conflitos": [],
+      "decisao": null,
+      "refs": [],
+      "historico": [
+        {
+          "em": "2026-09-28T12:02:21.430Z",
+          "de": null,
+          "para": "BACKLOG_VALIDATED",
+          "motivo": "seed a partir de ING-0002 (07-execucao/ESTADO.md do pacote)",
+          "ator": "maestro"
+        }
+      ],
+      "atualizado_em": "2026-09-28T12:02:21.430Z"
+    },
+    {
+      "id": "E3",
+      "trilha": "S",
+      "tipo": "estagio",
+      "titulo": "Análise de riscos (FMEA)",
+      "lane": null,
+      "skill": null,
+      "skill_version": null,
+      "playbook": "skills/estagios-bpm/references/E3.md",
+      "status": "BACKLOG_VALIDATED",
+      "motivo_bloqueio": null,
+      "dono_canonico": "repo",
+      "depends_on": [
+        "E2"
+      ],
+      "dod": "Cada risco top-N tem controle, dono (ou A DEFINIR) e eval; os 8 riscos obrigatórios de agente estão presentes.",
+      "efeito_externo": false,
+      "autorizacao": null,
+      "escopo_escrita": [],
+      "output": [],
+      "evidencias": [],
+      "gaps": [],
+      "conflitos": [],
+      "decisao": null,
+      "refs": [],
+      "historico": [
+        {
+          "em": "2026-09-28T12:02:21.431Z",
+          "de": null,
+          "para": "BACKLOG_VALIDATED",
+          "motivo": "seed a partir de ING-0002 (07-execucao/ESTADO.md do pacote)",
+          "ator": "maestro"
+        }
+      ],
+      "atualizado_em": "2026-09-28T12:02:21.431Z"
+    },
+    {
+      "id": "E4",
+      "trilha": "S",
+      "tipo": "estagio",
+      "titulo": "Agent Spec, Tool/Permission Matrix e Eval Suite",
+      "lane": null,
+      "skill": null,
+      "skill_version": null,
+      "playbook": "skills/estagios-bpm/references/E4.md",
+      "status": "BACKLOG_VALIDATED",
+      "motivo_bloqueio": null,
+      "dono_canonico": "repo",
+      "depends_on": [
+        "E3"
+      ],
+      "dod": "Nenhum agente sai de DRAFT sem eval P0/P1 vinculado; toda ferramenta de escrita externa tem aprovação definida.",
+      "efeito_externo": false,
+      "autorizacao": null,
+      "escopo_escrita": [],
+      "output": [
+        "07-execucao/E4-agent-specs/",
+        "07-execucao/E4-tool-permission-matrix.md",
+        "07-execucao/E4-eval-suite.md",
+        "evals/"
+      ],
+      "evidencias": [],
+      "gaps": [],
+      "conflitos": [],
+      "decisao": null,
+      "refs": [
+        "CC-002"
+      ],
+      "historico": [
+        {
+          "em": "2026-09-28T12:02:21.431Z",
+          "de": null,
+          "para": "BACKLOG_VALIDATED",
+          "motivo": "seed a partir de ING-0002 (07-execucao/ESTADO.md do pacote)",
+          "ator": "maestro"
+        },
+        {
+          "em": "2026-09-28T12:40:26.104Z",
+          "de": "BACKLOG_VALIDATED",
+          "para": "BACKLOG_VALIDATED",
+          "motivo": "atualização [output, refs]: artefatos antecipados na v0.1.0 (CC-002) — re-verificar em E4",
+          "ator": "maestro"
+        }
+      ],
+      "atualizado_em": "2026-09-28T12:40:26.104Z"
+    },
+    {
+      "id": "E5",
+      "trilha": "S",
+      "tipo": "estagio",
+      "titulo": "Walking skeleton",
+      "lane": null,
+      "skill": null,
+      "skill_version": null,
+      "playbook": "skills/estagios-bpm/references/E5.md",
+      "status": "BACKLOG_VALIDATED",
+      "motivo_bloqueio": null,
+      "dono_canonico": "repo",
+      "depends_on": [
+        "E4"
+      ],
+      "dod": "npm run check verde; EV-001/002/003 falham do jeito certo (bloqueiam); relatório Overkill preenchido.",
+      "efeito_externo": false,
+      "autorizacao": null,
+      "escopo_escrita": [],
+      "output": [
+        "07-execucao/E5-relatorio.md"
+      ],
+      "evidencias": [],
+      "gaps": [],
+      "conflitos": [],
+      "decisao": null,
+      "refs": [
+        "CC-002"
+      ],
+      "historico": [
+        {
+          "em": "2026-09-28T12:02:21.431Z",
+          "de": null,
+          "para": "BACKLOG_VALIDATED",
+          "motivo": "seed a partir de ING-0002 (07-execucao/ESTADO.md do pacote)",
+          "ator": "maestro"
+        },
+        {
+          "em": "2026-09-28T12:40:26.106Z",
+          "de": "BACKLOG_VALIDATED",
+          "para": "BACKLOG_VALIDATED",
+          "motivo": "atualização [output, refs]: relatório antecipado na v0.1.0 (CC-002) — re-verificar em E5",
+          "ator": "maestro"
+        }
+      ],
+      "atualizado_em": "2026-09-28T12:40:26.106Z"
+    },
+    {
+      "id": "E6",
+      "trilha": "S",
+      "tipo": "estagio",
+      "titulo": "Teste e validação (gate para a Trilha L)",
+      "lane": null,
+      "skill": null,
+      "skill_version": null,
+      "playbook": "skills/estagios-bpm/references/E6.md",
+      "status": "BACKLOG_VALIDATED",
+      "motivo_bloqueio": null,
+      "dono_canonico": "repo",
+      "depends_on": [
+        "E5"
+      ],
+      "dod": "Todos os P0 passam; ≥ 90% dos P1 (ou justificativa); nenhum P0 aceito com ressalva; veredito do usuário registrado.",
+      "efeito_externo": false,
+      "autorizacao": null,
+      "escopo_escrita": [],
+      "output": [],
+      "evidencias": [],
+      "gaps": [],
+      "conflitos": [],
+      "decisao": null,
+      "refs": [],
+      "historico": [
+        {
+          "em": "2026-09-28T12:02:21.431Z",
+          "de": null,
+          "para": "BACKLOG_VALIDATED",
+          "motivo": "seed a partir de ING-0002 (07-execucao/ESTADO.md do pacote)",
+          "ator": "maestro"
+        }
+      ],
+      "atualizado_em": "2026-09-28T12:02:21.431Z"
+    },
+    {
+      "id": "E7",
+      "trilha": "S",
+      "tipo": "estagio",
+      "titulo": "Formalização (SOP/RACI/KPIs/checklists)",
+      "lane": null,
+      "skill": null,
+      "skill_version": null,
+      "playbook": "skills/estagios-bpm/references/E7.md",
+      "status": "BACKLOG_VALIDATED",
+      "motivo_bloqueio": null,
+      "dono_canonico": "repo",
+      "depends_on": [
+        "E6"
+      ],
+      "dod": "Um iniciante executa 1 nó seguindo só o SOP; todo comando documentado foi executado ao menos uma vez.",
+      "efeito_externo": false,
+      "autorizacao": null,
+      "escopo_escrita": [],
+      "output": [],
+      "evidencias": [],
+      "gaps": [],
+      "conflitos": [],
+      "decisao": null,
+      "refs": [],
+      "historico": [
+        {
+          "em": "2026-09-28T12:02:21.431Z",
+          "de": null,
+          "para": "BACKLOG_VALIDATED",
+          "motivo": "seed a partir de ING-0002 (07-execucao/ESTADO.md do pacote)",
+          "ator": "maestro"
+        }
+      ],
+      "atualizado_em": "2026-09-28T12:02:21.431Z"
+    },
+    {
+      "id": "E8",
+      "trilha": "S",
+      "tipo": "estagio",
+      "titulo": "Implantação e operação (Runbook)",
+      "lane": null,
+      "skill": null,
+      "skill_version": null,
+      "playbook": "skills/estagios-bpm/references/E8.md",
+      "status": "BACKLOG_VALIDATED",
+      "motivo_bloqueio": null,
+      "dono_canonico": "repo",
+      "depends_on": [
+        "E7"
+      ],
+      "dod": "Runbook executado uma vez do zero por quem não o escreveu; rollback definido com limiares.",
+      "efeito_externo": false,
+      "autorizacao": null,
+      "escopo_escrita": [],
+      "output": [],
+      "evidencias": [],
+      "gaps": [],
+      "conflitos": [],
+      "decisao": null,
+      "refs": [],
+      "historico": [
+        {
+          "em": "2026-09-28T12:02:21.432Z",
+          "de": null,
+          "para": "BACKLOG_VALIDATED",
+          "motivo": "seed a partir de ING-0002 (07-execucao/ESTADO.md do pacote)",
+          "ator": "maestro"
+        }
+      ],
+      "atualizado_em": "2026-09-28T12:02:21.432Z"
+    },
+    {
+      "id": "E9",
+      "trilha": "S",
+      "tipo": "estagio",
+      "titulo": "Monitoramento e melhoria",
+      "lane": null,
+      "skill": null,
+      "skill_version": null,
+      "playbook": "skills/estagios-bpm/references/E9.md",
+      "status": "BACKLOG_VALIDATED",
+      "motivo_bloqueio": null,
+      "dono_canonico": "repo",
+      "depends_on": [
+        "E8"
+      ],
+      "dod": "Métricas coletadas em ≥ 1 ciclo; um caso de drift simulado detectado.",
+      "efeito_externo": false,
+      "autorizacao": null,
+      "escopo_escrita": [],
+      "output": [],
+      "evidencias": [],
+      "gaps": [],
+      "conflitos": [],
+      "decisao": null,
+      "refs": [],
+      "historico": [
+        {
+          "em": "2026-09-28T12:02:21.432Z",
+          "de": null,
+          "para": "BACKLOG_VALIDATED",
+          "motivo": "seed a partir de ING-0002 (07-execucao/ESTADO.md do pacote)",
+          "ator": "maestro"
+        }
+      ],
+      "atualizado_em": "2026-09-28T12:02:21.432Z"
+    },
+    {
+      "id": "ING-0001",
+      "trilha": "S",
+      "tipo": "ingestao",
+      "titulo": "Ingestão dos upstreams oficiais Anthropic (plugin-dev, mcp-server-dev, agent-sdk-dev, Knowledge Work)",
+      "lane": null,
+      "skill": null,
+      "skill_version": null,
+      "playbook": null,
+      "status": "DONE",
+      "motivo_bloqueio": null,
+      "dono_canonico": "repo",
+      "depends_on": [],
+      "dod": "Registro ING-0001 fechado com as 11 seções, upstreams fixados por SHA e registrados no catálogo; maestro validate sem erros.",
+      "efeito_externo": false,
+      "autorizacao": null,
+      "escopo_escrita": [],
+      "output": [
+        "ingestion/records/ING-0001-upstreams-oficiais-anthropic.md",
+        ".gitmodules"
+      ],
+      "evidencias": [
+        {
+          "id": "EVD-ING-0001-1",
+          "caminho": "ingestion/records/ING-0001-upstreams-oficiais-anthropic.md",
+          "criterio": "registro fechado (status integrada, 11 seções, 10 componentes decididos)",
+          "classe": "A_OBSERVADO",
+          "registrada_em": "2026-09-28T12:40:26.064Z",
+          "ator": "maestro"
+        },
+        {
+          "id": "EVD-ING-0001-2",
+          "caminho": "catalog/components/upstream-reference/claude-plugins-official.json",
+          "criterio": "upstream fixado por SHA e catalogado (validador confere gitlink)",
+          "classe": "A_OBSERVADO",
+          "registrada_em": "2026-09-28T12:40:26.070Z",
+          "ator": "maestro"
+        }
+      ],
+      "gaps": [],
+      "conflitos": [],
+      "decisao": null,
+      "refs": [],
+      "historico": [
+        {
+          "em": "2026-09-28T12:02:21.433Z",
+          "de": null,
+          "para": "BACKLOG_VALIDATED",
+          "motivo": "ingestão aberta nesta sessão",
+          "ator": "maestro"
+        },
+        {
+          "em": "2026-09-28T12:02:21.441Z",
+          "de": "BACKLOG_VALIDATED",
+          "para": "READY",
+          "motivo": "sem dependências abertas",
+          "ator": "maestro"
+        },
+        {
+          "em": "2026-09-28T12:40:26.053Z",
+          "de": "READY",
+          "para": "DOING",
+          "motivo": "executar pipeline dos upstreams",
+          "ator": "maestro"
+        },
+        {
+          "em": "2026-09-28T12:40:26.057Z",
+          "de": "DOING",
+          "para": "DOING",
+          "motivo": "atualização [output]: registro fechado",
+          "ator": "maestro"
+        },
+        {
+          "em": "2026-09-28T12:40:26.061Z",
+          "de": "DOING",
+          "para": "VERIFY",
+          "motivo": "registro com 11 seções",
+          "ator": "maestro"
+        },
+        {
+          "em": "2026-09-28T12:40:26.074Z",
+          "de": "VERIFY",
+          "para": "DONE",
+          "motivo": "ingestão integrada | verificação: maestro validate sem erros (inclui UPSTREAM_PIN e INGESTION_*); registros do catálogo ligados a ING-0001",
+          "ator": "maestro"
+        }
+      ],
+      "atualizado_em": "2026-09-28T12:40:26.074Z"
+    },
+    {
+      "id": "ING-0002",
+      "trilha": "S",
+      "tipo": "ingestao",
+      "titulo": "Ingestão do pacote Maestro (handoff multiagente)",
+      "lane": null,
+      "skill": null,
+      "skill_version": null,
+      "playbook": null,
+      "status": "DONE",
+      "motivo_bloqueio": null,
+      "dono_canonico": "repo",
+      "depends_on": [],
+      "dod": "Registro ING-0002 fechado com as 11 seções; contratos/, mapa/, roteamento e ledger derivados do pacote; componentes registrados no catálogo; maestro validate sem erros.",
+      "efeito_externo": false,
+      "autorizacao": null,
+      "escopo_escrita": [],
+      "output": [
+        "ingestion/records/ING-0002-pacote-maestro-handoff-multiagente.md",
+        "contratos/",
+        "mapa/roteamento.json",
+        "07-execucao/estado.json"
+      ],
+      "evidencias": [
+        {
+          "id": "EVD-ING-0002-1",
+          "caminho": "ingestion/received/ING-0002/MANIFEST.sha256",
+          "criterio": "originais imutáveis com 33 hashes (recalculados em tests/repo)",
+          "classe": "A_OBSERVADO",
+          "registrada_em": "2026-09-28T12:40:26.089Z",
+          "ator": "maestro"
+        },
+        {
+          "id": "EVD-ING-0002-2",
+          "caminho": "ingestion/records/ING-0002-pacote-maestro-handoff-multiagente.md",
+          "criterio": "registro fechado (integrada), decisões por componente, catálogo ligado a ING-0002",
+          "classe": "A_OBSERVADO",
+          "registrada_em": "2026-09-28T12:40:26.096Z",
+          "ator": "maestro"
+        }
+      ],
+      "gaps": [],
+      "conflitos": [],
+      "decisao": null,
+      "refs": [],
+      "historico": [
+        {
+          "em": "2026-09-28T12:02:21.433Z",
+          "de": null,
+          "para": "BACKLOG_VALIDATED",
+          "motivo": "ingestão aberta nesta sessão (RECEIVE executado por ingestion_start)",
+          "ator": "maestro"
+        },
+        {
+          "em": "2026-09-28T12:02:21.441Z",
+          "de": "BACKLOG_VALIDATED",
+          "para": "READY",
+          "motivo": "sem dependências abertas",
+          "ator": "maestro"
+        },
+        {
+          "em": "2026-09-28T12:40:26.077Z",
+          "de": "READY",
+          "para": "DOING",
+          "motivo": "executar pipeline do pacote Maestro",
+          "ator": "maestro"
+        },
+        {
+          "em": "2026-09-28T12:40:26.082Z",
+          "de": "DOING",
+          "para": "DOING",
+          "motivo": "atualização [output]: registro fechado",
+          "ator": "maestro"
+        },
+        {
+          "em": "2026-09-28T12:40:26.085Z",
+          "de": "DOING",
+          "para": "VERIFY",
+          "motivo": "registro com 11 seções",
+          "ator": "maestro"
+        },
+        {
+          "em": "2026-09-28T12:40:26.101Z",
+          "de": "VERIFY",
+          "para": "DONE",
+          "motivo": "ingestão integrada | verificação: maestro validate sem erros; tests/repo confere MANIFEST, contratos versionados, FICHA 22 pontos sem títulos inventados, DIV-001",
+          "ator": "maestro"
+        }
+      ],
+      "atualizado_em": "2026-09-28T12:40:26.101Z"
+    },
+    {
+      "id": "BUILD-0.1.0",
+      "trilha": "S",
+      "tipo": "tarefa",
+      "titulo": "Construção do plugin maestro v0.1.0 (agents, skills, commands, MCP, hooks, testes)",
+      "lane": null,
+      "skill": null,
+      "skill_version": null,
+      "playbook": null,
+      "status": "DONE",
+      "motivo_bloqueio": null,
+      "dono_canonico": "repo",
+      "depends_on": [
+        "ING-0001",
+        "ING-0002"
+      ],
+      "dod": "npm run check verde (typecheck, build, testes, maestro validate, claude plugin validate --strict) e E2E headless verde com evidência em 07-execucao/E5-relatorio.md.",
+      "efeito_externo": false,
+      "autorizacao": null,
+      "escopo_escrita": [],
+      "output": [
+        ".claude-plugin/plugin.json",
+        "agents/",
+        "skills/",
+        "commands/",
+        "hooks/hooks.json",
+        ".mcp.json",
+        "src/",
+        "dist/",
+        "tests/",
+        "evals/",
+        "07-execucao/E5-relatorio.md"
+      ],
+      "evidencias": [
+        {
+          "id": "EVD-BUILD-0.1.0-1",
+          "caminho": "07-execucao/evidencias/BUILD-0.1.0/check.log",
+          "criterio": "npm run check verde (typecheck, build, projeções, testes, maestro validate, claude plugin validate --strict)",
+          "classe": "A_OBSERVADO",
+          "registrada_em": "2026-09-28T12:42:23.540Z",
+          "ator": "maestro"
+        },
+        {
+          "id": "EVD-BUILD-0.1.0-2",
+          "caminho": "07-execucao/evidencias/e2e/resultado.json",
+          "criterio": "E2E headless 6/6 (inventário, MCP, command, hook, delegação profundidade 1, EV-010)",
+          "classe": "A_OBSERVADO",
+          "registrada_em": "2026-09-28T12:42:23.550Z",
+          "ator": "maestro"
+        },
+        {
+          "id": "EVD-BUILD-0.1.0-3",
+          "caminho": "07-execucao/E5-relatorio.md",
+          "criterio": "relatório com construído × reutilizado, Overkill e EVs",
+          "classe": "A_OBSERVADO",
+          "registrada_em": "2026-09-28T12:42:23.555Z",
+          "ator": "maestro"
+        }
+      ],
+      "gaps": [],
+      "conflitos": [],
+      "decisao": null,
+      "refs": [
+        "CC-002",
+        "D6"
+      ],
+      "historico": [
+        {
+          "em": "2026-09-28T12:02:21.433Z",
+          "de": null,
+          "para": "BACKLOG_VALIDATED",
+          "motivo": "construção antecipada por decisão explícita do usuário (CC-002)",
+          "ator": "maestro"
+        },
+        {
+          "em": "2026-09-28T12:40:50.533Z",
+          "de": "BACKLOG_VALIDATED",
+          "para": "READY",
+          "motivo": "dependências ING-0001 e ING-0002 concluídas",
+          "ator": "maestro"
+        },
+        {
+          "em": "2026-09-28T12:40:50.543Z",
+          "de": "READY",
+          "para": "DOING",
+          "motivo": "construção do plugin v0.1.0 (CC-002)",
+          "ator": "maestro"
+        },
+        {
+          "em": "2026-09-28T12:40:50.549Z",
+          "de": "DOING",
+          "para": "DOING",
+          "motivo": "atualização [output]: plugin construído",
+          "ator": "maestro"
+        },
+        {
+          "em": "2026-09-28T12:40:50.554Z",
+          "de": "DOING",
+          "para": "VERIFY",
+          "motivo": "aguardando npm run check + E2E como evidência",
+          "ator": "maestro"
+        },
+        {
+          "em": "2026-09-28T12:42:23.560Z",
+          "de": "VERIFY",
+          "para": "DONE",
+          "motivo": "v0.1.0 verificada | verificação: check.log termina em 'check verde' e resultado.json tem 6 aprovados/0 reprovados — dod integralmente satisfeito",
+          "ator": "maestro"
+        }
+      ],
+      "atualizado_em": "2026-09-28T12:42:23.560Z"
+    },
+    {
+      "id": "F0",
+      "trilha": "L",
+      "tipo": "fase",
+      "titulo": "F0 — = handoff v1 (importar como subárvore, não refazer)",
+      "literal": "Blog ativo fullstack — todas dependências e plataformas configuradas",
+      "lane": null,
+      "skill": null,
+      "skill_version": null,
+      "playbook": "skills/estagios-bpm/references/L.md",
+      "status": "BACKLOG_VALIDATED",
+      "motivo_bloqueio": null,
+      "dono_canonico": "control-center",
+      "depends_on": [
+        "E6"
+      ],
+      "dod": "npm run check e build verdes + deploy em preview validado (produção só com aprovação).",
+      "efeito_externo": true,
+      "autorizacao": null,
+      "escopo_escrita": [],
+      "output": [],
+      "evidencias": [],
+      "gaps": [
+        "Decisões D1-v1…D6-v1 abertas"
+      ],
+      "conflitos": [],
+      "decisao": null,
+      "refs": [],
+      "historico": [
+        {
+          "em": "2026-09-28T12:02:21.433Z",
+          "de": null,
+          "para": "BACKLOG_VALIDATED",
+          "motivo": "seed a partir de ING-0002 (07-execucao/ESTADO.md do pacote)",
+          "ator": "maestro"
+        }
+      ],
+      "atualizado_em": "2026-09-28T12:02:21.433Z"
+    },
+    {
+      "id": "F5",
+      "trilha": "L",
+      "tipo": "fase",
+      "titulo": "F5 — provavelmente Obsidian → blog (A DEFINIR)",
+      "literal": "CMS de produção",
+      "lane": null,
+      "skill": null,
+      "skill_version": null,
+      "playbook": "skills/estagios-bpm/references/L.md",
+      "status": "BACKLOG_VALIDATED",
+      "motivo_bloqueio": null,
+      "dono_canonico": "control-center",
+      "depends_on": [
+        "F0"
+      ],
+      "dod": "1 ciclo do Obsidian gera ZIP que o blog consome.",
+      "efeito_externo": false,
+      "autorizacao": null,
+      "escopo_escrita": [],
+      "output": [],
+      "evidencias": [],
+      "gaps": [
+        "Definição do que é 'CMS' aqui"
+      ],
+      "conflitos": [],
+      "decisao": null,
+      "refs": [],
+      "historico": [
+        {
+          "em": "2026-09-28T12:02:21.433Z",
+          "de": null,
+          "para": "BACKLOG_VALIDATED",
+          "motivo": "seed a partir de ING-0002 (07-execucao/ESTADO.md do pacote)",
+          "ator": "maestro"
+        }
+      ],
+      "atualizado_em": "2026-09-28T12:02:21.433Z"
+    },
+    {
+      "id": "F6",
+      "trilha": "L",
+      "tipo": "fase",
+      "titulo": "F6 — é o próprio Maestro (Trilha S)",
+      "literal": "pipeline completo do arquivo BPM QUALIDADE",
+      "lane": null,
+      "skill": null,
+      "skill_version": null,
+      "playbook": "skills/estagios-bpm/references/L.md",
+      "status": "BACKLOG_VALIDATED",
+      "motivo_bloqueio": null,
+      "dono_canonico": "repo",
+      "depends_on": [
+        "E9"
+      ],
+      "dod": "E9 fechado: SOP + Runbook + Eval Suite + observabilidade.",
+      "efeito_externo": false,
+      "autorizacao": null,
+      "escopo_escrita": [],
+      "output": [],
+      "evidencias": [],
+      "gaps": [],
+      "conflitos": [],
+      "decisao": null,
+      "refs": [],
+      "historico": [
+        {
+          "em": "2026-09-28T12:02:21.433Z",
+          "de": null,
+          "para": "BACKLOG_VALIDATED",
+          "motivo": "seed a partir de ING-0002 (07-execucao/ESTADO.md do pacote)",
+          "ator": "maestro"
+        }
+      ],
+      "atualizado_em": "2026-09-28T12:02:21.433Z"
+    },
+    {
+      "id": "F1",
+      "trilha": "L",
+      "tipo": "fase",
+      "titulo": "F1 — 3 Topic Packs",
+      "literal": "3 packages pilares editoriais equivalentes aos níveis de consciência",
+      "lane": null,
+      "skill": null,
+      "skill_version": null,
+      "playbook": "skills/estagios-bpm/references/L.md",
+      "status": "BACKLOG_VALIDATED",
+      "motivo_bloqueio": null,
+      "dono_canonico": "control-center",
+      "depends_on": [
+        "F0",
+        "F5",
+        "F6"
+      ],
+      "dod": "3 packs PRONTO_PARA_EMPACOTAR no SOP-KP-001, claims [E1/E2/S/FW] fechados.",
+      "efeito_externo": false,
+      "autorizacao": null,
+      "escopo_escrita": [],
+      "output": [],
+      "evidencias": [],
+      "gaps": [
+        "'fórmula de lançamento (equação)' e ADRs granulares não fornecidos (D9)"
+      ],
+      "conflitos": [],
+      "decisao": null,
+      "refs": [
+        "D9",
+        "D2"
+      ],
+      "historico": [
+        {
+          "em": "2026-09-28T12:02:21.434Z",
+          "de": null,
+          "para": "BACKLOG_VALIDATED",
+          "motivo": "seed a partir de ING-0002 (07-execucao/ESTADO.md do pacote)",
+          "ator": "maestro"
+        }
+      ],
+      "atualizado_em": "2026-09-28T12:02:21.434Z"
+    },
+    {
+      "id": "F3",
+      "trilha": "L",
+      "tipo": "fase",
+      "titulo": "F3 — Solution Store / Oficina",
+      "literal": "Loja oficina",
+      "lane": null,
+      "skill": null,
+      "skill_version": null,
+      "playbook": "skills/estagios-bpm/references/L.md",
+      "status": "BACKLOG_VALIDATED",
+      "motivo_bloqueio": null,
+      "dono_canonico": "control-center",
+      "depends_on": [
+        "F0",
+        "F1"
+      ],
+      "dod": "1 solução em STORE_READY preparada; publicação é ação externa (I-05).",
+      "efeito_externo": false,
+      "autorizacao": null,
+      "escopo_escrita": [],
+      "output": [],
+      "evidencias": [],
+      "gaps": [],
+      "conflitos": [],
+      "decisao": null,
+      "refs": [],
+      "historico": [
+        {
+          "em": "2026-09-28T12:02:21.434Z",
+          "de": null,
+          "para": "BACKLOG_VALIDATED",
+          "motivo": "seed a partir de ING-0002 (07-execucao/ESTADO.md do pacote)",
+          "ator": "maestro"
+        }
+      ],
+      "atualizado_em": "2026-09-28T12:02:21.434Z"
+    },
+    {
+      "id": "F4",
+      "trilha": "L",
+      "tipo": "fase",
+      "titulo": "F4 — Mapa Interativo de Risco Cognitivo (domínio do rc)",
+      "literal": "Mapa cognitivo",
+      "lane": null,
+      "skill": null,
+      "skill_version": null,
+      "playbook": "skills/estagios-bpm/references/L.md",
+      "status": "BACKLOG_VALIDATED",
+      "motivo_bloqueio": null,
+      "dono_canonico": "control-center",
+      "depends_on": [
+        "F0"
+      ],
+      "dod": "PRD (RC prd.md) + ADR aprovados; claims resolvidos no claim-registry.csv.",
+      "efeito_externo": false,
+      "autorizacao": null,
+      "escopo_escrita": [],
+      "output": [],
+      "evidencias": [],
+      "gaps": [
+        "Estado atual × alvo do produto (RC prd.md)"
+      ],
+      "conflitos": [],
+      "decisao": null,
+      "refs": [],
+      "historico": [
+        {
+          "em": "2026-09-28T12:02:21.434Z",
+          "de": null,
+          "para": "BACKLOG_VALIDATED",
+          "motivo": "seed a partir de ING-0002 (07-execucao/ESTADO.md do pacote)",
+          "ator": "maestro"
+        }
+      ],
+      "atualizado_em": "2026-09-28T12:02:21.434Z"
+    },
+    {
+      "id": "F2",
+      "trilha": "L",
+      "tipo": "fase",
+      "titulo": "F2 — agente público (captação gratuita) — definição ausente",
+      "literal": "Vera Agente",
+      "lane": null,
+      "skill": null,
+      "skill_version": null,
+      "playbook": "skills/estagios-bpm/references/L.md",
+      "status": "BACKLOG_VALIDATED",
+      "motivo_bloqueio": null,
+      "dono_canonico": "control-center",
+      "depends_on": [
+        "F0",
+        "F1",
+        "F4"
+      ],
+      "dod": "Agent Spec (C-02) aprovado + evals (C-03) P0 passando.",
+      "efeito_externo": false,
+      "autorizacao": null,
+      "escopo_escrita": [],
+      "output": [],
+      "evidencias": [],
+      "gaps": [
+        "Definição de 'Vera' (escopo, persona, limites)"
+      ],
+      "conflitos": [],
+      "decisao": null,
+      "refs": [],
+      "historico": [
+        {
+          "em": "2026-09-28T12:02:21.434Z",
+          "de": null,
+          "para": "BACKLOG_VALIDATED",
+          "motivo": "seed a partir de ING-0002 (07-execucao/ESTADO.md do pacote)",
+          "ator": "maestro"
+        }
+      ],
+      "atualizado_em": "2026-09-28T12:02:21.434Z"
+    },
+    {
+      "id": "F7",
+      "trilha": "L",
+      "tipo": "fase",
+      "titulo": "F7 — delta do EXECUTAR_SKILLS_REGISTRY",
+      "literal": "Relatório descritivo de skills e capacidades técnicas",
+      "lane": null,
+      "skill": null,
+      "skill_version": null,
+      "playbook": "skills/estagios-bpm/references/L.md",
+      "status": "BLOCKED",
+      "motivo_bloqueio": {
+        "codigo": "USER_ACTION_REQUIRED",
+        "detalhe": "Dar acesso ao EXECUTAR_SKILLS_REGISTRY (projeto exe) para calcular o delta; insumo parcial: 07-execucao/evidencias/E0/skills-da-conta.jsonl"
+      },
+      "dono_canonico": "repo",
+      "depends_on": [
+        "E0"
+      ],
+      "dod": "Delta aplicado ao registro; conectores com esquema lido ou USER_ACTION_REQUIRED.",
+      "efeito_externo": false,
+      "autorizacao": null,
+      "escopo_escrita": [],
+      "output": [],
+      "evidencias": [],
+      "gaps": [
+        "EXECUTAR_SKILLS_REGISTRY inacessível desta sessão (E0 cloud)",
+        "TASK-SPACE/2026-09-28_copiloto-ops-runbook-sop-pf24/ traz auditoria do plugin executar-cop (RUN-F1, PF-24) que pode alimentar o próprio F7-delta — cruzar ao processar TASKSPACE-0001"
+      ],
+      "conflitos": [],
+      "decisao": null,
+      "refs": [],
+      "historico": [
+        {
+          "em": "2026-09-28T12:02:21.434Z",
+          "de": null,
+          "para": "BACKLOG_VALIDATED",
+          "motivo": "seed a partir de ING-0002 (07-execucao/ESTADO.md do pacote)",
+          "ator": "maestro"
+        },
+        {
+          "em": "2026-09-28T12:40:26.109Z",
+          "de": "BACKLOG_VALIDATED",
+          "para": "BLOCKED",
+          "motivo": "E0: EXECUTAR_SKILLS_REGISTRY inacessível desta sessão",
+          "ator": "maestro"
+        },
+        {
+          "em": "2026-09-28T18:55:17.208Z",
+          "de": "BLOCKED",
+          "para": "BLOCKED",
+          "motivo": "atualização [gaps]: referência cruzada com TASK-SPACE registrada em DIV-007",
+          "ator": "maestro"
+        }
+      ],
+      "atualizado_em": "2026-09-28T18:55:17.208Z"
+    },
+    {
+      "id": "F8",
+      "trilha": "L",
+      "tipo": "fase",
+      "titulo": "F8 — A DEFINIR (D8)",
+      "literal": "Workbook final resultante para iniciar a produção",
+      "lane": null,
+      "skill": null,
+      "skill_version": null,
+      "playbook": "skills/estagios-bpm/references/L.md",
+      "status": "BACKLOG_VALIDATED",
+      "motivo_bloqueio": null,
+      "dono_canonico": "control-center",
+      "depends_on": [
+        "F1",
+        "F2",
+        "F3",
+        "F4",
+        "F5",
+        "F6",
+        "F7"
+      ],
+      "dod": "Workbook gerado e validado pelo validador da skill escolhida.",
+      "efeito_externo": false,
+      "autorizacao": null,
+      "escopo_escrita": [],
+      "output": [],
+      "evidencias": [],
+      "gaps": [
+        "Qual workbook (D8)"
+      ],
+      "conflitos": [],
+      "decisao": null,
+      "refs": [
+        "D8"
+      ],
+      "historico": [
+        {
+          "em": "2026-09-28T12:02:21.434Z",
+          "de": null,
+          "para": "BACKLOG_VALIDATED",
+          "motivo": "seed a partir de ING-0002 (07-execucao/ESTADO.md do pacote)",
+          "ator": "maestro"
+        }
+      ],
+      "atualizado_em": "2026-09-28T12:02:21.434Z"
+    },
+    {
+      "id": "FICHA",
+      "trilha": "L",
+      "tipo": "ficha",
+      "titulo": "Ficha de caracterização PEM-D16 (22 pontos)",
+      "lane": null,
+      "skill": null,
+      "skill_version": null,
+      "playbook": "skills/estagios-bpm/references/E1.md",
+      "status": "BACKLOG_VALIDATED",
+      "motivo_bloqueio": null,
+      "dono_canonico": "repo",
+      "depends_on": [
+        "E0"
+      ],
+      "dod": "Ficha soma 22 pontos; cada ponto preenchido tem fonte e classe de evidência; pontos sem base ficam A DEFINIR; aprovação do usuário registrada.",
+      "efeito_externo": false,
+      "autorizacao": null,
+      "escopo_escrita": [],
+      "output": [],
+      "evidencias": [],
+      "gaps": [
+        "Legenda dos 22 pontos não fornecida (D9)",
+        "README do ecossistema",
+        "ADRs do lançamento granular"
+      ],
+      "conflitos": [],
+      "decisao": null,
+      "refs": [],
+      "dados": {
+        "pontos": [
+          {
+            "ponto": "1",
+            "resumo": "Risco cognitivo · ID PEM-D16 · V1 · Adm dev (nome, ID, versão, responsável)",
+            "status": "PREENCHIDO",
+            "fonte": "briefing via ING-0002 mapa/ficha-22-pontos.md",
+            "classe_evidencia": "A DEFINIR (E1)",
+            "depende_de": "—"
+          },
+          {
+            "ponto": "2",
+            "resumo": "Projeto (tipo)",
+            "status": "PREENCHIDO",
+            "fonte": "briefing via ING-0002 mapa/ficha-22-pontos.md",
+            "classe_evidencia": "A DEFINIR (E1)",
+            "depende_de": "—"
+          },
+          {
+            "ponto": "3",
+            "resumo": "Blog editorial + plataforma para neurodivergentes; gestão de projetos/processos neuroadaptativos e controle de riscos cognitivos; oportunidade: tema pouco explorado e de alta demanda",
+            "status": "PREENCHIDO",
+            "fonte": "briefing via ING-0002 mapa/ficha-22-pontos.md",
+            "classe_evidencia": "A DEFINIR (E1)",
+            "depende_de": "—"
+          },
+          {
+            "ponto": "4",
+            "resumo": "Relação com o Programa Executar/ecossistema: primeiro canal de divulgação, amostra beta, validação de demanda; correlação com 6 lançamentos",
+            "status": "PARCIAL",
+            "fonte": "briefing via ING-0002 mapa/ficha-22-pontos.md",
+            "classe_evidencia": "A DEFINIR (E1)",
+            "depende_de": "README do ecossistema"
+          },
+          {
+            "ponto": "5",
+            "resumo": "Valor: conhecimento técnico em linguagem prática/didática + assets práticos, para trabalhador solo/autônomo com dificuldades de autogestão",
+            "status": "PREENCHIDO",
+            "fonte": "briefing via ING-0002 mapa/ficha-22-pontos.md",
+            "classe_evidencia": "A DEFINIR (E1)",
+            "depende_de": "—"
+          },
+          {
+            "ponto": "6",
+            "resumo": "Expectativa de resultados ligada às métricas",
+            "status": "PREENCHIDO",
+            "fonte": "briefing via ING-0002 mapa/ficha-22-pontos.md",
+            "classe_evidencia": "A DEFINIR (E1)",
+            "depende_de": "metas numéricas: A DEFINIR"
+          },
+          {
+            "ponto": "7",
+            "resumo": "Métricas: downloads de assets, compartilhamento, comentários/reviews, taxas padrão de lançamento",
+            "status": "PREENCHIDO",
+            "fonte": "briefing via ING-0002 mapa/ficha-22-pontos.md",
+            "classe_evidencia": "A DEFINIR (E1)",
+            "depende_de": "metas numéricas: A DEFINIR"
+          },
+          {
+            "ponto": "8",
+            "resumo": "Lançamento inclui F0–F8",
+            "status": "PARCIAL",
+            "fonte": "briefing via ING-0002 mapa/ficha-22-pontos.md",
+            "classe_evidencia": "A DEFINIR (E1)",
+            "depende_de": "ADRs do lançamento granular"
+          },
+          {
+            "ponto": "9",
+            "resumo": "(idem 8; 'ver ADRs do lançamento granular')",
+            "status": "PARCIAL",
+            "fonte": "briefing via ING-0002 mapa/ficha-22-pontos.md",
+            "classe_evidencia": "A DEFINIR (E1)",
+            "depende_de": "ADRs do lançamento granular"
+          },
+          {
+            "ponto": "10",
+            "resumo": "Só 'ver anexo README do ecossistema'",
+            "status": "REMETE",
+            "fonte": "briefing via ING-0002 mapa/ficha-22-pontos.md",
+            "classe_evidencia": "A DEFINIR (E1)",
+            "depende_de": "README do ecossistema"
+          },
+          {
+            "ponto": "11",
+            "resumo": "TBD",
+            "status": "TBD",
+            "fonte": "briefing via ING-0002 mapa/ficha-22-pontos.md",
+            "classe_evidencia": "A DEFINIR (E1)",
+            "depende_de": "descoberta (E1)"
+          },
+          {
+            "ponto": "12",
+            "resumo": "TBD",
+            "status": "TBD",
+            "fonte": "briefing via ING-0002 mapa/ficha-22-pontos.md",
+            "classe_evidencia": "A DEFINIR (E1)",
+            "depende_de": "descoberta (E1)"
+          },
+          {
+            "ponto": "13",
+            "resumo": "TBD",
+            "status": "TBD",
+            "fonte": "briefing via ING-0002 mapa/ficha-22-pontos.md",
+            "classe_evidencia": "A DEFINIR (E1)",
+            "depende_de": "descoberta (E1)"
+          },
+          {
+            "ponto": "14",
+            "resumo": "TBD",
+            "status": "TBD",
+            "fonte": "briefing via ING-0002 mapa/ficha-22-pontos.md",
+            "classe_evidencia": "A DEFINIR (E1)",
+            "depende_de": "descoberta (E1)"
+          },
+          {
+            "ponto": "15",
+            "resumo": "TBD",
+            "status": "TBD",
+            "fonte": "briefing via ING-0002 mapa/ficha-22-pontos.md",
+            "classe_evidencia": "A DEFINIR (E1)",
+            "depende_de": "descoberta (E1)"
+          },
+          {
+            "ponto": "16",
+            "resumo": "TBD",
+            "status": "TBD",
+            "fonte": "briefing via ING-0002 mapa/ficha-22-pontos.md",
+            "classe_evidencia": "A DEFINIR (E1)",
+            "depende_de": "descoberta (E1)"
+          },
+          {
+            "ponto": "17",
+            "resumo": "TBD",
+            "status": "TBD",
+            "fonte": "briefing via ING-0002 mapa/ficha-22-pontos.md",
+            "classe_evidencia": "A DEFINIR (E1)",
+            "depende_de": "descoberta (E1)"
+          },
+          {
+            "ponto": "18",
+            "resumo": "TBD",
+            "status": "TBD",
+            "fonte": "briefing via ING-0002 mapa/ficha-22-pontos.md",
+            "classe_evidencia": "A DEFINIR (E1)",
+            "depende_de": "descoberta (E1)"
+          },
+          {
+            "ponto": "19",
+            "resumo": "Riscos principais: overkill, falta de eficiência, retrabalho, não aplicabilidade (leitura de '18–19' — confirmar)",
+            "status": "PARCIAL",
+            "fonte": "briefing via ING-0002 mapa/ficha-22-pontos.md",
+            "classe_evidencia": "A DEFINIR (E1)",
+            "depende_de": "E3 (FMEA)"
+          },
+          {
+            "ponto": "20",
+            "resumo": "TBD",
+            "status": "TBD",
+            "fonte": "briefing via ING-0002 mapa/ficha-22-pontos.md",
+            "classe_evidencia": "A DEFINIR (E1)",
+            "depende_de": "descoberta (E1)"
+          },
+          {
+            "ponto": "21",
+            "resumo": "TBD",
+            "status": "TBD",
+            "fonte": "briefing via ING-0002 mapa/ficha-22-pontos.md",
+            "classe_evidencia": "A DEFINIR (E1)",
+            "depende_de": "descoberta (E1)"
+          },
+          {
+            "ponto": "22",
+            "resumo": "TBD",
+            "status": "TBD",
+            "fonte": "briefing via ING-0002 mapa/ficha-22-pontos.md",
+            "classe_evidencia": "A DEFINIR (E1)",
+            "depende_de": "descoberta (E1)"
+          }
+        ],
+        "contagem": {
+          "PREENCHIDO": 6,
+          "PARCIAL": 4,
+          "REMETE": 1,
+          "TBD": 11
+        },
+        "nota": "Numeração recebida sobrepõe (5 dentro de 4–10; 18 duas vezes) — não normalizar sem a legenda (D9)."
+      },
+      "historico": [
+        {
+          "em": "2026-09-28T12:02:21.434Z",
+          "de": null,
+          "para": "BACKLOG_VALIDATED",
+          "motivo": "seed a partir de ING-0002 (07-execucao/ESTADO.md do pacote)",
+          "ator": "maestro"
+        }
+      ],
+      "atualizado_em": "2026-09-28T12:02:21.434Z"
+    },
+    {
+      "id": "TASKSPACE-0001",
+      "trilha": "S",
+      "tipo": "tarefa",
+      "titulo": "Processar TASK-SPACE/ (3 lotes: runbook Copiloto-ops CSV 68 linhas; 2 planos operacionais via plano-operacional-rastreavel) em GitHub Issues",
+      "lane": null,
+      "skill": null,
+      "skill_version": null,
+      "playbook": null,
+      "status": "READY",
+      "motivo_bloqueio": null,
+      "dono_canonico": "repo",
+      "depends_on": [],
+      "dod": "Cada linha de tarefa em TASK-SPACE/**/linear-import-*.md e no CSV vira Issue (ou é explicitamente descartada com motivo), citando fonte_id do plano-interno-*.md correspondente; CONFLICTs já apontados em plano-interno-editorial-blog-risco-cognitivo-2026-10.md §3.5 viram decision_record tipo divergencia antes de criar as Issues correspondentes.",
+      "efeito_externo": false,
+      "autorizacao": null,
+      "escopo_escrita": [],
+      "output": [],
+      "evidencias": [],
+      "gaps": [
+        "Volume grande (CSV 68 linhas + 2 pacotes de plano) — aprovação explícita do usuário exigida antes de criar Issues em massa (TASK-SPACE/README.md item 4, espelha I-05)"
+      ],
+      "conflitos": [],
+      "decisao": null,
+      "refs": [],
+      "historico": [
+        {
+          "em": "2026-09-28T18:55:17.193Z",
+          "de": null,
+          "para": "BACKLOG_VALIDATED",
+          "motivo": "criado a partir da entrada registrada em DIV-007",
+          "ator": "maestro"
+        },
+        {
+          "em": "2026-09-28T18:55:17.194Z",
+          "de": "BACKLOG_VALIDATED",
+          "para": "READY",
+          "motivo": "dependências concluídas na criação",
+          "ator": "maestro"
+        }
+      ],
+      "atualizado_em": "2026-09-28T18:55:17.194Z"
+    }
+  ],
+  "decisoes": [
+    {
+      "id": "D1",
+      "tipo": "decisao",
+      "titulo": "Fonte de verdade do estado: repo × control-center × híbrido",
+      "onde": "E2",
+      "status": "ABERTA",
+      "recomendacao": "C — híbrido com fronteira: Trilha S no repo (estado.json), Trilha L no Control Center (projeção)",
+      "opcoes": [
+        "A. só repo",
+        "B. só Control Center",
+        "C. híbrido com fronteira"
+      ],
+      "bloqueia": [],
+      "historico": [
+        {
+          "em": "2026-09-28T12:02:21.435Z",
+          "status": "ABERTA",
+          "nota": "registrada a partir de ING-0002 (07-execucao/ESTADO.md do pacote)"
+        }
+      ]
+    },
+    {
+      "id": "D2",
+      "tipo": "decisao",
+      "titulo": "Lacunas do SOP-KP-001 (GEO, Topic Pack, arco, nomenclatura): absorver por change control ou manter Process Doc separado",
+      "onde": "E1/E2",
+      "status": "ABERTA",
+      "recomendacao": "SOP-KP-001 = motor de gates; absorver as 4 lacunas por change control; docx fica como referência de governança",
+      "bloqueia": [
+        "F1"
+      ],
+      "historico": [
+        {
+          "em": "2026-09-28T12:02:21.438Z",
+          "status": "ABERTA",
+          "nota": "registrada a partir de ING-0002 (07-execucao/ESTADO.md do pacote)"
+        }
+      ]
+    },
+    {
+      "id": "D3",
+      "tipo": "decisao",
+      "titulo": "Versão canônica de executar-block-quick-frameworks (enviada 634 × instalada 162 linhas)",
+      "onde": "E0/E2",
+      "status": "ABERTA",
+      "recomendacao": "A DEFINIR — qual é mais nova é NÃO DETERMINADO; rodar skill_fingerprint nas duas cópias",
+      "bloqueia": [],
+      "historico": [
+        {
+          "em": "2026-09-28T12:02:21.438Z",
+          "status": "ABERTA",
+          "nota": "registrada a partir de ING-0002 (07-execucao/ESTADO.md do pacote)"
+        }
+      ]
+    },
+    {
+      "id": "D4",
+      "tipo": "decisao",
+      "titulo": "Plugin Product Management: instalar ou usar fallback RC prd.md",
+      "onde": "E0",
+      "status": "ABERTA",
+      "recomendacao": "USER_ACTION_REQUIRED — instalar (claude plugin install product-management@knowledge-work-plugins) ou aprovar o fallback",
+      "opcoes": [
+        "instalar o plugin",
+        "fallback RC templates/prd.md + engineering:system-design"
+      ],
+      "bloqueia": [],
+      "historico": [
+        {
+          "em": "2026-09-28T12:02:21.438Z",
+          "status": "ABERTA",
+          "nota": "registrada a partir de ING-0002 (07-execucao/ESTADO.md do pacote)"
+        }
+      ]
+    },
+    {
+      "id": "D5",
+      "tipo": "decisao",
+      "titulo": "obsidian-editorial-pipeline v2.3: instalar no ambiente",
+      "onde": "E0",
+      "status": "ABERTA",
+      "recomendacao": "Evidência nova (DIV-004): 2.3.0 já presente nas skills da conta — confirmar no ambiente local e fixar skill_version tree d643e94913e931d1",
+      "bloqueia": [
+        "F1",
+        "F5"
+      ],
+      "historico": [
+        {
+          "em": "2026-09-28T12:02:21.438Z",
+          "status": "ABERTA",
+          "nota": "registrada a partir de ING-0002 (07-execucao/ESTADO.md do pacote)"
+        },
+        {
+          "em": "2026-09-28T12:40:26.043Z",
+          "status": "ABERTA",
+          "nota": "atualizada com evidência do E0"
+        }
+      ]
+    },
+    {
+      "id": "D6",
+      "tipo": "decisao",
+      "titulo": "Leitura de 'pluging'/'mangemnet': distribuição como plugin? camadas de gestão?",
+      "onde": "E0",
+      "status": "PARCIAL",
+      "resposta": "'pluging' = distribuir o Maestro como Claude Code Plugin (feito: plugin maestro). 'mangemnet' (camadas operacional/estratégica/tática) continua A DEFINIR.",
+      "fonte": "usuário, mensagens da sessão de 2026-09-28 ('entregar um Claude Code Plugin operacional'; 'Agora é o desenvolvimento completo do maestro fullstack')",
+      "bloqueia": [],
+      "historico": [
+        {
+          "em": "2026-09-28T12:02:21.438Z",
+          "status": "PARCIAL",
+          "nota": "registrada a partir de ING-0002 (07-execucao/ESTADO.md do pacote)"
+        }
+      ]
+    },
+    {
+      "id": "D7",
+      "tipo": "decisao",
+      "titulo": "Significado de 'DRP' em 'Produto — Engenharia — DRP'",
+      "onde": "E0",
+      "status": "ABERTA",
+      "recomendacao": "A DEFINIR — não afirmar (pode ser documento de requisitos de produto)",
+      "bloqueia": [],
+      "historico": [
+        {
+          "em": "2026-09-28T12:02:21.438Z",
+          "status": "ABERTA",
+          "nota": "registrada a partir de ING-0002 (07-execucao/ESTADO.md do pacote)"
+        }
+      ]
+    },
+    {
+      "id": "D8",
+      "tipo": "decisao",
+      "titulo": "Qual skill gera o 'workbook final' (F8)",
+      "onde": "E0/E2",
+      "status": "ABERTA",
+      "recomendacao": "executar-relatorios (DIV-005)",
+      "opcoes": [
+        "executar-relatorios (capacidade 5: workbook Desk&Go)",
+        "plano-operacional-rastreavel",
+        "gerar-workbook-deskgo (não encontrada)",
+        "deskgo-business-workbook (substituída por executar-relatorios)"
+      ],
+      "bloqueia": [
+        "F8"
+      ],
+      "historico": [
+        {
+          "em": "2026-09-28T12:02:21.439Z",
+          "status": "ABERTA",
+          "nota": "registrada a partir de ING-0002 (07-execucao/ESTADO.md do pacote)"
+        },
+        {
+          "em": "2026-09-28T12:40:26.048Z",
+          "status": "ABERTA",
+          "nota": "opções atualizadas com evidência do E0"
+        }
+      ]
+    },
+    {
+      "id": "D9",
+      "tipo": "decisao",
+      "titulo": "Fórmula de lançamento / 'níveis de consciência' + legenda dos 22 pontos + template do PRD checklist",
+      "onde": "E1",
+      "status": "ABERTA",
+      "recomendacao": "USER_ACTION_REQUIRED — insumos não fornecidos; enquanto ausentes, pontos ficam A DEFINIR (EV-005)",
+      "bloqueia": [
+        "F1",
+        "FICHA"
+      ],
+      "historico": [
+        {
+          "em": "2026-09-28T12:02:21.439Z",
+          "status": "ABERTA",
+          "nota": "registrada a partir de ING-0002 (07-execucao/ESTADO.md do pacote)"
+        }
+      ]
+    },
+    {
+      "id": "D10",
+      "tipo": "decisao",
+      "titulo": "Formato único de ADR (oficial engineering:architecture × RC templates/adr.md)",
+      "onde": "E2",
+      "status": "ABERTA",
+      "recomendacao": "A DEFINIR em E2; docs/architecture/decisions.md usa formato provisório",
+      "bloqueia": [],
+      "historico": [
+        {
+          "em": "2026-09-28T12:02:21.439Z",
+          "status": "ABERTA",
+          "nota": "registrada a partir de ING-0002 (07-execucao/ESTADO.md do pacote)"
+        }
+      ]
+    },
+    {
+      "id": "D11",
+      "tipo": "decisao",
+      "titulo": "Fronteira Maestro × Copiloto EXECUTAR",
+      "onde": "E2",
+      "status": "ABERTA",
+      "recomendacao": "Maestro = orquestração de entrega (lanes, skills, construção); Copiloto = rotina e estado diário; Maestro lê/projeta via contratos do Copiloto",
+      "bloqueia": [],
+      "historico": [
+        {
+          "em": "2026-09-28T12:02:21.439Z",
+          "status": "ABERTA",
+          "nota": "registrada a partir de ING-0002 (07-execucao/ESTADO.md do pacote)"
+        }
+      ]
+    },
+    {
+      "id": "D12",
+      "tipo": "decisao",
+      "titulo": "Nome do plugin",
+      "onde": "bootstrap",
+      "status": "RESPONDIDA",
+      "resposta": "maestro (comandos /maestro:*)",
+      "fonte": "usuário, resposta ao questionário da sessão de 2026-09-28",
+      "bloqueia": [],
+      "historico": [
+        {
+          "em": "2026-09-28T12:02:21.439Z",
+          "status": "RESPONDIDA",
+          "nota": "registrada a partir de ING-0002 (07-execucao/ESTADO.md do pacote)"
+        }
+      ]
+    },
+    {
+      "id": "D13",
+      "tipo": "decisao",
+      "titulo": "Incorporação dos upstreams oficiais",
+      "onde": "bootstrap",
+      "status": "RESPONDIDA",
+      "resposta": "git submodules fixados por SHA em vendor/upstream (somente leitura)",
+      "fonte": "usuário, resposta ao questionário da sessão de 2026-09-28",
+      "bloqueia": [],
+      "historico": [
+        {
+          "em": "2026-09-28T12:02:21.439Z",
+          "status": "RESPONDIDA",
+          "nota": "registrada a partir de ING-0002 (07-execucao/ESTADO.md do pacote)"
+        }
+      ]
+    },
+    {
+      "id": "D1-v1",
+      "tipo": "decisao",
+      "titulo": "(herdada do handoff v1 / F0) Astro × Arrow/Vite",
+      "onde": "F0",
+      "status": "ABERTA",
+      "bloqueia": [
+        "F0"
+      ],
+      "historico": [
+        {
+          "em": "2026-09-28T12:02:21.439Z",
+          "status": "ABERTA",
+          "nota": "registrada a partir de ING-0002 (07-execucao/ESTADO.md do pacote)"
+        }
+      ]
+    },
+    {
+      "id": "D2-v1",
+      "tipo": "decisao",
+      "titulo": "(herdada do handoff v1 / F0) Tailwind × classes Obsidian/Minimal",
+      "onde": "F0",
+      "status": "ABERTA",
+      "bloqueia": [
+        "F0"
+      ],
+      "historico": [
+        {
+          "em": "2026-09-28T12:02:21.439Z",
+          "status": "ABERTA",
+          "nota": "registrada a partir de ING-0002 (07-execucao/ESTADO.md do pacote)"
+        }
+      ]
+    },
+    {
+      "id": "D3-v1",
+      "tipo": "decisao",
+      "titulo": "(herdada do handoff v1 / F0) HIG+Fluent × 'sem design system próprio'",
+      "onde": "F0",
+      "status": "ABERTA",
+      "bloqueia": [
+        "F0"
+      ],
+      "historico": [
+        {
+          "em": "2026-09-28T12:02:21.439Z",
+          "status": "ABERTA",
+          "nota": "registrada a partir de ING-0002 (07-execucao/ESTADO.md do pacote)"
+        }
+      ]
+    },
+    {
+      "id": "D4-v1",
+      "tipo": "decisao",
+      "titulo": "(herdada do handoff v1 / F0) Power BI (licença/custo/auth)",
+      "onde": "F0",
+      "status": "ABERTA",
+      "bloqueia": [
+        "F0"
+      ],
+      "historico": [
+        {
+          "em": "2026-09-28T12:02:21.439Z",
+          "status": "ABERTA",
+          "nota": "registrada a partir de ING-0002 (07-execucao/ESTADO.md do pacote)"
+        }
+      ]
+    },
+    {
+      "id": "D5-v1",
+      "tipo": "decisao",
+      "titulo": "(herdada do handoff v1 / F0) uso de app.css em site público",
+      "onde": "F0",
+      "status": "ABERTA",
+      "bloqueia": [
+        "F0"
+      ],
+      "historico": [
+        {
+          "em": "2026-09-28T12:02:21.439Z",
+          "status": "ABERTA",
+          "nota": "registrada a partir de ING-0002 (07-execucao/ESTADO.md do pacote)"
+        }
+      ]
+    },
+    {
+      "id": "D6-v1",
+      "tipo": "decisao",
+      "titulo": "(herdada do handoff v1 / F0) leitura de 'twland'/'adotidade'",
+      "onde": "F0",
+      "status": "ABERTA",
+      "bloqueia": [
+        "F0"
+      ],
+      "historico": [
+        {
+          "em": "2026-09-28T12:02:21.439Z",
+          "status": "ABERTA",
+          "nota": "registrada a partir de ING-0002 (07-execucao/ESTADO.md do pacote)"
+        }
+      ]
+    },
+    {
+      "id": "DIV-001",
+      "tipo": "divergencia",
+      "titulo": "Process Doc PD-CLB-20260906-F01-DOC-V01 (22 tarefas) × SOP-KP-001 (42 etapas); relação V01 × 'antigo Process Doc V02' não determinada",
+      "status": "REGISTRADA",
+      "resposta": "Registrada; decisão via D2 (não escolher em silêncio)",
+      "fonte": "mapa/divergencias-e-lacunas.md §2",
+      "bloqueia": [],
+      "historico": [
+        {
+          "em": "2026-09-28T12:02:21.440Z",
+          "status": "REGISTRADA",
+          "nota": "registrada a partir de ING-0002 (07-execucao/ESTADO.md do pacote)"
+        }
+      ]
+    },
+    {
+      "id": "DIV-002",
+      "tipo": "divergencia",
+      "titulo": "executar-block-quick-frameworks: cópia enviada (634 linhas) × instalada (162 linhas)",
+      "status": "REGISTRADA",
+      "resposta": "Registrada; decisão via D3; identidade visual (amarelo/preto/vermelho) só existe na cópia enviada",
+      "fonte": "mapa/divergencias-e-lacunas.md §3",
+      "bloqueia": [],
+      "historico": [
+        {
+          "em": "2026-09-28T12:02:21.440Z",
+          "status": "REGISTRADA",
+          "nota": "registrada a partir de ING-0002 (07-execucao/ESTADO.md do pacote)"
+        }
+      ]
+    },
+    {
+      "id": "DIV-003",
+      "tipo": "divergencia",
+      "titulo": "Registro EXECUTAR_SKILLS_REGISTRY (17/09) × contagem do sistema de arquivos (60 diretórios)",
+      "status": "REGISTRADA",
+      "resposta": "Registrada; F7 = delta do registro (não relatório novo)",
+      "fonte": "mapa/divergencias-e-lacunas.md §8",
+      "bloqueia": [],
+      "historico": [
+        {
+          "em": "2026-09-28T12:02:21.440Z",
+          "status": "REGISTRADA",
+          "nota": "registrada a partir de ING-0002 (07-execucao/ESTADO.md do pacote)"
+        }
+      ]
+    },
+    {
+      "id": "CC-001",
+      "tipo": "change-control",
+      "titulo": "C-01: ledger da Trilha S passa a ser estado.json canônico + ESTADO.md gerado",
+      "status": "REGISTRADA",
+      "bloqueia": [],
+      "detalhes": {
+        "CURRENT": "C-01 (pacote) define 07-execucao/ESTADO.md (markdown) como ledger único da Trilha S.",
+        "EVIDENCE": "Invariantes I-01/I-04/I-05/I-06 só podem ser impostas por código se o ledger for estruturado; markdown livre não é validável de forma confiável.",
+        "CONFLICT": "Nenhum com I-06: continua havendo um único ledger (estado.json); ESTADO.md vira projeção gerada e bloqueada para edição.",
+        "PROPOSED_CHANGE": "estado.json (schema em src/lib/estado/schema.ts) + ESTADO.md gerado; mudanças só via servidor MCP 'estado'.",
+        "IMPACT": "Skills/commands operam por ferramentas MCP; leitura humana continua em ESTADO.md; state_validate detecta projeção divergente (EV-012).",
+        "REVIEW_REQUIRED": "Usuário — aprovar em E4/E5.",
+        "STATUS": "APLICADO, aguardando revisão (REVIEW_REQUIRED)"
+      },
+      "historico": [
+        {
+          "em": "2026-09-28T12:02:21.440Z",
+          "status": "REGISTRADA",
+          "nota": "registrada a partir de ING-0002 (07-execucao/ESTADO.md do pacote)"
+        }
+      ]
+    },
+    {
+      "id": "CC-002",
+      "tipo": "change-control",
+      "titulo": "E5 'Modo A, sem plugin' → plugin completo nesta rodada",
+      "status": "REGISTRADA",
+      "bloqueia": [],
+      "detalhes": {
+        "CURRENT": "E5 do pacote: walking skeleton em Modo A (projeto), sem plugin, sem skills novas; plugin (Modo B) só após D6 e EV-010 (E8).",
+        "EVIDENCE": "Usuário, 2026-09-28: 'entregar um Claude Code Plugin operacional, com agentes, skills, comandos e integração MCP' e 'Agora é o desenvolvimento completo do maestro fullstack'.",
+        "CONFLICT": "Ordem E0→E5 do pacote × decisão explícita do usuário (Autoridade 1 do C-04).",
+        "PROPOSED_CHANGE": "Construir o plugin maestro v0.1.0 agora (nó BUILD-0.1.0); estágios E0–E9 continuam no ledger e re-verificam os artefatos antecipados; nada é promovido a DONE sem evidência.",
+        "IMPACT": "E4/E5 têm artefatos antecipados (output) mas continuam BACKLOG_VALIDATED até E0–E3; EV-010 testado nesta rodada.",
+        "REVIEW_REQUIRED": "Usuário — veredito em E6.",
+        "STATUS": "APLICADO por decisão do usuário"
+      },
+      "historico": [
+        {
+          "em": "2026-09-28T12:02:21.440Z",
+          "status": "REGISTRADA",
+          "nota": "registrada a partir de ING-0002 (07-execucao/ESTADO.md do pacote)"
+        }
+      ]
+    },
+    {
+      "id": "DIV-004",
+      "tipo": "divergencia",
+      "titulo": "obsidian-editorial-pipeline: pacote diz 'não instalada' × skills da conta têm 2.3.0 (SKILL-OBS-EDITORIAL-V2, BUILT, atualizada 2026-09-22)",
+      "status": "REGISTRADA",
+      "resposta": "Registrada; decisão via D5 (confirmar se a conta = ambiente de trabalho)",
+      "fonte": "07-execucao/E0-verificacao.md §3; evidencias/E0/skills-da-conta.jsonl",
+      "bloqueia": [],
+      "historico": [
+        {
+          "em": "2026-09-28T12:40:26.020Z",
+          "status": "REGISTRADA",
+          "nota": "E0 no contêiner cloud"
+        }
+      ]
+    },
+    {
+      "id": "DIV-005",
+      "tipo": "divergencia",
+      "titulo": "Candidatas a F8 (gerar-workbook-deskgo, deskgo-business-workbook) não existem na conta; executar-relatorios (2026-09-25) declara substituir deskgo-business-workbook e executar-mapa-os",
+      "status": "REGISTRADA",
+      "resposta": "Registrada; evidência para D8; roteamento segue HIPÓTESE até E2",
+      "fonte": "07-execucao/E0-verificacao.md §8",
+      "bloqueia": [],
+      "historico": [
+        {
+          "em": "2026-09-28T12:40:26.033Z",
+          "status": "REGISTRADA",
+          "nota": "E0 no contêiner cloud"
+        }
+      ]
+    },
+    {
+      "id": "DIV-006",
+      "tipo": "divergencia",
+      "titulo": "Inventário diz 'não há conector Cloudflare' × conector Cloudflare Developer Platform disponível nesta sessão; rc-cognitive-risk-expert não encontrado na conta",
+      "status": "REGISTRADA",
+      "resposta": "Registrada; verificar no ambiente local antes de rotear DevOps/Cloudflare e as lanes que usam o RC",
+      "fonte": "07-execucao/E0-verificacao.md (E0.5, §3)",
+      "bloqueia": [],
+      "historico": [
+        {
+          "em": "2026-09-28T12:40:26.038Z",
+          "status": "REGISTRADA",
+          "nota": "E0 no contêiner cloud"
+        }
+      ]
+    },
+    {
+      "id": "DIV-007",
+      "tipo": "divergencia",
+      "titulo": "TASK-SPACE/ apareceu na branch durante a construção do plugin (7 commits de sessão concorrente: auditoria Copiloto-ops + 2 planos operacionais via plano-operacional-rastreavel)",
+      "status": "REGISTRADA",
+      "resposta": "Não é código/componente do Maestro — é o inbox de dados de tarefa que TASK-SPACE/README.md define para o Copiloto/Maestro transformar em Issues. Tratado como ENTRADA (nó TASKSPACE-0001), não mesclado ao catálogo. Conteúdo é dado (I-07): CSV/planos citados, nunca executados como instrução.",
+      "fonte": "TASK-SPACE/README.md (mesma numeração de contrato C-00.2/.5/.8/.9); commits 2f3b291..410ee33",
+      "bloqueia": [],
+      "historico": [
+        {
+          "em": "2026-09-28T18:55:17.170Z",
+          "status": "REGISTRADA",
+          "nota": "Reconciliado por fast-forward antes do merge automático para main."
+        }
+      ]
+    }
+  ]
+}

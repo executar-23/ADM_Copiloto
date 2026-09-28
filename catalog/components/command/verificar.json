@@ -1,0 +1,45 @@
+{
+  "id": "command:verificar",
+  "name": "verificar",
+  "type": "command",
+  "path": "commands/verificar.md",
+  "origin": {
+    "kind": "proprietary",
+    "source": "camada Command (handoff do usuário, 2026-09-28)"
+  },
+  "responsibility": "Verificação independente de um nó em VERIFY (qa-reviewer) e promoção só com evidência.",
+  "dependencies": [
+    "skill:maestro-operacao"
+  ],
+  "tools": [
+    "Agent",
+    "mcp__plugin_maestro_estado__node_get",
+    "mcp__plugin_maestro_estado__evidence_add",
+    "mcp__plugin_maestro_estado__node_transition"
+  ],
+  "related": {
+    "skills": [
+      "maestro-operacao"
+    ],
+    "agents": [
+      "qa-reviewer"
+    ],
+    "commands": []
+  },
+  "status": "active",
+  "version": "0.1.0",
+  "integration": {
+    "date": "2026-09-28",
+    "reason": "Entrada explícita de workflow (camada Command).",
+    "ingestion": "ING-0002"
+  },
+  "tests": [
+    "tests/integration/mcp-estado.test.ts"
+  ],
+  "anti_overkill": {
+    "reuso": "Skills disparam por contexto; o usuário pediu entrada explícita separada (Command × Skill).",
+    "necessidade": "Ponto de entrada /maestro:verificar previsível para o usuário.",
+    "custo": "1 arquivo curto que só delega.",
+    "reversao": "Remover o arquivo; a skill correspondente continua disparando por contexto."
+  }
+}

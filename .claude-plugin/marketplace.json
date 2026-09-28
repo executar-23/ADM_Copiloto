@@ -1,0 +1,15 @@
+{
+  "name": "maestro-marketplace",
+  "description": "Marketplace do plugin Maestro (ecossistema EXECUTAR).",
+  "owner": {
+    "name": "executar-23"
+  },
+  "plugins": [
+    {
+      "name": "maestro",
+      "source": "./",
+      "description": "Orquestrador multiagente do ecossistema EXECUTAR (ledger, roteamento, ingestão governada, MCP).",
+      "version": "0.1.0"
+    }
+  ]
+}

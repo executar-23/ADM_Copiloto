@@ -1,0 +1,59 @@
+{
+  "id": "skill:estagios-bpm",
+  "name": "estagios-bpm",
+  "type": "skill",
+  "path": "skills/estagios-bpm/SKILL.md",
+  "origin": {
+    "kind": "adapted",
+    "source": "ING-0002: 04-prompts-por-estagio/E0…E9, L"
+  },
+  "responsibility": "Playbooks dos estágios E0–E9 (BPM e Qualidade estendido para agentes) e do playbook L para fases F0–F8.",
+  "dependencies": [
+    "mcp-server:estado"
+  ],
+  "tools": [
+    "mcp__plugin_maestro_estado__state_summary",
+    "mcp__plugin_maestro_estado__node_list",
+    "mcp__plugin_maestro_estado__node_get",
+    "mcp__plugin_maestro_estado__node_next",
+    "mcp__plugin_maestro_estado__decision_list",
+    "mcp__plugin_maestro_estado__state_validate",
+    "mcp__plugin_maestro_estado__state_init",
+    "mcp__plugin_maestro_estado__node_create",
+    "mcp__plugin_maestro_estado__node_update",
+    "mcp__plugin_maestro_estado__node_transition",
+    "mcp__plugin_maestro_estado__evidence_add",
+    "mcp__plugin_maestro_estado__decision_record",
+    "mcp__plugin_maestro_estado__authorization_grant"
+  ],
+  "related": {
+    "skills": [
+      "maestro-operacao",
+      "roteamento-lanes"
+    ],
+    "agents": [
+      "maestro",
+      "qa-reviewer",
+      "evidence-researcher"
+    ],
+    "commands": [
+      "executar"
+    ]
+  },
+  "status": "active",
+  "version": "0.1.0",
+  "integration": {
+    "date": "2026-09-28",
+    "reason": "Playbooks dos estágios E0–E9 (BPM e Qualidade estendido para agentes) e do playbook L para fases F0–F8.",
+    "ingestion": "ING-0002"
+  },
+  "tests": [
+    "tests/repo/repo.test.ts"
+  ],
+  "anti_overkill": {
+    "reuso": "Os prompts por estágio vieram no pacote; esta skill só os torna carregáveis sob demanda (progressive disclosure) e mapeia para ferramentas.",
+    "necessidade": "Cada nó E#/F# aponta para um playbook; sem a skill o Maestro não sabe o OUTPUT CONTRACT/VALIDATION do estágio.",
+    "custo": "SKILL.md + 11 references (texto original preservado).",
+    "reversao": "Remover; playbooks continuam acessíveis em ingestion/received/ING-0002."
+  }
+}

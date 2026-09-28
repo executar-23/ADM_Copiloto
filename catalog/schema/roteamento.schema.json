@@ -1,0 +1,219 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "versao": {
+      "type": "number",
+      "const": 1
+    },
+    "status_global": {
+      "type": "string",
+      "enum": [
+        "HIPOTESE",
+        "VALIDADO"
+      ]
+    },
+    "fonte": {
+      "type": "string"
+    },
+    "nota": {
+      "type": "string"
+    },
+    "lanes": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[a-z-]+$"
+          },
+          "nome": {
+            "type": "string"
+          },
+          "origem": {
+            "type": "string",
+            "enum": [
+              "macro",
+              "derivada"
+            ]
+          },
+          "skills_oficiais": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "skills_proprietarias": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "nota": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "nome",
+          "origem",
+          "skills_oficiais",
+          "skills_proprietarias"
+        ]
+      }
+    },
+    "entregas": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^R-\\d{3}$"
+          },
+          "entrega": {
+            "type": "string"
+          },
+          "grupo": {
+            "type": "string"
+          },
+          "lane": {
+            "type": "string"
+          },
+          "primaria": {
+            "type": "object",
+            "properties": {
+              "skill": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "disponivel": {
+                "type": "string",
+                "enum": [
+                  "sim",
+                  "nao",
+                  "A DEFINIR"
+                ]
+              }
+            },
+            "required": [
+              "skill",
+              "disponivel"
+            ]
+          },
+          "apoio": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "lacuna": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "HIPOTESE",
+              "VALIDADO"
+            ]
+          },
+          "decisao_ref": {
+            "default": [],
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "required": [
+          "id",
+          "entrega",
+          "grupo",
+          "lane",
+          "primaria",
+          "apoio",
+          "lacuna",
+          "status"
+        ]
+      }
+    },
+    "sobreposicoes": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "intencao": {
+            "type": "string"
+          },
+          "concorrentes": {
+            "minItems": 2,
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "proposta": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "motivo": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "HIPOTESE",
+              "VALIDADO"
+            ]
+          }
+        },
+        "required": [
+          "intencao",
+          "concorrentes",
+          "proposta",
+          "motivo",
+          "status"
+        ]
+      }
+    },
+    "fallbacks": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "quando": {
+            "type": "string"
+          },
+          "usar": {
+            "type": "string"
+          },
+          "fonte": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "quando",
+          "usar",
+          "fonte"
+        ]
+      }
+    }
+  },
+  "required": [
+    "versao",
+    "status_global",
+    "fonte",
+    "lanes",
+    "entregas",
+    "sobreposicoes",
+    "fallbacks"
+  ]
+}

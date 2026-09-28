@@ -1,0 +1,105 @@
+{
+  "schemaVersion": 1,
+  "claudeVersion": "2.1.283",
+  "startedAt": "2026-09-28T12:39:13.977Z",
+  "durationSeconds": 13,
+  "costUsd": 0.09139900000000001,
+  "partial": false,
+  "suite": {
+    "root": "/home/user/ADM_Copiloto",
+    "ablation": "none",
+    "caseFilter": "ev-014*",
+    "threshold": 0,
+    "concurrency": 1,
+    "plugins": [
+      {
+        "name": "maestro",
+        "version": "0.1.0",
+        "path": "/home/user/ADM_Copiloto"
+      }
+    ]
+  },
+  "cases": [
+    {
+      "name": "ev-014-aceite-produto",
+      "dir": "evals/ev-014-aceite-produto",
+      "source": "prose",
+      "promptMarkdown": "o que eu faço agora?",
+      "runsPerCase": 3,
+      "timeoutSeconds": 300,
+      "maxTurns": 10,
+      "graders": [
+        {
+          "name": "criteria",
+          "type": "llm",
+          "weight": 2,
+          "graderMarkdown": "Sem que o usuário explique o sistema, a resposta consulta o estado do Maestro e propõe UMA próxima ação concreta (o nó ativo ou o próximo elegível, ou — se não houver ledger no projeto — oferece inicializá-lo). Não pede ao usuário que explique como o Maestro funciona nem lista genericamente \"o que você gostaria de fazer?\". Falha se responder de forma genérica sem olhar o estado.",
+          "config": {
+            "criteria": "Sem que o usuário explique o sistema, a resposta consulta o estado do Maestro e propõe UMA próxima ação concreta (o nó ativo ou o próximo elegível, ou — se não houver ledger no projeto — oferece inicializá-lo). Não pede ao usuário que explique como o Maestro funciona nem lista genericamente \"o que você gostaria de fazer?\". Falha se responder de forma genérica sem olhar o estado.",
+            "focus": "last_message"
+          }
+        },
+        {
+          "name": "usa-o-ledger",
+          "type": "tool_used",
+          "weight": 2,
+          "config": {
+            "tool": "mcp__plugin_maestro_estado__state_summary",
+            "min": 1,
+            "arm": "with-only"
+          }
+        }
+      ],
+      "arms": {
+        "with": [
+          {
+            "score": 1,
+            "passed": true,
+            "turns": 5,
+            "costUsd": 0.09139900000000001,
+            "judgeCostUsd": 0.001026,
+            "durationSeconds": 13,
+            "startedAt": "2026-09-28T12:39:14.124Z",
+            "error": null,
+            "tracePath": "/tmp/claude-eval-fDP6xw/out/trace.jsonl",
+            "skippedPaidGraders": false,
+            "graders": [
+              {
+                "name": "criteria",
+                "passed": true,
+                "weight": 2,
+                "explanation": "judge votes: PASS PASS PASS",
+                "withOnly": false,
+                "scored": true,
+                "judgeVotes": [
+                  true,
+                  true,
+                  true
+                ],
+                "evidence": "Não há ledger do Maestro neste diretório (falta `07-execucao/estado.json`).\n\nEstado: ledger não inicializado\nEvidência: erro `NOT_INITIALIZED` do `state_summary`\nPendências do usuário: confirmar se quer criar o ledger aqui\nPróxima ação: se confirmar, eu rodo `state_init` e depois você pode usar `/maestro:executar`\n\nQuer que eu inicialize o ledger agora?"
+              },
+              {
+                "name": "usa-o-ledger",
+                "passed": true,
+                "weight": 2,
+                "explanation": "mcp__plugin_maestro_estado__state_summary called 1x (expected 1..∞)",
+                "withOnly": false,
+                "scored": true
+              }
+            ]
+          }
+        ]
+      },
+      "aggregates": {
+        "score": 1,
+        "passRate": 1
+      }
+    }
+  ],
+  "aggregates": {
+    "casesTotal": 1,
+    "casesPassed": 1,
+    "overallScore": 1,
+    "overallPassRate": 1
+  }
+}

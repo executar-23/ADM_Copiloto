@@ -1,0 +1,30 @@
+{
+  "id": "upstream-reference:claude-plugins-official",
+  "name": "claude-plugins-official",
+  "type": "upstream-reference",
+  "path": "vendor/upstream/claude-plugins-official",
+  "origin": {
+    "kind": "upstream",
+    "source": "https://github.com/anthropics/claude-plugins-official",
+    "sha": "fa59bc9037741ecfa131aa27938272605710d7b2",
+    "license": "Apache-2.0"
+  },
+  "responsibility": "Referência normativa oficial: plugin-dev, mcp-server-dev, agent-sdk-dev, skill-creator e exemplos de plugins (somente leitura, submodule fixado).",
+  "dependencies": [],
+  "tools": [],
+  "related": {
+    "skills": [],
+    "agents": [],
+    "commands": []
+  },
+  "status": "reference",
+  "version": "fa59bc90",
+  "integration": {
+    "date": "2026-09-28",
+    "reason": "Base normativa para estrutura, agents, skills, commands, hooks, MCP e validação.",
+    "ingestion": "ING-0001"
+  },
+  "tests": [
+    "tests/repo/repo.test.ts"
+  ]
+}

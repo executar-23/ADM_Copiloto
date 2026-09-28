@@ -1,0 +1,33 @@
+{
+  "id": "external-plugin:plugin-dev@claude-plugins-official",
+  "name": "plugin-dev@claude-plugins-official",
+  "type": "external-plugin",
+  "path": "vendor/upstream/claude-plugins-official/plugins/plugin-dev",
+  "origin": {
+    "kind": "upstream",
+    "source": "claude-plugins-official/plugins/plugin-dev",
+    "sha": "fa59bc9037741ecfa131aa27938272605710d7b2",
+    "license": "Apache-2.0"
+  },
+  "responsibility": "Toolkit oficial de desenvolvimento de plugins (7 skills, agent-creator, plugin-validator, skill-reviewer, /plugin-dev:create-plugin), habilitado no projeto para desenvolver o Maestro.",
+  "dependencies": [
+    "upstream-reference:claude-plugins-official"
+  ],
+  "tools": [],
+  "related": {
+    "skills": [
+      "component-authoring"
+    ],
+    "agents": [],
+    "commands": []
+  },
+  "status": "active",
+  "version": "upstream@fa59bc90",
+  "integration": {
+    "date": "2026-09-28",
+    "reason": "Referência normativa de desenvolvimento (enabledPlugins em .claude/settings.json).",
+    "ingestion": "ING-0001"
+  },
+  "tests": [],
+  "notes": "Não é copiado para o plugin; component-authoring referencia seus padrões."
+}

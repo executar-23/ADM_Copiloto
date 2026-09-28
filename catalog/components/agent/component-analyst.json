@@ -1,0 +1,54 @@
+{
+  "id": "agent:component-analyst",
+  "name": "component-analyst",
+  "type": "agent",
+  "path": "agents/component-analyst.md",
+  "origin": {
+    "kind": "proprietary",
+    "source": "pipeline de ingestão (handoff do usuário, 2026-09-28)"
+  },
+  "responsibility": "Executa ANALYZE → CLASSIFY → COMPARE → CHECK_CONFLICTS em modo somente leitura sobre componentes recebidos e devolve tabela de decisão por componente.",
+  "dependencies": [
+    "mcp-server:registry"
+  ],
+  "tools": [
+    "Read",
+    "Grep",
+    "Glob",
+    "mcp__plugin_maestro_registry__component_inspect",
+    "mcp__plugin_maestro_registry__conflict_check",
+    "mcp__plugin_maestro_registry__upstream_search",
+    "mcp__plugin_maestro_registry__catalog_search",
+    "mcp__plugin_maestro_registry__catalog_get",
+    "mcp__plugin_maestro_registry__catalog_list",
+    "mcp__plugin_maestro_registry__skill_fingerprint",
+    "mcp__plugin_maestro_registry__routing_lookup"
+  ],
+  "related": {
+    "skills": [
+      "component-ingestion"
+    ],
+    "agents": [
+      "maestro"
+    ],
+    "commands": [
+      "ingerir"
+    ]
+  },
+  "status": "active",
+  "version": "0.1.0",
+  "integration": {
+    "date": "2026-09-28",
+    "reason": "Lotes grandes ('recebi 10 skills e 3 agents') geram análise volumosa (G1).",
+    "ingestion": "ING-0002"
+  },
+  "tests": [
+    "tests/integration/mcp-registry.test.ts"
+  ],
+  "anti_overkill": {
+    "reuso": "skill-reviewer/plugin-validator (plugin-dev) revisam qualidade de um componente, não comparam com catálogo/upstream nem decidem camada.",
+    "necessidade": "Sem isolar a análise, cada lote grande consome o contexto principal e degrada a orquestração.",
+    "custo": "1 arquivo (~45 linhas).",
+    "reversao": "Remover; /maestro:ingerir roda os estágios 2–5 na thread principal com as mesmas ferramentas."
+  }
+}

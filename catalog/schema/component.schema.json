@@ -1,0 +1,205 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string"
+    },
+    "name": {
+      "type": "string",
+      "pattern": "^[a-z0-9][a-z0-9._@-]*$"
+    },
+    "type": {
+      "type": "string",
+      "enum": [
+        "agent",
+        "skill",
+        "command",
+        "hook",
+        "mcp-server",
+        "mcp-tool",
+        "external-plugin",
+        "upstream-reference"
+      ]
+    },
+    "path": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "parent": {
+      "type": "string"
+    },
+    "origin": {
+      "type": "object",
+      "properties": {
+        "kind": {
+          "type": "string",
+          "enum": [
+            "proprietary",
+            "adapted",
+            "upstream",
+            "third-party"
+          ]
+        },
+        "source": {
+          "type": "string",
+          "minLength": 2
+        },
+        "ref": {
+          "type": "string"
+        },
+        "sha": {
+          "type": "string"
+        },
+        "license": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "kind",
+        "source"
+      ]
+    },
+    "responsibility": {
+      "type": "string",
+      "minLength": 10
+    },
+    "dependencies": {
+      "default": [],
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "tools": {
+      "default": [],
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "related": {
+      "default": {
+        "skills": [],
+        "agents": [],
+        "commands": []
+      },
+      "type": "object",
+      "properties": {
+        "skills": {
+          "default": [],
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "agents": {
+          "default": [],
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "commands": {
+          "default": [],
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "experimental",
+        "active",
+        "deprecated",
+        "reference"
+      ]
+    },
+    "version": {
+      "type": "string",
+      "minLength": 1
+    },
+    "integration": {
+      "type": "object",
+      "properties": {
+        "date": {
+          "type": "string",
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+        },
+        "reason": {
+          "type": "string",
+          "minLength": 5
+        },
+        "ingestion": {
+          "anyOf": [
+            {
+              "type": "string",
+              "pattern": "^ING-\\d{4}$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "date",
+        "reason",
+        "ingestion"
+      ]
+    },
+    "tests": {
+      "default": [],
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "anti_overkill": {
+      "type": "object",
+      "properties": {
+        "reuso": {
+          "type": "string",
+          "minLength": 10
+        },
+        "necessidade": {
+          "type": "string",
+          "minLength": 10
+        },
+        "custo": {
+          "type": "string",
+          "minLength": 5
+        },
+        "reversao": {
+          "type": "string",
+          "minLength": 5
+        }
+      },
+      "required": [
+        "reuso",
+        "necessidade",
+        "custo",
+        "reversao"
+      ]
+    },
+    "notes": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "id",
+    "name",
+    "type",
+    "path",
+    "origin",
+    "responsibility",
+    "status",
+    "version",
+    "integration"
+  ]
+}

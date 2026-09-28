@@ -1,0 +1,32 @@
+{
+  "id": "external-plugin:mcp-server-dev@claude-plugins-official",
+  "name": "mcp-server-dev@claude-plugins-official",
+  "type": "external-plugin",
+  "path": "vendor/upstream/claude-plugins-official/plugins/mcp-server-dev",
+  "origin": {
+    "kind": "upstream",
+    "source": "claude-plugins-official/plugins/mcp-server-dev",
+    "sha": "fa59bc9037741ecfa131aa27938272605710d7b2",
+    "license": "Apache-2.0"
+  },
+  "responsibility": "Guia oficial de construção de servidores MCP (tool-design: anotações, leitura/escrita separadas, structuredContent).",
+  "dependencies": [
+    "upstream-reference:claude-plugins-official"
+  ],
+  "tools": [],
+  "related": {
+    "skills": [
+      "component-authoring"
+    ],
+    "agents": [],
+    "commands": []
+  },
+  "status": "reference",
+  "version": "upstream@fa59bc90",
+  "integration": {
+    "date": "2026-09-28",
+    "reason": "Padrão aplicado aos servidores estado e registry.",
+    "ingestion": "ING-0001"
+  },
+  "tests": []
+}

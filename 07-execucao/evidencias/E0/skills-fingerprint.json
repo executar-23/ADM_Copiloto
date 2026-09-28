@@ -1,0 +1,154 @@
+[
+ {
+  "skill": "executar-block-quick-frameworks",
+  "copias": [
+   {
+    "path": "<synced>/executar-block-quick-frameworks",
+    "tree": "95aab3fac373812f",
+    "arquivos": 15,
+    "linhas_skill_md": 163,
+    "versao": "1.0.0"
+   }
+  ]
+ },
+ {
+  "skill": "obsidian-editorial-pipeline",
+  "copias": [
+   {
+    "path": "<synced>/obsidian-editorial-pipeline",
+    "tree": "d643e94913e931d1",
+    "arquivos": 34,
+    "linhas_skill_md": 171,
+    "versao": "2.3.0"
+   }
+  ]
+ },
+ {
+  "skill": "executar-safe-frameworks",
+  "copias": [
+   {
+    "path": "<synced>/executar-safe-frameworks",
+    "tree": "8a0fcc9086d6e226",
+    "arquivos": 24,
+    "linhas_skill_md": 127,
+    "versao": null
+   }
+  ]
+ },
+ {
+  "skill": "rc-cognitive-risk-expert",
+  "copias": []
+ },
+ {
+  "skill": "executar-solution-store",
+  "copias": [
+   {
+    "path": "<synced>/executar-solution-store",
+    "tree": "e133da8fb66d6820",
+    "arquivos": 66,
+    "linhas_skill_md": 62,
+    "versao": null
+   }
+  ]
+ },
+ {
+  "skill": "copiloto-executar",
+  "copias": [
+   {
+    "path": "<synced>/copiloto-executar",
+    "tree": "f8934fb43cae7111",
+    "arquivos": 16,
+    "linhas_skill_md": 140,
+    "versao": null
+   }
+  ]
+ },
+ {
+  "skill": "executar-mapa-os",
+  "copias": [
+   {
+    "path": "<synced>/executar-mapa-os",
+    "tree": "8e074946dc640ccd",
+    "arquivos": 33,
+    "linhas_skill_md": 116,
+    "versao": null
+   }
+  ]
+ },
+ {
+  "skill": "plano-operacional-rastreavel",
+  "copias": [
+   {
+    "path": "<synced>/plano-operacional-rastreavel",
+    "tree": "5b4b1a465e261c79",
+    "arquivos": 11,
+    "linhas_skill_md": 164,
+    "versao": null
+   }
+  ]
+ },
+ {
+  "skill": "executar-prompt",
+  "copias": [
+   {
+    "path": "<synced>/executar-prompt",
+    "tree": "4c8777c525b1e967",
+    "arquivos": 12,
+    "linhas_skill_md": 158,
+    "versao": "1.0.0"
+   }
+  ]
+ },
+ {
+  "skill": "executar-business-docx",
+  "copias": [
+   {
+    "path": "<synced>/executar-business-docx",
+    "tree": "f742fd6ba14b6f20",
+    "arquivos": 68,
+    "linhas_skill_md": 259,
+    "versao": "1.0.0"
+   }
+  ]
+ },
+ {
+  "skill": "executar-design",
+  "copias": [
+   {
+    "path": "<synced>/executar-design",
+    "tree": "f99ca1531d1ce28f",
+    "arquivos": 10,
+    "linhas_skill_md": 86,
+    "versao": null
+   }
+  ]
+ },
+ {
+  "skill": "executar-skill-creator",
+  "copias": []
+ },
+ {
+  "skill": "gerador-skill-directory",
+  "copias": []
+ },
+ {
+  "skill": "executar-arvore-roadmap",
+  "copias": []
+ },
+ {
+  "skill": "deskgo-business-workbook",
+  "copias": []
+ },
+ {
+  "skill": "gerar-workbook-deskgo",
+  "copias": []
+ },
+ {
+  "skill": "executar-calendar",
+  "copias": []
+ },
+ {
+  "skill": "executar-fluxo-documental-notion",
+  "copias": []
+ }
+]

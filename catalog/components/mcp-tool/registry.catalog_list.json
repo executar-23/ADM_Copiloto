@@ -1,0 +1,31 @@
+{
+  "id": "mcp-tool:registry.catalog_list",
+  "name": "registry.catalog_list",
+  "type": "mcp-tool",
+  "path": "src/mcp/registry.ts",
+  "parent": "mcp-server:registry",
+  "origin": {
+    "kind": "proprietary",
+    "source": "servidor registry"
+  },
+  "responsibility": "Listar catálogo (somente leitura).",
+  "dependencies": [],
+  "tools": [
+    "mcp__plugin_maestro_registry__catalog_list"
+  ],
+  "related": {
+    "skills": [],
+    "agents": [],
+    "commands": []
+  },
+  "status": "active",
+  "version": "0.1.0",
+  "integration": {
+    "date": "2026-09-28",
+    "reason": "Ferramenta do servidor registry.",
+    "ingestion": "ING-0002"
+  },
+  "tests": [
+    "tests/integration/mcp-registry.test.ts"
+  ]
+}

@@ -1,0 +1,29 @@
+name: check
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: false   # upstream não é necessário para o gate; SHAs são conferidos pelo gitlink
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - name: Claude Code CLI (validador oficial de plugins — não exige credencial)
+        run: npm install -g @anthropic-ai/claude-code
+      - name: npm run check
+        run: npm run check
+        env:
+          CI: "true"

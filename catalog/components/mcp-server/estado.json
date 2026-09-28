@@ -1,0 +1,61 @@
+{
+  "id": "mcp-server:estado",
+  "name": "estado",
+  "type": "mcp-server",
+  "path": "src/mcp/estado.ts",
+  "origin": {
+    "kind": "proprietary",
+    "source": "ING-0002 contrato C-01 (estado unificado)"
+  },
+  "responsibility": "Servidor stdio do ledger único: vocabulário canônico, máquina de estados com WIP=1, evidência, decisões, divergências, change control e autorização externa.",
+  "dependencies": [
+    "node>=20"
+  ],
+  "tools": [
+    "mcp__plugin_maestro_estado__state_summary",
+    "mcp__plugin_maestro_estado__node_list",
+    "mcp__plugin_maestro_estado__node_get",
+    "mcp__plugin_maestro_estado__node_next",
+    "mcp__plugin_maestro_estado__decision_list",
+    "mcp__plugin_maestro_estado__state_validate",
+    "mcp__plugin_maestro_estado__state_init",
+    "mcp__plugin_maestro_estado__node_create",
+    "mcp__plugin_maestro_estado__node_update",
+    "mcp__plugin_maestro_estado__node_transition",
+    "mcp__plugin_maestro_estado__evidence_add",
+    "mcp__plugin_maestro_estado__decision_record",
+    "mcp__plugin_maestro_estado__authorization_grant"
+  ],
+  "related": {
+    "skills": [
+      "maestro-operacao",
+      "estagios-bpm"
+    ],
+    "agents": [
+      "maestro"
+    ],
+    "commands": [
+      "estado",
+      "executar",
+      "verificar",
+      "decidir"
+    ]
+  },
+  "status": "active",
+  "version": "0.1.0",
+  "integration": {
+    "date": "2026-09-28",
+    "reason": "Invariantes I-01/I-04/I-05/I-06/I-09/I-10 impostas por código (CC-001).",
+    "ingestion": "ING-0002"
+  },
+  "tests": [
+    "tests/integration/mcp-estado.test.ts",
+    "tests/unit/machine.test.ts"
+  ],
+  "anti_overkill": {
+    "reuso": "Copiloto tem state-contract.json, mas sobre o Control Center (Drive) e sem API executável neste repo; ESTADO.md livre não é validável.",
+    "necessidade": "WIP=1 e 'DONE só com evidência' pedidos por prompt não se sustentam (R1: retrabalho).",
+    "custo": "~400 linhas TS + lib testada; bundle em dist/.",
+    "reversao": "Remover do .mcp.json; o ledger JSON continua legível e ESTADO.md continua como projeção."
+  }
+}

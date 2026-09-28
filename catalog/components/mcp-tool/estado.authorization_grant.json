@@ -1,0 +1,31 @@
+{
+  "id": "mcp-tool:estado.authorization_grant",
+  "name": "estado.authorization_grant",
+  "type": "mcp-tool",
+  "path": "src/mcp/estado.ts",
+  "parent": "mcp-server:estado",
+  "origin": {
+    "kind": "proprietary",
+    "source": "servidor estado"
+  },
+  "responsibility": "Conceder autorização externa (humano) (exige confirmação humana).",
+  "dependencies": [],
+  "tools": [
+    "mcp__plugin_maestro_estado__authorization_grant"
+  ],
+  "related": {
+    "skills": [],
+    "agents": [],
+    "commands": []
+  },
+  "status": "active",
+  "version": "0.1.0",
+  "integration": {
+    "date": "2026-09-28",
+    "reason": "Ferramenta do servidor estado.",
+    "ingestion": "ING-0002"
+  },
+  "tests": [
+    "tests/integration/mcp-estado.test.ts"
+  ]
+}

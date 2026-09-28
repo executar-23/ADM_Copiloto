@@ -1,0 +1,20 @@
+# grep -ril <termo> references/*.md config/process-v03.json (obsidian-editorial-pipeline 2.3.0, skills da conta)
+GEO: 0 arquivos
+Topic Pack: 0 arquivos
+arco: 0 arquivos
+nomenclatura: 0 arquivos
+indexa: 0 arquivos
+15 dias: 0 arquivos
+
+# references/source-precedence.md
+2. **SOP-KP-001** (`references/sop-kp-001.md` + `config/process-v03.json`): fonte canônica única de blocos, gates, dependências e critério de pronto. Substitui o antigo Process Doc V02.
+da SOP-KP-001 em gates ou ordem de etapas, registrar a divergência explicitamente e
+
+# RELEASE.json
+{
+  "id": "SKILL-OBS-EDITORIAL-V2",
+  "version": "2.3.0",
+  "status": "BUILT",
+  "process": "SOP-KP-001",
+  "ux": "HIG-inspired Obsidian operational front-end, 1 etapa = 1 entregável ativo"
+}

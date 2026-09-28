@@ -1,0 +1,10 @@
+{
+  "name": "maestro",
+  "version": "0.1.0",
+  "description": "Maestro — orquestrador multiagente do ecossistema EXECUTAR: ledger de estado com WIP=1 e DONE só com evidência, roteamento de skills por lane, ingestão governada de componentes (RECEIVE→REGISTER) e servidores MCP de estado e registro.",
+  "author": {
+    "name": "executar-23"
+  },
+  "repository": "https://github.com/executar-23/ADM_Copiloto",
+  "keywords": ["orchestration", "multi-agent", "state-ledger", "mcp", "governance", "executar"]
+}

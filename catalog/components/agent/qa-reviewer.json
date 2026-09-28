@@ -1,0 +1,57 @@
+{
+  "id": "agent:qa-reviewer",
+  "name": "qa-reviewer",
+  "type": "agent",
+  "path": "agents/qa-reviewer.md",
+  "origin": {
+    "kind": "adapted",
+    "source": "ING-0002 topologia §3 (candidato G2) + padrão plugin-validator (plugin-dev, ING-0001)"
+  },
+  "responsibility": "Verificador independente e somente leitura: confere cada critério do DoD com evidência observada, roda validadores e devolve veredito — nunca promove nem corrige.",
+  "dependencies": [
+    "mcp-server:estado",
+    "mcp-server:registry"
+  ],
+  "tools": [
+    "Read",
+    "Grep",
+    "Glob",
+    "Bash",
+    "mcp__plugin_maestro_estado__node_get",
+    "mcp__plugin_maestro_estado__state_summary",
+    "mcp__plugin_maestro_estado__state_validate",
+    "mcp__plugin_maestro_registry__workspace_validate",
+    "mcp__plugin_maestro_registry__catalog_get",
+    "mcp__plugin_maestro_registry__component_inspect",
+    "mcp__plugin_maestro_registry__conflict_check"
+  ],
+  "related": {
+    "skills": [
+      "maestro-operacao",
+      "component-ingestion"
+    ],
+    "agents": [
+      "maestro"
+    ],
+    "commands": [
+      "verificar",
+      "ingerir"
+    ]
+  },
+  "status": "active",
+  "version": "0.1.0",
+  "integration": {
+    "date": "2026-09-28",
+    "reason": "Gate G2: revisão independente de quem produziu (I-04, C-04 regra 1).",
+    "ingestion": "ING-0002"
+  },
+  "tests": [
+    "scripts/e2e.sh#agent-delegacao"
+  ],
+  "anti_overkill": {
+    "reuso": "plugin-validator (plugin-dev) valida só estrutura de plugin; engineering:code-review não verifica DoD de nó.",
+    "necessidade": "Verificação feita por quem produziu não é independente; a folha somente leitura garante a separação por ferramenta (G2).",
+    "custo": "1 arquivo (~50 linhas).",
+    "reversao": "Remover o arquivo e a entrada na allowlist do maestro; /maestro:verificar passa a verificar na thread principal."
+  }
+}
