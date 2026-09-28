@@ -1,0 +1,10 @@
+node_modules/
+*.log
+.DS_Store
+# Claude Code — configurações locais
+.claude/settings.local.json
+.claude/*.local.md
+# Resultados de evals e artefatos temporários
+evals/results/
+.tmp/
+coverage/

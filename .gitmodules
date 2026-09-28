@@ -1,0 +1,8 @@
+[submodule "vendor/upstream/claude-plugins-official"]
+	path = vendor/upstream/claude-plugins-official
+	url = https://github.com/anthropics/claude-plugins-official.git
+	shallow = true
+[submodule "vendor/upstream/knowledge-work-plugins"]
+	path = vendor/upstream/knowledge-work-plugins
+	url = https://github.com/anthropics/knowledge-work-plugins.git
+	shallow = true
