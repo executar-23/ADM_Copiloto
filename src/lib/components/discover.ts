@@ -3,7 +3,7 @@ import { basename, join, relative } from "node:path";
 import { readdirSync } from "node:fs";
 import { PATHS } from "../workspace.ts";
 import { existsSync, isDir, readJson, toPosix } from "../util.ts";
-import { TOOLS } from "../../mcp/manifest.ts";
+import { REMOTE_SERVERS, TOOLS } from "../../mcp/manifest.ts";
 import type { Finding } from "../estado/validate.ts";
 
 export interface DiskComponent {
@@ -77,13 +77,16 @@ export function discoverPluginComponents(root: string): { components: DiskCompon
       }
     }
   }
-  // Servidor "remote" (Cloudflare Worker, HTTP): não entra em .mcp.json — o plugin local nunca o
-  // auto-inicia — mas existe de verdade em cloudflare-worker/ e é isso que conta como "no disco".
+  // Servidores remotos (Cloudflare Worker, HTTP — "remote" e "remote-auth", mesmo arquivo):
+  // não entram em .mcp.json — o plugin local nunca os auto-inicia — mas existem de verdade em
+  // cloudflare-worker/ e é isso que conta como "no disco".
   const workerEntry = join(root, "cloudflare-worker", "src", "index.ts");
   if (existsSync(workerEntry)) {
-    out.push({ id: "mcp-server:remote", type: "mcp-server", name: "remote", path: "cloudflare-worker/src/index.ts" });
-    for (const t of TOOLS) {
-      if (t.server === "remote") out.push({ id: `mcp-tool:remote.${t.name}`, type: "mcp-tool", name: `remote.${t.name}`, path: "cloudflare-worker/src/index.ts" });
+    for (const server of REMOTE_SERVERS) {
+      out.push({ id: `mcp-server:${server}`, type: "mcp-server", name: server, path: "cloudflare-worker/src/index.ts" });
+      for (const t of TOOLS) {
+        if (t.server === server) out.push({ id: `mcp-tool:${server}.${t.name}`, type: "mcp-tool", name: `${server}.${t.name}`, path: "cloudflare-worker/src/index.ts" });
+      }
     }
   }
   return { components: out, findings };

@@ -3,12 +3,35 @@
   "name": "maestro-mcp-remote",
   "main": "src/index.ts",
   "compatibility_date": "2026-09-28",
-  "compatibility_flags": ["nodejs_compat"],
+  // nodejs_compat: exigido pelo SDK MCP/agents. global_fetch_strictly_public: exigido pelo
+  // @cloudflare/workers-oauth-provider para aceitar Client ID Metadata Documents (CIMD, D15/CC-003) —
+  // impede que o fetch de CIMD use roteamento de mesma zona legado (proteção contra SSRF).
+  "compatibility_flags": ["nodejs_compat", "global_fetch_strictly_public"],
   // McpAgent usa Durable Objects para estado de sessão MCP (não para os dados do Maestro —
   // esses continuam vindo, a cada chamada, de raw.githubusercontent.com). Boilerplate do pacote `agents`.
-  "migrations": [{ "new_sqlite_classes": ["MaestroRemote"], "tag": "v1" }],
+  "migrations": [
+    { "new_sqlite_classes": ["MaestroRemote"], "tag": "v1" },
+    // v2: MaestroRemoteAuth (Fase 1 OAuth, CC-003) — classe nova, migração separada (não editar "v1").
+    { "new_sqlite_classes": ["MaestroRemoteAuth"], "tag": "v2" }
+  ],
   "durable_objects": {
-    "bindings": [{ "class_name": "MaestroRemote", "name": "MCP_OBJECT" }]
+    "bindings": [
+      { "class_name": "MaestroRemote", "name": "MCP_OBJECT" },
+      { "class_name": "MaestroRemoteAuth", "name": "MCP_AUTH_OBJECT" }
+    ]
+  },
+  // OAUTH_KV: nome de binding exigido pelo @cloudflare/workers-oauth-provider (grants, códigos,
+  // tokens — só hashes/criptografado, nunca em texto puro; ver seu storage-schema.md). Namespace
+  // real criado nesta sessão via conector Cloudflare (kv_namespace_create), não inventado.
+  "kv_namespaces": [{ "binding": "OAUTH_KV", "id": "cd9330fab3864161959b158b3473e6dc" }],
+  // Só afeta `wrangler dev` local — nunca produção (Access real é configurado no dashboard, D15).
+  // Comente/remova este bloco para simular requisição NÃO autenticada (ctx.access ausente),
+  // o que testa o caminho de erro do /authorize.
+  "access": {
+    "dev": {
+      "aud": "maestro-mcp-remote-dev",
+      "identity": { "email": "dev@example.invalid", "name": "Dev (wrangler dev, não é uma identidade real)" }
+    }
   },
   "observability": { "enabled": true }
 }

@@ -3,7 +3,7 @@
 > **Gerado de `catalog/components/**/*.json` — não editar à mão.** Fonte de verdade para expansão.
 > Registrar/atualizar: ferramenta MCP `catalog_register` (servidor `registry`) ou editar o JSON e rodar `npm run render`.
 
-**Total:** 60 · agent: 4 · skill: 5 · command: 7 · hook: 4 · mcp-server: 3 · mcp-tool: 29 · external-plugin: 6 · upstream-reference: 2
+**Total:** 62 · agent: 4 · skill: 5 · command: 7 · hook: 4 · mcp-server: 4 · mcp-tool: 30 · external-plugin: 6 · upstream-reference: 2
 
 ## agent
 
@@ -52,6 +52,7 @@
 | `estado` | active | 0.1.0 | proprietary | Servidor stdio do ledger único: vocabulário canônico, máquina de estados com WIP=1, evidência, decisões, divergências, change control e autorização externa. | agent:maestro, skill:maestro-operacao, skill:estagios-bpm, command:estado, command:executar, command:verificar, command:decidir | ING-0002 | 2 |
 | `registry` | active | 0.1.0 | proprietary | Servidor stdio de componentes: catálogo, inspeção/classificação, conflitos, comparação com upstream, roteamento, fingerprint de skills, validação e ingestão. | agent:maestro, agent:component-analyst, agent:qa-reviewer, skill:component-ingestion, skill:roteamento-lanes, command:ingerir, command:catalogo, command:validar | ING-0002 | 1 |
 | `remote` | experimental | 0.1.0 | proprietary | Servidor MCP remoto (streamable HTTP), hospedado em Cloudflare Workers: espelho público somente leitura do ledger (07-execucao/estado.json) e do roteamento (mapa/roteamento.json), lidos ao vivo de raw.githubusercontent.com — sem filesystem, sem escrita. Reaplica as funções puras de src/lib/estado/machine.ts e src/lib/routing/routing.ts. | — | — | 1 |
+| `remote-auth` | experimental | 0.1.0 | proprietary | Gateway MCP autenticado (Streamable HTTP), no mesmo Worker do espelho público (mcp-server:remote), rota separada /mcp/auth. OAuth 2.1 + PKCE + Client ID Metadata Documents via @cloudflare/workers-oauth-provider; identidade via Cloudflare Access (D15, cloudflare-worker/src/auth/identity.ts): ctx.access nativo, com fallback manual (JWKS do team domain via jose) para quando a rota é protegida por uma Access application self-hosted em vez do toggle nativo do Worker inteiro. Fase 1 da ADR-MCP-REMOTE-001: só prova o fluxo ponta a ponta (1 ferramenta, whoami) — sem integração com Blog/CMS (Fases 2/3, não aprovadas). | — | — | 1 |
 
 ## mcp-tool
 
@@ -82,6 +83,7 @@
 | `registry.skill_fingerprint` | active | 0.1.0 | proprietary | Localizar skill e medir drift (somente leitura). | mcp-server:registry | ING-0002 | 1 |
 | `registry.upstream_search` | active | 0.1.0 | proprietary | Buscar nos upstreams oficiais (somente leitura). | mcp-server:registry | ING-0002 | 1 |
 | `registry.workspace_validate` | active | 0.1.0 | proprietary | Validar workspace (somente leitura). | mcp-server:registry | ING-0002 | 1 |
+| `remote-auth.whoami` | experimental | 0.1.0 | proprietary | Identidade autenticada (Fase 1 OAuth) (somente leitura; devolve userId/email/name capturados no consentimento via Cloudflare Access — prova o fluxo OAuth ponta a ponta, sem dado de Blog/CMS). | mcp-server:remote-auth | — | 1 |
 | `remote.decision_list` | experimental | 0.1.0 | proprietary | Listar decisões (espelho público) (somente leitura; consulta o ledger/roteamento públicos ao vivo, sem escrita). | mcp-server:remote | — | 1 |
 | `remote.node_get` | experimental | 0.1.0 | proprietary | Obter nó (espelho público) (somente leitura; consulta o ledger/roteamento públicos ao vivo, sem escrita). | mcp-server:remote | — | 1 |
 | `remote.routing_lookup` | experimental | 0.1.0 | proprietary | Consultar roteamento (espelho público) (somente leitura; consulta o ledger/roteamento públicos ao vivo, sem escrita). | mcp-server:remote | — | 1 |

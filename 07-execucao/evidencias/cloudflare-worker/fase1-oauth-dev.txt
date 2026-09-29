@@ -1,0 +1,106 @@
+Fase 1 (Foundation) da ADR-MCP-REMOTE-001 / CC-003 — evidência de teste local real via `wrangler dev`,
+não simulação. Rota nova: /mcp/auth (OAuth 2.1 + CIMD via @cloudflare/workers-oauth-provider,
+identidade via Cloudflare Access — D15). Rota antiga /mcp (mcp-server:remote, DE-012) confirmada
+inalterada.
+
+=== 0) `npx tsc --noEmit` e `wrangler deploy --dry-run --outdir .wrangler-check-out` ===
+
+tsc: limpo, sem erros.
+wrangler deploy --dry-run:
+  Total Upload: 4281.56 KiB / gzip: 785.00 KiB
+  Binding                                                     Resource
+  env.MCP_OBJECT (MaestroRemote)                              Durable Object
+  env.MCP_AUTH_OBJECT (MaestroRemoteAuth)                     Durable Object
+  env.OAUTH_KV (cd9330fab3864161959b158b3473e6dc)             KV Namespace
+  --dry-run: exiting now.
+(namespace OAUTH_KV real, criado nesta sessão via kv_namespace_create — não inventado, I-02)
+
+=== 1) `GET /` (info page) ===
+
+Maestro — rota MCP remota
+
+Espelho público somente leitura (DE-012): state_summary, node_get, decision_list, routing_lookup.
+Endpoint: POST /mcp (streamable HTTP, sem autenticação)
+
+Gateway autenticado — Fase 1, EXPERIMENTAL (ADR-MCP-REMOTE-001 / CC-003): whoami.
+Endpoint: POST /mcp/auth (streamable HTTP, OAuth 2.1 + CIMD)
+Login: GET/POST /authorize (exige Cloudflare Access configurado — ver README.md deste diretório)
+
+=== 2) `GET /.well-known/oauth-authorization-server` ===
+
+{"issuer":"http://localhost:18787","authorization_endpoint":"http://localhost:18787/authorize",
+"token_endpoint":"http://localhost:18787/oauth/token","protected_resources":["http://localhost:18787/mcp/auth"],
+"scopes_supported":["mcp:read"],"response_types_supported":["code"],"response_modes_supported":["query"],
+"grant_types_supported":["authorization_code","refresh_token"],
+"token_endpoint_auth_methods_supported":["client_secret_basic","client_secret_post","none"],
+"revocation_endpoint":"http://localhost:18787/oauth/token","code_challenge_methods_supported":["S256"],
+"authorization_response_iss_parameter_supported":true,"client_id_metadata_document_supported":true}
+
+client_id_metadata_document_supported: true confirma que o compat flag global_fetch_strictly_public +
+clientIdMetadataDocumentEnabled: true no wrangler.jsonc/index.ts estão corretamente conectados (D15
+prefere CIMD sobre DCR, conforme a ADR §9).
+
+=== 3) `GET /.well-known/oauth-protected-resource/mcp/auth` ===
+
+{"resource":"http://localhost:18787/mcp/auth","authorization_servers":["http://localhost:18787"],
+"scopes_supported":["mcp:read"],"bearer_methods_supported":["header"]}
+
+=== 4) `POST /mcp` (público, DE-012) — handshake MCP real, sem token ===
+
+Requisição: {"jsonrpc":"2.0","id":1,"method":"initialize",...}
+Resposta (200, streamable HTTP):
+  {"result":{"protocolVersion":"2025-11-25","capabilities":{"tools":{"listChanged":true}},
+  "serverInfo":{"name":"maestro-remote","version":"0.1.0"},
+  "instructions":"Espelho público somente leitura do plugin Maestro ..."},"jsonrpc":"2.0","id":1}
+
+Confirma: a rota pública NÃO foi afetada pela adição do gateway OAuth — mesmo comportamento da
+sessão anterior (07-execucao/evidencias/cloudflare-worker/dry-run-e-dev.txt).
+
+=== 5) `POST /mcp/auth` (protegido) sem bearer token ===
+
+HTTP/1.1 401 Unauthorized
+WWW-Authenticate: Bearer realm="OAuth", resource_metadata="http://localhost:18787/.well-known/oauth-protected-resource/mcp/auth", scope="mcp:read"
+Cache-Control: no-store
+
+Challenge correto: nomeia o resource_metadata certo e o scope mínimo (mcp:read), conforme MCP
+authorization 2026-07-28 / RFC 6750.
+
+=== 6) `GET /authorize` SEM identidade Cloudflare Access (config wrangler.noaccess.jsonc, sem o
+bloco access.dev) — deve falhar fechado ===
+
+HTTP/1.1 401 Unauthorized
+Content-Type: text/plain; charset=utf-8
+
+Cloudflare Access não confirmou a identidade desta requisição: nem ctx.access nem o header
+Cf-Access-Jwt-Assertion estavam presentes — /authorize provavelmente ainda não está protegido por
+uma Cloudflare Access application. Configure a Access application que protege /authorize (Zero
+Trust → Access → Applications, ou Workers & Pages → este Worker → aba Access) e, se usar o fallback
+manual, os secrets CF_ACCESS_TEAM_DOMAIN/CF_ACCESS_AUD (`wrangler secret put`) — ver D15 e
+cloudflare-worker/README.md.
+
+Confirma: requireAccessIdentity() falha fechado (não assume anônimo, não inventa identidade — I-02)
+quando o Access real ainda não está configurado.
+
+=== 7) `GET /authorize` COM identidade Cloudflare Access simulada (wrangler.jsonc access.dev:
+aud="maestro-mcp-remote-dev", identity.email="dev@example.invalid") ===
+
+HTTP/1.1 400 Bad Request
+Content-Type: text/plain; charset=utf-8
+
+client_id is required
+
+Este é o erro CORRETO e ESPERADO neste ponto: nenhum client OAuth real está registrado ainda (sem
+CIMD/DCR configurado do lado do cliente), e a requisição de teste não incluiu client_id/redirect_uri.
+O fato de a resposta ser "client_id is required" (validação de parâmetros da própria biblioteca, via
+oauth.parseAuthRequest()) — e NÃO o erro AccessNotConfiguredError do passo 6 — confirma que
+requireAccessIdentity() passou com sucesso: a identidade simulada por access.dev foi lida via
+ctx.access.getIdentity() e a execução chegou à etapa seguinte do fluxo.
+
+=== Conclusão ===
+
+Mecânica OAuth 2.1 + CIMD + identidade via Cloudflare Access verificada ponta a ponta no nível de
+protocolo (discovery, challenge 401, fail-closed sem identidade, passagem com identidade simulada).
+NÃO exercitado: o fluxo completo com um cliente OAuth real (CIMD de verdade ou client pré-registrado)
+e consentimento até emissão de token — isso depende de (a) a Access application real configurada no
+dashboard (D15, ainda pendente do usuário) e (b) um cliente MCP real tentando conectar. Rota pública
+/mcp (mcp-server:remote, DE-012) confirmada sem mudança de comportamento.

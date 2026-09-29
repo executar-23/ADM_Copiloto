@@ -1,0 +1,31 @@
+{
+  "id": "mcp-tool:remote-auth.whoami",
+  "name": "remote-auth.whoami",
+  "type": "mcp-tool",
+  "path": "cloudflare-worker/src/index.ts",
+  "parent": "mcp-server:remote-auth",
+  "origin": {
+    "kind": "proprietary",
+    "source": "ADR-MCP-REMOTE-001 (proposta do usuário, 2026-09-29), Fase 1 aprovada — CC-003"
+  },
+  "responsibility": "Identidade autenticada (Fase 1 OAuth) (somente leitura; devolve userId/email/name capturados no consentimento via Cloudflare Access — prova o fluxo OAuth ponta a ponta, sem dado de Blog/CMS).",
+  "dependencies": [],
+  "tools": [
+    "whoami"
+  ],
+  "related": {
+    "skills": [],
+    "agents": [],
+    "commands": []
+  },
+  "status": "experimental",
+  "version": "0.1.0",
+  "integration": {
+    "date": "2026-09-29",
+    "reason": "ADR-MCP-REMOTE-001, Fase 1 (Foundation) aprovada explicitamente pelo usuário via AskUserQuestion em 2026-09-29.",
+    "ingestion": null
+  },
+  "tests": [
+    "07-execucao/evidencias/cloudflare-worker/fase1-oauth-dev.txt"
+  ]
+}

@@ -50,10 +50,10 @@ Em outro projeto, o Maestro cria o ledger local com a ferramenta `state_init` qu
 | Skills | `maestro-operacao`, `roteamento-lanes`, `estagios-bpm`, `component-ingestion`, `component-authoring` |
 | Commands | `estado`, `executar`, `verificar`, `decidir`, `ingerir`, `validar`, `catalogo` |
 | MCP (local) | `estado` (13 ferramentas: ledger/máquina de estados), `registry` (12: catálogo, ingestão, roteamento, upstream, fingerprint, validação) |
-| MCP (remoto) | `remote` — 4 ferramentas somente leitura, hospedadas em Cloudflare Workers, espelho público do ledger/roteamento. Código testado; **publicação pendente** (`D14`) — ver [`cloudflare-worker/README.md`](cloudflare-worker/README.md) |
+| MCP (remoto) | `remote` — 4 ferramentas somente leitura, hospedadas em Cloudflare Workers, espelho público do ledger/roteamento. Código testado; **publicação pendente** (`D14`) — ver [`cloudflare-worker/README.md`](cloudflare-worker/README.md). `remote-auth` — gateway OAuth 2.1 (1 ferramenta, `whoami`), **experimental, Fase 1** de uma proposta de arquitetura maior (`CC-003`) — ver a mesma página |
 | Hooks | `session-context` (SessionStart), `guard-write` e `guard-external` (PreToolUse), `validate-on-write` (PostToolUse) |
 
-Catálogo completo (60 registros, incluindo plugins externos, upstreams e a rota remota): [`catalog/CATALOG.md`](catalog/CATALOG.md).
+Catálogo completo (62 registros, incluindo plugins externos, upstreams e as rotas remotas): [`catalog/CATALOG.md`](catalog/CATALOG.md).
 
 ## Estado do projeto
 

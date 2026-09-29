@@ -3,7 +3,7 @@
 export const PLUGIN_NAME = "maestro";
 
 export interface ToolMeta {
-  server: "estado" | "registry" | "remote";
+  server: "estado" | "registry" | "remote" | "remote-auth";
   name: string;
   title: string;
   readOnly: boolean;
@@ -11,7 +11,7 @@ export interface ToolMeta {
 }
 
 /** Servidores locais (stdio, `.mcp.json`) vs. hospedado (Cloudflare Worker, HTTP — ver `cloudflare-worker/`). */
-export const REMOTE_SERVERS = new Set<ToolMeta["server"]>(["remote"]);
+export const REMOTE_SERVERS = new Set<ToolMeta["server"]>(["remote", "remote-auth"]);
 
 export const TOOLS: readonly ToolMeta[] = [
   // estado — ledger + máquina de estados (C-01)
@@ -48,6 +48,9 @@ export const TOOLS: readonly ToolMeta[] = [
   { server: "remote", name: "node_get", title: "Obter nó (espelho público)", readOnly: true, destructive: false },
   { server: "remote", name: "decision_list", title: "Listar decisões (espelho público)", readOnly: true, destructive: false },
   { server: "remote", name: "routing_lookup", title: "Consultar roteamento (espelho público)", readOnly: true, destructive: false },
+  // remote-auth — gateway OAuth 2.1 (Fase 1 da ADR-MCP-REMOTE-001 / CC-003), mesmo Worker, rota
+  // separada (/mcp/auth) e protegida por token — não confundir com os 4 tools públicos acima.
+  { server: "remote-auth", name: "whoami", title: "Identidade autenticada (Fase 1 OAuth)", readOnly: true, destructive: false },
 ];
 
 export const fullToolName = (t: Pick<ToolMeta, "server" | "name">) => `mcp__plugin_${PLUGIN_NAME}_${t.server}__${t.name}`;
