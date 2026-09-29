@@ -6,7 +6,7 @@
   },
   "vocabulario": "copiloto-executar",
   "wip_limite": 1,
-  "atualizado_em": "2026-09-29T10:53:16.821Z",
+  "atualizado_em": "2026-09-29T10:54:44.345Z",
   "nos": [
     {
       "id": "E0",
@@ -1369,9 +1369,9 @@
       "output": [],
       "evidencias": [],
       "gaps": [
-        "Volume grande (CSV 68 linhas + 2 pacotes de plano) — aprovação explícita do usuário exigida antes de criar Issues em massa (TASK-SPACE/README.md item 4, espelha I-05)",
+        "Volume grande (CSV 68 linhas + 2 pacotes de plano + agora o 4o lote: 48 issues/11 Epics) — aprovação explícita do usuário exigida antes de criar Issues em massa (TASK-SPACE/README.md item 4, espelha I-05)",
         "titulo do nó ainda diz '3 lotes' (schema de node_update nao permite editar titulo) -- na verdade sao 4 desde o commit e3ab12a; tratar como rotulo desatualizado, nao como contagem real",
-        "commit e87ba8a completou 3 dos 4 arquivos do 4o lote (plano-interno-executarapp-2026-10.md, roadmap-executarapp-2026-10.md, calendario-executarapp-2026-10.html) -- ainda falta linear-import-executarapp-2026-10.md, que as instrucoes deste README (item 1) apontam como o arquivo acionavel (uma linha = uma tarefa candidata a Issue). Sem ele, o lote 4 nao pode ser processado em Issues -- nao inventar as linhas (I-02)."
+        "4o lote (TASK-SPACE/2026-09-29_plano-executarapp/) completou os 4 arquivos com o commit b805fdc (linear-import-executarapp-2026-10.md, 48 issues/11 Epics) -- gap de referencia pendente FECHADO. So 8 das 48 issues tem prazo em Outubro/2026; as demais 40 ficam 'Backlog -- ciclo seguinte' (TASK-SPACE/README.md item 4). Antes de criar Issues em massa: aplicar C-00.9 e registrar os 5 CONFLICTs de plano-interno-executarapp-2026-10.md §3.5 como decision_record tipo divergencia (C-00.8), como o proprio README exige."
       ],
       "conflitos": [],
       "decisao": null,
@@ -1404,9 +1404,16 @@
           "para": "READY",
           "motivo": "atualização [gaps]: sincronizado com commit e87ba8a (push seguinte do 4o lote TASK-SPACE, mesma sessao/automação concorrente): 3 dos 4 arquivos chegaram, mas falta linear-import-executarapp-2026-10.md -- gap estreitado, nao fechado",
           "ator": "maestro"
+        },
+        {
+          "em": "2026-09-29T10:54:44.345Z",
+          "de": "READY",
+          "para": "READY",
+          "motivo": "atualização [gaps]: reaplicando a atualizacao do commit 335cd37, que nao chegou a main -- o PR #19 foi mergeado no head anterior (b805fdc) antes desse push terminar de propagar, entao a atualizacao do gap ficou orfa na branch antiga. Reconfirmado no disco: linear-import-executarapp-2026-10.md existe. npm run check verde.",
+          "ator": "maestro"
         }
       ],
-      "atualizado_em": "2026-09-29T09:57:11.893Z"
+      "atualizado_em": "2026-09-29T10:54:44.345Z"
     },
     {
       "id": "CF-ROUTE-0001",
