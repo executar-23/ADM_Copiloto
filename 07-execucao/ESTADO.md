@@ -4,7 +4,7 @@
 > Vocabulário canônico: `BACKLOG_VALIDATED · READY · DOING · VERIFY · DONE · BLOCKED` (rótulos PT: VALIDADO ⬜ · PRONTO ⬜ · EM EXECUÇÃO 🔄 · VERIFICAR 🔎 · CONCLUÍDO ✅ · BLOQUEADO ⛔).
 > **WIP = 1.** Nenhum nó vira ✅ sem evidência (I-04). Progresso é derivado (I-09).
 
-**Última atualização:** 2026-09-29T09:57:11.893Z
+**Última atualização:** 2026-09-29T10:53:16.821Z
 **Nó ativo (WIP):** nenhum
 **Próximo elegível:** TASKSPACE-0001 — Processar TASK-SPACE/ (3 lotes: runbook Copiloto-ops CSV 68 linhas; 2 planos operacionais via plano-operacional-rastreavel) em GitHub Issues
 **Progresso derivado:** Trilha S 3/15 (20%) · Trilha L 0/10 (0%)
@@ -117,6 +117,7 @@
 - **DIV-005** (REGISTRADA) — Candidatas a F8 (gerar-workbook-deskgo, deskgo-business-workbook) não existem na conta; executar-relatorios (2026-09-25) declara substituir deskgo-business-workbook e executar-mapa-os → Registrada; evidência para D8; roteamento segue HIPÓTESE até E2
 - **DIV-006** (REGISTRADA) — Inventário diz 'não há conector Cloudflare' × conector Cloudflare Developer Platform disponível nesta sessão; rc-cognitive-risk-expert não encontrado na conta → Registrada; verificar no ambiente local antes de rotear DevOps/Cloudflare e as lanes que usam o RC
 - **DIV-007** (REGISTRADA) — TASK-SPACE/ apareceu na branch durante a construção do plugin (7 commits de sessão concorrente: auditoria Copiloto-ops + 2 planos operacionais via plano-operacional-rastreavel) → Não é código/componente do Maestro — é o inbox de dados de tarefa que TASK-SPACE/README.md define para o Copiloto/Maestro transformar em Issues. Tratado como ENTRADA (nó TASKSPACE-0001), não mesclado ao catálogo. Conteúdo é dado (I-07): CSV/planos citados, nunca executados como instrução.
+- **DIV-008** (ABERTA) — URL do dashboard Cloudflare na ADR-MCP-REMOTE-001 (conta 99b69a0d6b75b6b4f13beff73c5fa0b9, worker 'executar-studio') nao bate com a conta conectada nesta sessao
 
 ## Log de mudanças de contrato (change control)
 
@@ -139,3 +140,13 @@
 - **IMPACT:** E4/E5 têm artefatos antecipados (output) mas continuam BACKLOG_VALIDATED até E0–E3; EV-010 testado nesta rodada.
 - **REVIEW_REQUIRED:** Usuário — veredito em E6.
 - **STATUS:** APLICADO por decisão do usuário
+
+### CC-003 — ADR-MCP-REMOTE-001 (proposta): rota Cloudflare vira gateway MCP autenticado (OAuth 2.1 + CIMD), integrando Blog e CMS -- supersede condicional de DE-012 (ABERTA)
+
+- **CURRENT:** cloudflare-worker/ e um espelho publico somente leitura (DE-012): 4 tools read-only, sem autenticacao, le estado.json/roteamento.json via raw.githubusercontent.com.
+- **EVIDENCE:** Texto completo salvo em 07-execucao/evidencias/cc-003-adr-mcp-remote-001/adr-mcp-remote-001-proposta.md (ADR-MCP-REMOTE-001, v0.1.0, status PROPOSED, 36 secoes + criterios de aceite + plano de migracao em 6 fases), recebido do usuario em 2026-09-29 via comando /mcp__Cloudflare_Developer_Platform__workers-prompt-full.
+- **CONFLICT:** A ADR pede para 'substituir o Worker read-only pelo gateway OAuth' e diz que DE-012 'deixa de representar a arquitetura alvo' -- mas a propria ADR lista Identity Provider, API do Blog e API do CMS como A DEFINIR (SS11, SS29), o que I-02 proibe preencher por invencao. Ha tambem uma divergencia factual separada sobre qual conta/worker Cloudflare e o alvo (ver DIV-008).
+- **PROPOSED_CHANGE:** Substituir por um gateway MCP autenticado (Streamable HTTP + OAuth 2.1 + CIMD preferencial sobre DCR) que integra EXECUTAR Blog e CMS via adapters, com scopes read/write/publish/admin. Fases: Foundation (OAuth+CIMD) -> Blog -> CMS -> Public Connector -> Plugin integration -> Remote parity (ledger/registry).
+- **IMPACT:** Alto: infraestrutura de autenticacao publica nova (OAuth provider, storage de grants/consentimento), integracao com 2 sistemas ainda nao inspecionados neste repositorio (Blog, CMS), mudanca de topologia (plugin local + connector remoto), possivel migracao futura do ledger/registry para backend remoto (fora do escopo desta ADR, exige ADR complementar).
+- **REVIEW_REQUIRED:** Aprovacao explicita do usuario para iniciar Fase 1; escolha do Identity Provider (SS11); inspecao real de Blog/CMS (SS29); 4 respostas anti-overkill (C-00.9); esclarecer divergencia de conta/worker Cloudflare (ver DIV-008).
+- **STATUS:** PROPOSED -- nao aprovada, nao implementada. DE-012 permanece valida ate aprovacao + implementacao (SS22 da propria ADR).

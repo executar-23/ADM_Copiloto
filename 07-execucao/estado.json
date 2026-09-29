@@ -6,7 +6,7 @@
   },
   "vocabulario": "copiloto-executar",
   "wip_limite": 1,
-  "atualizado_em": "2026-09-29T09:57:11.893Z",
+  "atualizado_em": "2026-09-29T10:53:16.821Z",
   "nos": [
     {
       "id": "E0",
@@ -2045,6 +2045,56 @@
           "em": "2026-09-28T22:20:27.918Z",
           "status": "ABERTA",
           "nota": "Nova tentativa registrada: deploy real ocorreu (conta temporaria, nao a do usuario), mas o probe (I-02/I-03) nao confirmou a rota utilizavel -- HTTP 403 com cf-mitigated: challenge, nao a resposta do Worker. D14 continua ABERTA; ver evidencia em CF-ROUTE-0001. Claim URL da conta temporaria entregue apenas em chat (credencial -- nunca em arquivo versionado)."
+        }
+      ]
+    },
+    {
+      "id": "CC-003",
+      "tipo": "change-control",
+      "titulo": "ADR-MCP-REMOTE-001 (proposta): rota Cloudflare vira gateway MCP autenticado (OAuth 2.1 + CIMD), integrando Blog e CMS -- supersede condicional de DE-012",
+      "onde": "cloudflare-worker/ (docs/architecture/decisions.md DE-012, D14, CF-ROUTE-0001)",
+      "status": "ABERTA",
+      "recomendacao": "NAO iniciar implementacao (OAuth provider, CIMD, adapters Blog/CMS) antes de: (1) usuario confirmar que a ADR esta aprovada, nao so proposta; (2) Identity Provider escolhido (SS11 da ADR esta A DEFINIR); (3) contratos reais de Blog e CMS inspecionados (SS29 A DEFINIR); (4) as 4 respostas anti-overkill (Reuso/Necessidade/Custo/Reversao, C-00.9) para a nova infraestrutura de autenticacao publica. Ate la, DE-012 permanece valida (worker read-only atual) e D14/CF-ROUTE-0001 nao mudam de escopo.",
+      "fonte": "usuario, via comando /mcp__Cloudflare_Developer_Platform__workers-prompt-full em 2026-09-29 -- ADR-MCP-REMOTE-001 colada como args, status auto-declarado PROPOSED (nao aprovada) pela propria ADR (SS1, SS36)",
+      "bloqueia": [],
+      "detalhes": {
+        "CURRENT": "cloudflare-worker/ e um espelho publico somente leitura (DE-012): 4 tools read-only, sem autenticacao, le estado.json/roteamento.json via raw.githubusercontent.com.",
+        "EVIDENCE": "Texto completo salvo em 07-execucao/evidencias/cc-003-adr-mcp-remote-001/adr-mcp-remote-001-proposta.md (ADR-MCP-REMOTE-001, v0.1.0, status PROPOSED, 36 secoes + criterios de aceite + plano de migracao em 6 fases), recebido do usuario em 2026-09-29 via comando /mcp__Cloudflare_Developer_Platform__workers-prompt-full.",
+        "CONFLICT": "A ADR pede para 'substituir o Worker read-only pelo gateway OAuth' e diz que DE-012 'deixa de representar a arquitetura alvo' -- mas a propria ADR lista Identity Provider, API do Blog e API do CMS como A DEFINIR (SS11, SS29), o que I-02 proibe preencher por invencao. Ha tambem uma divergencia factual separada sobre qual conta/worker Cloudflare e o alvo (ver DIV-008).",
+        "PROPOSED_CHANGE": "Substituir por um gateway MCP autenticado (Streamable HTTP + OAuth 2.1 + CIMD preferencial sobre DCR) que integra EXECUTAR Blog e CMS via adapters, com scopes read/write/publish/admin. Fases: Foundation (OAuth+CIMD) -> Blog -> CMS -> Public Connector -> Plugin integration -> Remote parity (ledger/registry).",
+        "IMPACT": "Alto: infraestrutura de autenticacao publica nova (OAuth provider, storage de grants/consentimento), integracao com 2 sistemas ainda nao inspecionados neste repositorio (Blog, CMS), mudanca de topologia (plugin local + connector remoto), possivel migracao futura do ledger/registry para backend remoto (fora do escopo desta ADR, exige ADR complementar).",
+        "REVIEW_REQUIRED": "Aprovacao explicita do usuario para iniciar Fase 1; escolha do Identity Provider (SS11); inspecao real de Blog/CMS (SS29); 4 respostas anti-overkill (C-00.9); esclarecer divergencia de conta/worker Cloudflare (ver DIV-008).",
+        "STATUS": "PROPOSED -- nao aprovada, nao implementada. DE-012 permanece valida ate aprovacao + implementacao (SS22 da propria ADR)."
+      },
+      "historico": [
+        {
+          "em": "2026-09-29T10:51:40.826Z",
+          "status": "ABERTA",
+          "nota": "Registrado como change-control (nao como implementacao) porque a propria ADR se declara PROPOSED com multiplos itens A DEFINIR (Identity Provider, API do Blog, API do CMS) -- I-02 proibe inventar esses contratos. DE-012 nao foi marcada SUPERADA: a ADR so pede isso 'apos aprovacao e implementacao' (SS22)."
+        },
+        {
+          "em": "2026-09-29T10:53:16.821Z",
+          "status": "ABERTA",
+          "nota": "Evidencia salva em arquivo (texto completo da proposta, imutavel como recebida) e referenciada em EVIDENCE. Nada implementado ainda -- aguardando decisao do usuario."
+        }
+      ]
+    },
+    {
+      "id": "DIV-008",
+      "tipo": "divergencia",
+      "titulo": "URL do dashboard Cloudflare na ADR-MCP-REMOTE-001 (conta 99b69a0d6b75b6b4f13beff73c5fa0b9, worker 'executar-studio') nao bate com a conta conectada nesta sessao",
+      "onde": "conector Cloudflare Developer Platform desta sessao",
+      "status": "ABERTA",
+      "bloqueia": [],
+      "detalhes": {
+        "FONTE_A": "URL colada nos args do comando: https://dash.cloudflare.com/99b69a0d6b75b6b4f13beff73c5fa0b9/workers/services/view/executar-studio/production -- implica um worker 'executar-studio' em producao nessa conta.",
+        "FONTE_B": "workers_list (chamada real nesta sessao, 2026-09-29): a conta conectada ao conector Cloudflare desta sessao tem 4 workers -- morning-bird-8ce4, proud-leaf-11b7, executar-blogg, 01-executar-echo. Nenhum chamado 'executar-studio'. workers_get_worker('executar-studio') nao foi tentado pois nao esta na listagem."
+      },
+      "historico": [
+        {
+          "em": "2026-09-29T10:51:40.861Z",
+          "status": "ABERTA",
+          "nota": "Nao resolvido em silencio (I-08): pode ser conta Cloudflare diferente (o usuario tem mais de uma?), nome de worker diferente do que a URL sugere, ou 'executar-studio' e outra coisa (ex.: um projeto Cloudflare Pages, nao Workers). 'executar-blogg' e candidato a ser o 'EXECUTAR Blog' que a ADR menciona, mas isso tambem nao foi confirmado -- so foi visto nome+id, sem inspecionar codigo/bindings."
         }
       ]
     }
