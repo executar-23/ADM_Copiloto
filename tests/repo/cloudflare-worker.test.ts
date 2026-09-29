@@ -14,23 +14,43 @@ import { REPO } from "../helpers.ts";
 const WORKER_DIR = join(REPO, "cloudflare-worker");
 
 test("cloudflare-worker/ existe com o manifesto e o código-fonte esperados", () => {
-  for (const f of ["package.json", "tsconfig.json", "wrangler.jsonc", "src/index.ts", "README.md"]) {
+  for (const f of ["package.json", "tsconfig.json", "wrangler.jsonc", "src/index.ts", "README.md", "src/auth/identity.ts", "src/auth/consent.ts", "src/mcp-auth-agent.ts"]) {
     assert.ok(existsSync(join(WORKER_DIR, f)), f);
   }
   const src = readFileSync(join(WORKER_DIR, "src/index.ts"), "utf8");
   for (const tool of TOOLS.filter((t) => t.server === "remote")) {
     assert.match(src, new RegExp(`"${tool.name}"`), `${tool.name} registrado no Worker`);
   }
+  const authSrc = readFileSync(join(WORKER_DIR, "src/mcp-auth-agent.ts"), "utf8");
+  for (const tool of TOOLS.filter((t) => t.server === "remote-auth")) {
+    assert.match(authSrc, new RegExp(`"${tool.name}"`), `${tool.name} registrado no MaestroRemoteAuth`);
+  }
 });
 
-test("catálogo tem o servidor remote e as 4 ferramentas, status coerente com 'não publicado ainda'", () => {
+test("catálogo tem os servidores remote/remote-auth e suas ferramentas, status coerente com 'não publicado ainda'", () => {
   const entries = loadCatalog(REPO).entries.map((e) => e.record);
-  const server = entries.find((r) => r.id === "mcp-server:remote");
-  assert.ok(server, "mcp-server:remote registrado");
-  assert.equal(server!.status, "experimental");
-  for (const tool of TOOLS.filter((t) => t.server === "remote")) {
-    assert.ok(entries.some((r) => r.id === `mcp-tool:remote.${tool.name}`), tool.name);
+  for (const serverName of ["remote", "remote-auth"] as const) {
+    const server = entries.find((r) => r.id === `mcp-server:${serverName}`);
+    assert.ok(server, `mcp-server:${serverName} registrado`);
+    assert.equal(server!.status, "experimental");
+    for (const tool of TOOLS.filter((t) => t.server === serverName)) {
+      assert.ok(entries.some((r) => r.id === `mcp-tool:${serverName}.${tool.name}`), tool.name);
+    }
   }
+});
+
+test("rota /mcp (público, DE-012) não foi alterada pela adição do gateway OAuth", () => {
+  const src = readFileSync(join(WORKER_DIR, "src/index.ts"), "utf8");
+  assert.match(src, /pathname === "\/mcp"/, "rota /mcp continua explicitamente roteada");
+  assert.match(src, /MaestroRemote\.serve\("\/mcp"\)/, "handler público inalterado");
+  assert.doesNotMatch(src, /apiRoute:\s*["']\/mcp["']/, "/mcp não deve virar apiRoute do OAuthProvider (ficaria protegido por engano)");
+});
+
+test("resourceMetadata do gateway OAuth é calculado a partir do origin da requisição, nunca um hostname fixo adivinhado (I-02)", () => {
+  const src = readFileSync(join(WORKER_DIR, "src/index.ts"), "utf8");
+  assert.doesNotMatch(src, /["'`]https?:\/\/[^"'`]*\.workers\.dev/, "sem URL workers.dev hardcoded em string literal — a conta real ainda não tem deploy");
+  assert.match(src, /resource:\s*`\$\{origin\}/, "resourceMetadata.resource derivado do origin em runtime, não de string fixa");
+  assert.match(src, /authorization_servers:\s*\[origin\]/, "authorization_servers derivado do origin em runtime, não de string fixa");
 });
 
 test("ledger: D14 (URL real) e CF-ROUTE-0001 registrados; nenhuma URL foi inventada", () => {

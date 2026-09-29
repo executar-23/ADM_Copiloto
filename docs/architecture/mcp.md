@@ -80,7 +80,7 @@ Skills descrevem categorias, não produtos: `~~tracker`, `~~knowledge base`, `~~
 | `~~knowledge base` | Notion; Drive (EXECUTAR_CONTROL_CENTER) | esquemas não lidos — pendente |
 | `~~tracker` | Linear (Executar-Rotina / EXE) | conflito CONF-01 aberto — reverificar antes de escrever |
 | `~~deploy` | Vercel, Railway, Supabase | esquemas não lidos |
-| `~~cloudflare` | Cloudflare Developer Platform | presente em algumas sessões (`DIV-006`); só lista/lê Workers e gerencia D1/KV/R2/Hyperdrive — **sem ferramenta de deploy**. Usado para a rota remota abaixo (verificação, não publicação) |
+| `~~cloudflare` | Cloudflare Developer Platform | presente em algumas sessões (`DIV-006`); lista/lê Workers e gerencia D1/KV/R2/Hyperdrive (inclusive criar namespace KV — usado para `OAUTH_KV`, CC-003) — **sem ferramenta de deploy nem de gestão de Access/Zero Trust**. Usado para a rota remota abaixo (verificação e provisionamento de infra, não publicação nem configuração de Access) |
 | `executar` | conector proprietário | esquema não lido |
 
 ## Rota remota (Cloudflare Workers)
@@ -97,3 +97,22 @@ locais. Ele busca o JSON via `raw.githubusercontent.com` a cada chamada e reapli
 puras de `src/lib/estado/machine.ts`/`src/lib/routing/routing.ts`, sem duplicar regra de negócio.
 Ferramentas de escrita (`registry`, `estado` write) continuam só locais — não fazem sentido sem
 filesystem nem sem o mecanismo de aprovação (I-05) que os hooks locais impõem.
+
+### Gateway autenticado (`/mcp/auth`) — Fase 1, experimental, CC-003
+
+O mesmo Worker também hospeda um **quarto servidor MCP**, `remote-auth` (`/mcp/auth`): OAuth 2.1 +
+Client ID Metadata Documents via `@cloudflare/workers-oauth-provider`, identidade via Cloudflare
+Access (decisão `D15`). É a Fase 1 ("Foundation") de uma proposta de arquitetura maior — a
+`ADR-MCP-REMOTE-001` (texto completo em
+`07-execucao/evidencias/cc-003-adr-mcp-remote-001/adr-mcp-remote-001-proposta.md`, registrada como
+`CC-003` no ledger) — que pede trocar o espelho público por um Custom Connector autenticado,
+integrado a um Blog e um CMS do ecossistema EXECUTAR. Essa proposta está `PROPOSED`, não aprovada
+por inteiro: só a Fase 1 foi explicitamente aprovada pelo usuário (`AskUserQuestion`, 2026-09-29).
+As Fases 2/3 (integração real com Blog/CMS) continuam bloqueadas em `CC-003` até as APIs reais serem
+inspecionadas — nada foi inferido (I-02).
+
+A rota `/mcp` (DE-012) **não foi alterada**: continua pública, sem autenticação, mesmo comportamento
+de antes. `/mcp/auth` é aditiva. Detalhe completo — identidade (`ctx.access` nativo + fallback manual
+via `jose`/JWKS), o que falta para usar de verdade (Access application real, secrets), evidência de
+teste local: `cloudflare-worker/README.md` e
+`07-execucao/evidencias/cloudflare-worker/fase1-oauth-dev.txt`.

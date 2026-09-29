@@ -6,7 +6,7 @@
   },
   "vocabulario": "copiloto-executar",
   "wip_limite": 1,
-  "atualizado_em": "2026-09-29T09:57:11.893Z",
+  "atualizado_em": "2026-09-29T11:22:38.086Z",
   "nos": [
     {
       "id": "E0",
@@ -1369,9 +1369,9 @@
       "output": [],
       "evidencias": [],
       "gaps": [
-        "Volume grande (CSV 68 linhas + 2 pacotes de plano) — aprovação explícita do usuário exigida antes de criar Issues em massa (TASK-SPACE/README.md item 4, espelha I-05)",
+        "Volume grande (CSV 68 linhas + 2 pacotes de plano + agora o 4o lote: 48 issues/11 Epics) — aprovação explícita do usuário exigida antes de criar Issues em massa (TASK-SPACE/README.md item 4, espelha I-05)",
         "titulo do nó ainda diz '3 lotes' (schema de node_update nao permite editar titulo) -- na verdade sao 4 desde o commit e3ab12a; tratar como rotulo desatualizado, nao como contagem real",
-        "commit e87ba8a completou 3 dos 4 arquivos do 4o lote (plano-interno-executarapp-2026-10.md, roadmap-executarapp-2026-10.md, calendario-executarapp-2026-10.html) -- ainda falta linear-import-executarapp-2026-10.md, que as instrucoes deste README (item 1) apontam como o arquivo acionavel (uma linha = uma tarefa candidata a Issue). Sem ele, o lote 4 nao pode ser processado em Issues -- nao inventar as linhas (I-02)."
+        "4o lote (TASK-SPACE/2026-09-29_plano-executarapp/) completou os 4 arquivos com o commit b805fdc (linear-import-executarapp-2026-10.md, 48 issues/11 Epics) -- gap de referencia pendente FECHADO. So 8 das 48 issues tem prazo em Outubro/2026; as demais 40 ficam 'Backlog -- ciclo seguinte' (TASK-SPACE/README.md item 4). Antes de criar Issues em massa: aplicar C-00.9 e registrar os 5 CONFLICTs de plano-interno-executarapp-2026-10.md §3.5 como decision_record tipo divergencia (C-00.8), como o proprio README exige."
       ],
       "conflitos": [],
       "decisao": null,
@@ -1404,9 +1404,16 @@
           "para": "READY",
           "motivo": "atualização [gaps]: sincronizado com commit e87ba8a (push seguinte do 4o lote TASK-SPACE, mesma sessao/automação concorrente): 3 dos 4 arquivos chegaram, mas falta linear-import-executarapp-2026-10.md -- gap estreitado, nao fechado",
           "ator": "maestro"
+        },
+        {
+          "em": "2026-09-29T10:54:44.345Z",
+          "de": "READY",
+          "para": "READY",
+          "motivo": "atualização [gaps]: reaplicando a atualizacao do commit 335cd37, que nao chegou a main -- o PR #19 foi mergeado no head anterior (b805fdc) antes desse push terminar de propagar, entao a atualizacao do gap ficou orfa na branch antiga. Reconfirmado no disco: linear-import-executarapp-2026-10.md existe. npm run check verde.",
+          "ator": "maestro"
         }
       ],
-      "atualizado_em": "2026-09-29T09:57:11.893Z"
+      "atualizado_em": "2026-09-29T10:54:44.345Z"
     },
     {
       "id": "CF-ROUTE-0001",
@@ -1512,6 +1519,108 @@
         }
       ],
       "atualizado_em": "2026-09-28T22:20:27.909Z"
+    },
+    {
+      "id": "CF-OAUTH-0001",
+      "trilha": "S",
+      "tipo": "tarefa",
+      "titulo": "Fase 1 (Foundation) da ADR-MCP-REMOTE-001: gateway OAuth 2.1 + CIMD em /mcp/auth, identidade via Cloudflare Access (D15)",
+      "lane": null,
+      "skill": null,
+      "skill_version": null,
+      "playbook": null,
+      "status": "BLOCKED",
+      "motivo_bloqueio": {
+        "codigo": "USER_ACTION_REQUIRED",
+        "detalhe": "Criar a Access application real que protege /authorize (Zero Trust > Access > Applications), depois `cd cloudflare-worker && npx wrangler login && npm run deploy`; se a Access application for self-hosted (não o toggle nativo), também `wrangler secret put CF_ACCESS_TEAM_DOMAIN`/`CF_ACCESS_AUD`. Ver cloudflare-worker/README.md e D15."
+      },
+      "dono_canonico": "repo",
+      "depends_on": [],
+      "dod": "OAuth discovery (issuer, authorize_endpoint, token_endpoint, CIMD anunciado) funcionando de verdade; /mcp/auth responde 401 com challenge correto sem token; /authorize falha fechado sem identidade Cloudflare Access e passa da checagem de identidade com ela presente; rota /mcp (DE-012) confirmada inalterada; tudo verificado via wrangler dev real, não suposição.",
+      "efeito_externo": false,
+      "autorizacao": null,
+      "escopo_escrita": [],
+      "output": [
+        "cloudflare-worker/src/index.ts",
+        "cloudflare-worker/src/auth/identity.ts",
+        "cloudflare-worker/src/auth/consent.ts",
+        "cloudflare-worker/src/mcp-auth-agent.ts",
+        "cloudflare-worker/wrangler.jsonc",
+        "catalog/components/mcp-server/remote-auth.json",
+        "catalog/components/mcp-tool/remote-auth.whoami.json"
+      ],
+      "evidencias": [
+        {
+          "id": "EVD-CF-OAUTH-0001-1",
+          "caminho": "07-execucao/evidencias/cloudflare-worker/fase1-oauth-dev.txt",
+          "criterio": "discovery real (issuer/authorize_endpoint/token_endpoint/CIMD), /mcp/auth 401 com challenge correto, /authorize falha fechado sem identidade e passa da checagem com identidade simulada, /mcp inalterado -- tudo via wrangler dev real, chamadas HTTP reais (curl), não suposição.",
+          "classe": "A_OBSERVADO",
+          "registrada_em": "2026-09-29T11:22:38.073Z",
+          "ator": "maestro",
+          "nota": "npm run check (typecheck + build + testes 82/82 + maestro validate + claude plugin validate + wrangler deploy --dry-run) verde após esta mudança."
+        }
+      ],
+      "gaps": [
+        "Falta o usuário configurar a Cloudflare Access application real que protege /authorize (dashboard Zero Trust ou aba Access do Worker) — D15 aprovou o Identity Provider, não a configuração em si.",
+        "Sem cliente OAuth real registrado, o fluxo completo (consentimento -> token -> tools/list autenticado) não foi exercitado ponta a ponta com um MCP client de verdade -- só a mecânica de cada etapa isoladamente (evidência: fase1-oauth-dev.txt).",
+        "McpAgent (padrão usado, igual ao mcp-server:remote) está marcado @deprecated/feature-frozen no pacote agents@0.24.0, que recomenda o handler stateless createMcpHandler com um 'SDK v2' (@modelcontextprotocol/server) não avaliado nesta sessão -- ver DE-013.",
+        "Publicação real depende de D14 (ainda ABERTA) -- mesmo Worker, mesmo caminho de deploy."
+      ],
+      "conflitos": [],
+      "decisao": null,
+      "refs": [],
+      "historico": [
+        {
+          "em": "2026-09-29T11:22:38.038Z",
+          "de": null,
+          "para": "BACKLOG_VALIDATED",
+          "motivo": "criado a partir da Fase 1 aprovada explicitamente pelo usuário (AskUserQuestion, 2026-09-29) sobre a proposta ADR-MCP-REMOTE-001 (CC-003)",
+          "ator": "maestro"
+        },
+        {
+          "em": "2026-09-29T11:22:38.038Z",
+          "de": "BACKLOG_VALIDATED",
+          "para": "READY",
+          "motivo": "dependências concluídas na criação",
+          "ator": "maestro"
+        },
+        {
+          "em": "2026-09-29T11:22:38.051Z",
+          "de": "READY",
+          "para": "DOING",
+          "motivo": "implementação da Fase 1 nesta sessão",
+          "ator": "maestro"
+        },
+        {
+          "em": "2026-09-29T11:22:38.061Z",
+          "de": "DOING",
+          "para": "DOING",
+          "motivo": "atualização [output, gaps]: saída registrada: código completo, testado localmente (tsc limpo, wrangler deploy --dry-run empacota com KV real, wrangler dev prova discovery/401/identidade), npm run check verde",
+          "ator": "maestro"
+        },
+        {
+          "em": "2026-09-29T11:22:38.067Z",
+          "de": "DOING",
+          "para": "VERIFY",
+          "motivo": "saída registrada, pronta para verificação",
+          "ator": "maestro"
+        },
+        {
+          "em": "2026-09-29T11:22:38.079Z",
+          "de": "VERIFY",
+          "para": "BLOCKED",
+          "motivo": "efeito externo real (publicar o Worker, criar a Access application, configurar secrets) exige ação do usuário na conta Cloudflare real -- não é algo que este ambiente/sessão pode fazer sem credencial/decisão adicional do usuário",
+          "ator": "maestro"
+        },
+        {
+          "em": "2026-09-29T11:22:38.086Z",
+          "de": "BLOCKED",
+          "para": "BLOCKED",
+          "motivo": "atualização [gaps]: gap final registrado: bloqueio é USER_ACTION_REQUIRED (config Access + deploy real), não falha de implementação",
+          "ator": "maestro"
+        }
+      ],
+      "atualizado_em": "2026-09-29T11:22:38.086Z"
     }
   ],
   "decisoes": [
@@ -2045,6 +2154,88 @@
           "em": "2026-09-28T22:20:27.918Z",
           "status": "ABERTA",
           "nota": "Nova tentativa registrada: deploy real ocorreu (conta temporaria, nao a do usuario), mas o probe (I-02/I-03) nao confirmou a rota utilizavel -- HTTP 403 com cf-mitigated: challenge, nao a resposta do Worker. D14 continua ABERTA; ver evidencia em CF-ROUTE-0001. Claim URL da conta temporaria entregue apenas em chat (credencial -- nunca em arquivo versionado)."
+        }
+      ]
+    },
+    {
+      "id": "CC-003",
+      "tipo": "change-control",
+      "titulo": "ADR-MCP-REMOTE-001 (proposta): rota Cloudflare vira gateway MCP autenticado (OAuth 2.1 + CIMD), integrando Blog e CMS -- supersede condicional de DE-012",
+      "onde": "cloudflare-worker/ (docs/architecture/decisions.md DE-012, D14, CF-ROUTE-0001)",
+      "status": "PARCIAL",
+      "recomendacao": "NAO iniciar implementacao (OAuth provider, CIMD, adapters Blog/CMS) antes de: (1) usuario confirmar que a ADR esta aprovada, nao so proposta; (2) Identity Provider escolhido (SS11 da ADR esta A DEFINIR); (3) contratos reais de Blog e CMS inspecionados (SS29 A DEFINIR); (4) as 4 respostas anti-overkill (Reuso/Necessidade/Custo/Reversao, C-00.9) para a nova infraestrutura de autenticacao publica. Ate la, DE-012 permanece valida (worker read-only atual) e D14/CF-ROUTE-0001 nao mudam de escopo.",
+      "resposta": "Usuário aprovou iniciar a Fase 1 (Foundation) da ADR-MCP-REMOTE-001 agora: OAuth discovery + CIMD + PKCE no cloudflare-worker/, meta 'Claude autentica e chama uma tool whoami/health'. NÃO aprovou (ainda) as Fases 2/3 (Blog/CMS) -- essas continuam bloqueadas em APIs reais inspecionadas (§29 da ADR).",
+      "fonte": "usuário, via AskUserQuestion em 2026-09-29 -- 'Aprovar agora e começar a Fase 1 (Foundation)'",
+      "bloqueia": [],
+      "detalhes": {
+        "CURRENT": "cloudflare-worker/ e um espelho publico somente leitura (DE-012): 4 tools read-only, sem autenticacao, le estado.json/roteamento.json via raw.githubusercontent.com.",
+        "EVIDENCE": "Texto completo salvo em 07-execucao/evidencias/cc-003-adr-mcp-remote-001/adr-mcp-remote-001-proposta.md (ADR-MCP-REMOTE-001, v0.1.0, status PROPOSED).",
+        "CONFLICT": "A ADR lista Identity Provider, API do Blog e API do CMS como A DEFINIR. Identity Provider resolvido agora (D15: Cloudflare Access). Blog/CMS APIs continuam A DEFINIR -- Fases 2/3 permanecem bloqueadas.",
+        "PROPOSED_CHANGE": "Fase 1 apenas: adicionar OAuth discovery + CIMD + PKCE + 1 tool autenticada (whoami) ao cloudflare-worker/ existente, SEM alterar os 4 tools read-only atuais (continuam publicos, por DE-012). Fases 2-6 ficam para decisoes futuras.",
+        "IMPACT": "Escopo reduzido ao aprovado: nova infraestrutura OAuth (OAuthProvider + KV para grants) validando identidade via Cloudflare Access: DE-012 nao e superada nesta etapa (tools atuais nao mudam).",
+        "REVIEW_REQUIRED": "Fases 2 (Blog) e 3 (CMS) continuam exigindo inspecao real das APIs antes de qualquer implementacao -- nao inferir (I-02).",
+        "STATUS": "PARCIAL -- Fase 1 aprovada e em andamento; Fases 2+ nao aprovadas."
+      },
+      "historico": [
+        {
+          "em": "2026-09-29T10:51:40.826Z",
+          "status": "ABERTA",
+          "nota": "Registrado como change-control (nao como implementacao) porque a propria ADR se declara PROPOSED com multiplos itens A DEFINIR (Identity Provider, API do Blog, API do CMS) -- I-02 proibe inventar esses contratos. DE-012 nao foi marcada SUPERADA: a ADR so pede isso 'apos aprovacao e implementacao' (SS22)."
+        },
+        {
+          "em": "2026-09-29T10:53:16.821Z",
+          "status": "ABERTA",
+          "nota": "Evidencia salva em arquivo (texto completo da proposta, imutavel como recebida) e referenciada em EVIDENCE. Nada implementado ainda -- aguardando decisao do usuario."
+        },
+        {
+          "em": "2026-09-29T11:03:32.980Z",
+          "status": "PARCIAL",
+          "nota": "Decisão parcial: Fase 1 aprovada e sendo implementada nesta sessão. CC-003 permanece PARCIAL (não RESPONDIDA) porque a ADR como um todo ainda não foi aprovada -- só a Fase 1."
+        }
+      ]
+    },
+    {
+      "id": "DIV-008",
+      "tipo": "divergencia",
+      "titulo": "URL do dashboard Cloudflare na ADR-MCP-REMOTE-001 (conta 99b69a0d6b75b6b4f13beff73c5fa0b9, worker 'executar-studio') nao bate com a conta conectada nesta sessao",
+      "onde": "conector Cloudflare Developer Platform desta sessao",
+      "status": "RESPONDIDA",
+      "resposta": "'executar-blogg' (conta Cloudflare já conectada a esta sessão) é o EXECUTAR Blog referenciado pela ADR. A conta conectada é a correta; 'executar-studio' (conta 99b69a0d6b75b6b4f13beff73c5fa0b9) não precisa ser conectada.",
+      "fonte": "usuário, via AskUserQuestion em 2026-09-29",
+      "data": "2026-09-29",
+      "bloqueia": [],
+      "detalhes": {
+        "FONTE_A": "URL colada nos args do comando: https://dash.cloudflare.com/99b69a0d6b75b6b4f13beff73c5fa0b9/workers/services/view/executar-studio/production -- implica um worker 'executar-studio' em producao nessa conta.",
+        "FONTE_B": "workers_list (chamada real nesta sessao, 2026-09-29): a conta conectada ao conector Cloudflare desta sessao tem 4 workers -- morning-bird-8ce4, proud-leaf-11b7, executar-blogg, 01-executar-echo. Nenhum chamado 'executar-studio'. workers_get_worker('executar-studio') nao foi tentado pois nao esta na listagem."
+      },
+      "historico": [
+        {
+          "em": "2026-09-29T10:51:40.861Z",
+          "status": "ABERTA",
+          "nota": "Nao resolvido em silencio (I-08): pode ser conta Cloudflare diferente (o usuario tem mais de uma?), nome de worker diferente do que a URL sugere, ou 'executar-studio' e outra coisa (ex.: um projeto Cloudflare Pages, nao Workers). 'executar-blogg' e candidato a ser o 'EXECUTAR Blog' que a ADR menciona, mas isso tambem nao foi confirmado -- so foi visto nome+id, sem inspecionar codigo/bindings."
+        },
+        {
+          "em": "2026-09-29T11:03:33.018Z",
+          "status": "RESPONDIDA",
+          "nota": "Divergência resolvida por decisão explícita do usuário, não inferida."
+        }
+      ]
+    },
+    {
+      "id": "D15",
+      "tipo": "decisao",
+      "titulo": "Identity Provider para a Fase 1 da ADR-MCP-REMOTE-001 (OAuth do gateway MCP remoto)",
+      "onde": "cloudflare-worker/ (auth/), ADR-MCP-REMOTE-001 §11",
+      "status": "RESPONDIDA",
+      "resposta": "Cloudflare Access. O Worker valida o JWT do Cloudflare Access (cabeçalho Cf-Access-Jwt-Assertion) contra o team domain / AUD tag da conta, antes de emitir o access token MCP próprio.",
+      "fonte": "usuário, via AskUserQuestion em 2026-09-29",
+      "data": "2026-09-29",
+      "bloqueia": [],
+      "historico": [
+        {
+          "em": "2026-09-29T11:03:33.038Z",
+          "status": "RESPONDIDA",
+          "nota": "Falta ainda: o usuário (ou eu, se o conector Cloudflare ganhar essa capacidade) criar a Access application real e informar team domain + AUD tag -- não inventados (I-02); ficam como CF_ACCESS_TEAM_DOMAIN/CF_ACCESS_AUD (secrets do Worker, nunca hardcoded), validados em runtime, com erro claro se ausentes."
         }
       ]
     }

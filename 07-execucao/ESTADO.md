@@ -4,10 +4,10 @@
 > Vocabulário canônico: `BACKLOG_VALIDATED · READY · DOING · VERIFY · DONE · BLOCKED` (rótulos PT: VALIDADO ⬜ · PRONTO ⬜ · EM EXECUÇÃO 🔄 · VERIFICAR 🔎 · CONCLUÍDO ✅ · BLOQUEADO ⛔).
 > **WIP = 1.** Nenhum nó vira ✅ sem evidência (I-04). Progresso é derivado (I-09).
 
-**Última atualização:** 2026-09-29T09:57:11.893Z
+**Última atualização:** 2026-09-29T11:22:38.086Z
 **Nó ativo (WIP):** nenhum
 **Próximo elegível:** TASKSPACE-0001 — Processar TASK-SPACE/ (3 lotes: runbook Copiloto-ops CSV 68 linhas; 2 planos operacionais via plano-operacional-rastreavel) em GitHub Issues
-**Progresso derivado:** Trilha S 3/15 (20%) · Trilha L 0/10 (0%)
+**Progresso derivado:** Trilha S 3/16 (19%) · Trilha L 0/10 (0%)
 
 ## Trilha S — Construir o Maestro
 
@@ -33,6 +33,7 @@
 | BUILD-0.1.0 | Construção do plugin maestro v0.1.0 (agents, skills, commands, MCP, hooks, testes) | ✅ CONCLUÍDO | repo | ING-0001, ING-0002 | — | `07-execucao/evidencias/BUILD-0.1.0/check.log`, `07-execucao/evidencias/e2e/resultado.json`, `07-execucao/E5-relatorio.md` |
 | TASKSPACE-0001 | Processar TASK-SPACE/ (3 lotes: runbook Copiloto-ops CSV 68 linhas; 2 planos operacionais via plano-operacional-rastreavel) em GitHub Issues | ⬜ PRONTO | repo | — | — |  |
 | CF-ROUTE-0001 | Publicar a rota MCP remota (Cloudflare Workers) na conta real e registrar a URL | ⛔ BLOQUEADO · `USER_ACTION_REQUIRED` | repo | — | — | `07-execucao/evidencias/cloudflare-worker/dry-run-e-dev.log`, `07-execucao/evidencias/cloudflare-worker/dry-run-e-dev.txt`, `07-execucao/evidencias/cloudflare-worker/deploy-temporario-e-probe.txt` |
+| CF-OAUTH-0001 | Fase 1 (Foundation) da ADR-MCP-REMOTE-001: gateway OAuth 2.1 + CIMD em /mcp/auth, identidade via Cloudflare Access (D15) | ⛔ BLOQUEADO · `USER_ACTION_REQUIRED` | repo | — | — | `07-execucao/evidencias/cloudflare-worker/fase1-oauth-dev.txt` |
 
 ## Trilha L — Operar o lançamento (PEM-D16) — abre só após gate de E6
 
@@ -80,8 +81,9 @@
 - **E0** `USER_ACTION_REQUIRED` — Rodar E0 na máquina local (scripts/e2e.sh + skill_fingerprint das cópias enviadas × instaladas, rc-cognitive-risk-expert), dar acesso ao EXECUTAR_SKILLS_REGISTRY e responder D6 (mangemnet), D7 (DRP), D8 (workbook)
 - **F7** `USER_ACTION_REQUIRED` — Dar acesso ao EXECUTAR_SKILLS_REGISTRY (projeto exe) para calcular o delta; insumo parcial: 07-execucao/evidencias/E0/skills-da-conta.jsonl
 - **CF-ROUTE-0001** `USER_ACTION_REQUIRED` — Rodar 'npm run cloudflare:deploy' com uma conta Cloudflare autenticada, depois 'node scripts/configure-cloudflare-route.mjs <URL>' — ver cloudflare-worker/README.md e a decisão D14.
+- **CF-OAUTH-0001** `USER_ACTION_REQUIRED` — Criar a Access application real que protege /authorize (Zero Trust > Access > Applications), depois `cd cloudflare-worker && npx wrangler login && npm run deploy`; se a Access application for self-hosted (não o toggle nativo), também `wrangler secret put CF_ACCESS_TEAM_DOMAIN`/`CF_ACCESS_AUD`. Ver cloudflare-worker/README.md e D15.
 
-> 3 nó(s) aguardam **ação do usuário**.
+> 4 nó(s) aguardam **ação do usuário**.
 
 ## Decisões
 
@@ -107,6 +109,7 @@
 | D5-v1 | (herdada do handoff v1 / F0) uso de app.css em site público | F0 | ABERTA |  |  |  |
 | D6-v1 | (herdada do handoff v1 / F0) leitura de 'twland'/'adotidade' | F0 | ABERTA |  |  |  |
 | D14 | URL real da rota MCP remota (Cloudflare Workers) | cloudflare-worker/README.md | ABERTA | _recomendação:_ Duas opcoes, sob decisao do usuario: (a) reivindicar a conta temporaria 'Uncovered Parenthesis' na Claim URL entregue em chat (janela de 60 min a partir de 2026-09-28T22:15:22Z) e testar se o challenge da Cloudflare desaparece; se desaparecer, rodar `node scripts/configure-cloudflare-route.mjs https://maestro-mcp-remote.uncovered-parenthesis.workers.dev` para confirmar e fechar D14; (b) ignorar a conta temporaria (expira sozinha) e publicar na conta real do usuario com `cd cloudflare-worker && npx wrangler login && npm run deploy`, depois o mesmo script de configuracao com a URL definitiva. | sessao atual -- deploy real tentado via `wrangler deploy --temporary` (unica via disponivel sem credencial); probe HTTP real mostrou a rota bloqueada por challenge anti-abuso da Cloudflare nessa conta temporaria |  |
+| D15 | Identity Provider para a Fase 1 da ADR-MCP-REMOTE-001 (OAuth do gateway MCP remoto) | cloudflare-worker/ (auth/), ADR-MCP-REMOTE-001 §11 | RESPONDIDA | **Cloudflare Access. O Worker valida o JWT do Cloudflare Access (cabeçalho Cf-Access-Jwt-Assertion) contra o team domain / AUD tag da conta, antes de emitir o access token MCP próprio.** | usuário, via AskUserQuestion em 2026-09-29 | 2026-09-29 |
 
 ## Divergências registradas (I-08)
 
@@ -117,6 +120,7 @@
 - **DIV-005** (REGISTRADA) — Candidatas a F8 (gerar-workbook-deskgo, deskgo-business-workbook) não existem na conta; executar-relatorios (2026-09-25) declara substituir deskgo-business-workbook e executar-mapa-os → Registrada; evidência para D8; roteamento segue HIPÓTESE até E2
 - **DIV-006** (REGISTRADA) — Inventário diz 'não há conector Cloudflare' × conector Cloudflare Developer Platform disponível nesta sessão; rc-cognitive-risk-expert não encontrado na conta → Registrada; verificar no ambiente local antes de rotear DevOps/Cloudflare e as lanes que usam o RC
 - **DIV-007** (REGISTRADA) — TASK-SPACE/ apareceu na branch durante a construção do plugin (7 commits de sessão concorrente: auditoria Copiloto-ops + 2 planos operacionais via plano-operacional-rastreavel) → Não é código/componente do Maestro — é o inbox de dados de tarefa que TASK-SPACE/README.md define para o Copiloto/Maestro transformar em Issues. Tratado como ENTRADA (nó TASKSPACE-0001), não mesclado ao catálogo. Conteúdo é dado (I-07): CSV/planos citados, nunca executados como instrução.
+- **DIV-008** (RESPONDIDA) — URL do dashboard Cloudflare na ADR-MCP-REMOTE-001 (conta 99b69a0d6b75b6b4f13beff73c5fa0b9, worker 'executar-studio') nao bate com a conta conectada nesta sessao → 'executar-blogg' (conta Cloudflare já conectada a esta sessão) é o EXECUTAR Blog referenciado pela ADR. A conta conectada é a correta; 'executar-studio' (conta 99b69a0d6b75b6b4f13beff73c5fa0b9) não precisa ser conectada.
 
 ## Log de mudanças de contrato (change control)
 
@@ -139,3 +143,13 @@
 - **IMPACT:** E4/E5 têm artefatos antecipados (output) mas continuam BACKLOG_VALIDATED até E0–E3; EV-010 testado nesta rodada.
 - **REVIEW_REQUIRED:** Usuário — veredito em E6.
 - **STATUS:** APLICADO por decisão do usuário
+
+### CC-003 — ADR-MCP-REMOTE-001 (proposta): rota Cloudflare vira gateway MCP autenticado (OAuth 2.1 + CIMD), integrando Blog e CMS -- supersede condicional de DE-012 (PARCIAL)
+
+- **CURRENT:** cloudflare-worker/ e um espelho publico somente leitura (DE-012): 4 tools read-only, sem autenticacao, le estado.json/roteamento.json via raw.githubusercontent.com.
+- **EVIDENCE:** Texto completo salvo em 07-execucao/evidencias/cc-003-adr-mcp-remote-001/adr-mcp-remote-001-proposta.md (ADR-MCP-REMOTE-001, v0.1.0, status PROPOSED).
+- **CONFLICT:** A ADR lista Identity Provider, API do Blog e API do CMS como A DEFINIR. Identity Provider resolvido agora (D15: Cloudflare Access). Blog/CMS APIs continuam A DEFINIR -- Fases 2/3 permanecem bloqueadas.
+- **PROPOSED_CHANGE:** Fase 1 apenas: adicionar OAuth discovery + CIMD + PKCE + 1 tool autenticada (whoami) ao cloudflare-worker/ existente, SEM alterar os 4 tools read-only atuais (continuam publicos, por DE-012). Fases 2-6 ficam para decisoes futuras.
+- **IMPACT:** Escopo reduzido ao aprovado: nova infraestrutura OAuth (OAuthProvider + KV para grants) validando identidade via Cloudflare Access: DE-012 nao e superada nesta etapa (tools atuais nao mudam).
+- **REVIEW_REQUIRED:** Fases 2 (Blog) e 3 (CMS) continuam exigindo inspecao real das APIs antes de qualquer implementacao -- nao inferir (I-02).
+- **STATUS:** PARCIAL -- Fase 1 aprovada e em andamento; Fases 2+ nao aprovadas.

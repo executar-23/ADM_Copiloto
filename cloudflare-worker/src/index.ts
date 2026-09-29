@@ -1,25 +1,33 @@
-// Rota MCP remota do Maestro — espelho público SOMENTE LEITURA, hospedado em Cloudflare Workers.
+// Rota MCP remota do Maestro — duas superfícies no mesmo Worker.
 //
-// Por que existe: o plugin local (.mcp.json, servidores `estado`/`registry`) precisa do repositório
-// em disco — é o jeito certo de operar o ledger (WIP=1, DONE com evidência, ação externa com
-// aprovação). Esta rota é outra coisa: dá para alguém consultar "o que o Maestro está fazendo agora"
-// direto do claude.ai (ou de qualquer cliente MCP), sem clonar nada — só leitura, sem filesystem.
+// 1) /mcp — espelho público SOMENTE LEITURA (DE-012), inalterado por este arquivo desde a sessão
+//    anterior: busca `07-execucao/estado.json`/`mapa/roteamento.json` via raw.githubusercontent.com
+//    e reaplica as MESMAS funções puras de `src/lib` que os servidores locais usam. Sem autenticação,
+//    de propósito — continua assim.
 //
-// Como funciona: busca `07-execucao/estado.json` e `mapa/roteamento.json` via raw.githubusercontent.com
-// (repositório público, sem credencial) e reaplica as MESMAS funções puras de `src/lib` que os
-// servidores locais usam e que os 76 testes da suíte já cobrem — nunca reimplementa a regra aqui.
+// 2) /mcp/auth — gateway MCP autenticado (Fase 1 da ADR-MCP-REMOTE-001 / CC-003, EXPERIMENTAL):
+//    OAuth 2.1 + Streamable HTTP + CIMD via @cloudflare/workers-oauth-provider, identidade via
+//    Cloudflare Access (D15, src/auth/identity.ts). Uma única ferramenta por enquanto (whoami,
+//    src/mcp-auth-agent.ts) — só para provar o fluxo ponta a ponta. Fases 2/3 (Blog/CMS) ainda não
+//    aprovadas: ver CC-003 em 07-execucao/estado.json antes de estender isto.
 //
-// Escopo deliberadamente pequeno (C-02, anti-overkill): 4 ferramentas, as que fazem sentido sem
-// escrita e sem estado local. `registry` (catálogo, ingestão, upstream, fingerprint) fica só local —
-// depende de filesystem que um Worker não tem. Ver docs/architecture/mcp.md § "Rota remota".
+// Nem toda infraestrutura de Fase 1 está pronta para produção sozinha: falta o usuário configurar a
+// Access application real que protege /authorize (dashboard) — ver cloudflare-worker/README.md.
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { McpAgent } from "agents/mcp";
+import OAuthProvider from "@cloudflare/workers-oauth-provider";
+import type { OAuthHelpers } from "@cloudflare/workers-oauth-provider";
 import { z } from "zod";
 
 import { EstadoSchema, type Estado } from "../../src/lib/estado/schema.ts";
 import { findNode, nextEligible, progress } from "../../src/lib/estado/machine.ts";
 import { RoutingSchema, lookupRouting, type Routing } from "../../src/lib/routing/routing.ts";
 import { TOOLS, toolMeta } from "../../src/mcp/manifest.ts";
+import { handleAuthorize } from "./auth/consent.ts";
+import type { AccessEnv } from "./auth/identity.ts";
+import { MaestroRemoteAuth } from "./mcp-auth-agent.ts";
+
+export { MaestroRemoteAuth };
 
 const REPO = "executar-23/ADM_Copiloto";
 const BRANCH = "main";
@@ -159,25 +167,79 @@ export class MaestroRemote extends McpAgent {
   }
 }
 
-const INFO = `Maestro — rota MCP remota (somente leitura)
+const INFO = `Maestro — rota MCP remota
 
-Espelho público de ${REPO}@${BRANCH}. Ferramentas: ${TOOLS.filter((t) => t.server === "remote")
+Espelho público somente leitura (DE-012): ${TOOLS.filter((t) => t.server === "remote")
   .map((t) => t.name)
   .join(", ")}.
+Endpoint: POST /mcp (streamable HTTP, sem autenticação)
 
-Endpoint MCP: POST /mcp (streamable HTTP)
+Gateway autenticado — Fase 1, EXPERIMENTAL (ADR-MCP-REMOTE-001 / CC-003): ${TOOLS.filter((t) => t.server === "remote-auth")
+  .map((t) => t.name)
+  .join(", ")}.
+Endpoint: POST /mcp/auth (streamable HTTP, OAuth 2.1 + CIMD)
+Login: GET/POST /authorize (exige Cloudflare Access configurado — ver README.md deste diretório)
+
 Repositório e instalação local: https://github.com/${REPO}
 `;
 
-export default {
-  fetch(request: Request, env: Record<string, unknown>, ctx: ExecutionContext) {
+interface Env extends AccessEnv {
+  MCP_OBJECT: DurableObjectNamespace<MaestroRemote>;
+  MCP_AUTH_OBJECT: DurableObjectNamespace<MaestroRemoteAuth>;
+  OAUTH_KV: KVNamespace;
+  // Não é um binding real do wrangler.jsonc — @cloudflare/workers-oauth-provider injeta isto em
+  // env antes de chamar defaultHandler/apiHandler (ver docs/authorization-server.md "OAuth helpers").
+  // Declarado aqui só para o TypeScript refletir o que a biblioteca faz em runtime.
+  OAUTH_PROVIDER: OAuthHelpers;
+}
+
+// resourceMetadata.resource/authorization_servers precisam ser URLs absolutas conhecidas na
+// construção do OAuthProvider — mas o hostname real (workers.dev do subdomínio da conta, ou um
+// domínio próprio depois) não é conhecido até a primeira requisição chegar. Em vez de adivinhar
+// (I-02), o provider é construído sob demanda, na primeira requisição, a partir do origin real
+// dela, e reaproveitado depois (memoização simples; reconstruir ocasionalmente após um cold start
+// é inofensivo, o estado de verdade mora todo em OAUTH_KV/Durable Objects).
+let cachedProvider: { origin: string; provider: OAuthProvider<Env> } | undefined;
+
+function providerFor(origin: string): OAuthProvider<Env> {
+  if (cachedProvider?.origin === origin) return cachedProvider.provider;
+  const provider = new OAuthProvider<Env>({
+    apiRoute: "/mcp/auth",
+    apiHandler: MaestroRemoteAuth.serve("/mcp/auth"),
+    defaultHandler,
+    authorizeEndpoint: "/authorize",
+    tokenEndpoint: "/oauth/token",
+    scopesSupported: ["mcp:read"],
+    requiredScopes: ["mcp:read"],
+    resourceMetadata: {
+      resource: `${origin}/mcp/auth`,
+      authorization_servers: [origin],
+    },
+    clientIdMetadataDocumentEnabled: true,
+  });
+  cachedProvider = { origin, provider };
+  return provider;
+}
+
+const defaultHandler: ExportedHandler<Env> = {
+  async fetch(request, env, ctx) {
     const url = new URL(request.url);
     if (url.pathname === "/mcp" || url.pathname === "/mcp/") {
+      // Espelho público (DE-012) — deliberadamente fora do gateway OAuth, sem mudança de comportamento.
       return MaestroRemote.serve("/mcp").fetch(request, env, ctx);
+    }
+    if (url.pathname === "/authorize") {
+      return handleAuthorize(request, env, ctx);
     }
     if (url.pathname === "/" || url.pathname === "") {
       return new Response(INFO, { headers: { "content-type": "text/plain; charset=utf-8" } });
     }
-    return new Response("Not found — use /mcp", { status: 404 });
+    return new Response("Not found — use /mcp ou /mcp/auth", { status: 404 });
   },
 };
+
+export default {
+  fetch(request: Request, env: Env, ctx: ExecutionContext) {
+    return providerFor(new URL(request.url).origin).fetch(request, env, ctx);
+  },
+} satisfies ExportedHandler<Env>;

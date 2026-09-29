@@ -1,0 +1,46 @@
+{
+  "id": "mcp-server:remote-auth",
+  "name": "remote-auth",
+  "type": "mcp-server",
+  "path": "cloudflare-worker/src/index.ts",
+  "origin": {
+    "kind": "proprietary",
+    "source": "ADR-MCP-REMOTE-001 (proposta do usuário, 2026-09-29), Fase 1 aprovada — CC-003"
+  },
+  "responsibility": "Gateway MCP autenticado (Streamable HTTP), no mesmo Worker do espelho público (mcp-server:remote), rota separada /mcp/auth. OAuth 2.1 + PKCE + Client ID Metadata Documents via @cloudflare/workers-oauth-provider; identidade via Cloudflare Access (D15, cloudflare-worker/src/auth/identity.ts): ctx.access nativo, com fallback manual (JWKS do team domain via jose) para quando a rota é protegida por uma Access application self-hosted em vez do toggle nativo do Worker inteiro. Fase 1 da ADR-MCP-REMOTE-001: só prova o fluxo ponta a ponta (1 ferramenta, whoami) — sem integração com Blog/CMS (Fases 2/3, não aprovadas).",
+  "dependencies": [
+    "@cloudflare/workers-oauth-provider",
+    "@modelcontextprotocol/sdk",
+    "agents (Cloudflare McpAgent)",
+    "jose",
+    "zod",
+    "cloudflare-worker/src/auth/identity.ts",
+    "cloudflare-worker/src/auth/consent.ts",
+    "cloudflare-worker/src/mcp-auth-agent.ts"
+  ],
+  "tools": [
+    "whoami"
+  ],
+  "related": {
+    "skills": [],
+    "agents": [],
+    "commands": []
+  },
+  "status": "experimental",
+  "version": "0.1.0",
+  "integration": {
+    "date": "2026-09-29",
+    "reason": "ADR-MCP-REMOTE-001 (proposta do usuário via /mcp__Cloudflare_Developer_Platform__workers-prompt-full, 2026-09-29): substituir a rota Cloudflare por um Custom Connector autenticado. Fase 1 (Foundation) aprovada explicitamente pelo usuário via AskUserQuestion; Fases 2/3 (Blog/CMS) permanecem bloqueadas em CC-003 até inspeção real das APIs.",
+    "ingestion": null
+  },
+  "tests": [
+    "07-execucao/evidencias/cloudflare-worker/fase1-oauth-dev.txt"
+  ],
+  "anti_overkill": {
+    "reuso": "Reusa @cloudflare/workers-oauth-provider (biblioteca oficial da Cloudflare para exatamente este caso — OAuth 2.1 + MCP em Workers) em vez de implementar o protocolo à mão. Reusa o padrão McpAgent já testado do mcp-server:remote (mesmo Durable Object, mesma estrutura de ferramenta) em vez de migrar para o handler stateless mais novo do pacote `agents` (que a própria ADR prefere, §6/§23) — esse handler exige um 'SDK v2' (@modelcontextprotocol/server, pacote distinto do @modelcontextprotocol/sdk já usado aqui) não verificado nesta sessão; migrar fica para depois, com avaliação própria.",
+    "necessidade": "Fase 1 da ADR-MCP-REMOTE-001, aprovada explicitamente pelo usuário (AskUserQuestion, 2026-09-29) como pré-requisito para qualquer integração futura com Blog/CMS via Custom Connector autenticado.",
+    "custo": "1 dependência nova (@cloudflare/workers-oauth-provider, zero deps transitivas) + jose (validação manual de JWT, só usado no fallback) + 1 namespace KV real (OAUTH_KV, criado nesta sessão) + 1 Durable Object novo (MaestroRemoteAuth, migração v2 separada — não altera a v1 existente). Rota /mcp (mcp-server:remote) inalterada.",
+    "reversao": "Remover apiRoute/apiHandler do OAuthProvider, o Durable Object MaestroRemoteAuth e o binding OAUTH_KV; mcp-server:remote continua funcionando sem nenhuma dependência disto — é aditivo, exatamente como o rollback descrito na própria ADR (§32)."
+  },
+  "notes": "Testado localmente (tsc --noEmit limpo, wrangler deploy --dry-run empacota com o KV real resolvido, wrangler dev real confirma: discovery em /.well-known/oauth-authorization-server e /.well-known/oauth-protected-resource/mcp/auth corretos incluindo client_id_metadata_document_supported=true; /mcp/auth sem bearer token responde 401 com WWW-Authenticate correto; /authorize sem identidade Cloudflare Access falha fechado com 401 próprio; /authorize com a identidade simulada de wrangler.jsonc access.dev passa da checagem de identidade e chega à validação de parâmetros OAuth da própria biblioteca; /mcp (mcp-server:remote) confirmado inalterado, handshake real funcionando). NÃO publicado nesta sessão: falta o usuário configurar a Cloudflare Access application real que protege /authorize (dashboard) — ver D15 e cloudflare-worker/README.md. Sem cliente OAuth real registrado ainda, o fluxo completo (consentimento → token → tools/list autenticado) não foi exercitado ponta a ponta com um MCP client de verdade — só a mecânica de cada etapa isoladamente."
+}
