@@ -1,0 +1,58 @@
+Tentativa de publicação real via `wrangler deploy --temporary` (sem CLOUDFLARE_API_TOKEN,
+sem `wrangler login` — nenhum dos dois disponível nesta sessão) e verificação subsequente
+via scripts/configure-cloudflare-route.mjs (probe HTTP real, não suposição).
+
+=== 1) `npx wrangler deploy --temporary` (cloudflare-worker/) ===
+
+ ⛅️ wrangler 4.143.0
+────────────────────
+Continuing means you accept Cloudflare's Terms of Service (https://www.cloudflare.com/terms/) and Privacy Policy (https://www.cloudflare.com/privacypolicy/).
+Solving proof-of-work challenge…
+Temporary account ready:
+	Account: Uncovered Parenthesis (created)
+	Claim within: 60 minutes
+	Claim URL: [REDIGIDA — contém token de posse da conta; entregue apenas em chat ao usuário, nunca em arquivo versionado — evita vazamento de credencial]
+Total Upload: 4014.53 KiB / gzip: 724.95 KiB
+Worker Startup Time: 176 ms
+Your Worker has access to the following bindings:
+Binding                             Resource
+env.MCP_OBJECT (MaestroRemote)      Durable Object
+
+Uploaded maestro-mcp-remote (2.54 sec)
+Deployed maestro-mcp-remote triggers (0.47 sec)
+  https://maestro-mcp-remote.uncovered-parenthesis.workers.dev
+Current Version ID: 9e26355a-9305-4a04-b717-3b390a4b5bd3
+
+=== 2) `node scripts/configure-cloudflare-route.mjs https://maestro-mcp-remote.uncovered-parenthesis.workers.dev` ===
+
+Verificando https://maestro-mcp-remote.uncovered-parenthesis.workers.dev/… (chamada real, não é suposição)
+✖ https://maestro-mcp-remote.uncovered-parenthesis.workers.dev/ respondeu HTTP 403 — confirme que o deploy terminou e a URL está correta.
+(exit code 1 — script recusou escrever a URL em .mcp.json e recusou fechar D14, como projetado — I-02/I-03)
+
+=== 3) `curl -sS -i https://maestro-mcp-remote.uncovered-parenthesis.workers.dev/` (diagnóstico manual) ===
+
+HTTP/2 403
+content-type: text/html; charset=UTF-8
+cf-mitigated: challenge
+server: cloudflare
+cf-ray: a4261b3d3a1ffbc5-IAD
+
+<!DOCTYPE html><html lang="en-US"><head><title>Just a moment...</title>...
+(página de challenge JS do Cloudflare — "Enable JavaScript and cookies to continue" —
+não é a resposta do Worker; o cabeçalho `cf-mitigated: challenge` confirma que a borda
+da Cloudflare interceptou a requisição antes de chegar ao código em cloudflare-worker/src/index.ts)
+
+=== Conclusão ===
+
+O deploy em si funcionou de verdade (upload aceito, binding de Durable Object resolvido,
+versão publicada) — mas para uma conta TEMPORÁRIA e não reivindicada, criada automaticamente
+pelo próprio `wrangler` porque não havia login nem CLOUDFLARE_API_TOKEN nesta sessão. Contas
+desse tipo ficam atrás de um desafio anti-abuso da Cloudflare (challenge JS) em requisições
+sem navegador — inclusive as deste probe e as de qualquer cliente MCP real. Por isso a rota
+NÃO está utilizável no estado atual, mesmo com o deploy "bem-sucedido".
+
+Não é possível confirmar, sem ação do usuário, se esse challenge desaparece ao reivindicar a
+conta (janela de 60 minutos a partir de 2026-09-28T22:15:22Z; Claim URL entregue apenas em
+chat ao usuário — é um token de posse da conta, nunca gravado em arquivo versionado) ou se
+persiste. Por isso: D14 permanece ABERTA (não RESPONDIDA) e .mcp.json não foi alterado —
+nenhuma URL não verificada foi gravada (I-02/I-03).

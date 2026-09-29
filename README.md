@@ -64,13 +64,14 @@ Veja [`07-execucao/ESTADO.md`](07-execucao/ESTADO.md): decisões abertas (D1–D
 
 Além do plugin Maestro em si, este repositório guarda uma **área de coleta de tarefas** para o Copiloto/Maestro processar em Issues: [`TASK-SPACE/`](TASK-SPACE/README.md). É o inbox de dados de tarefa (backlogs, CSV, planos operacionais) que chegam prontos de fora do pipeline de ingestão de componentes — aqui não entra código, entra conteúdo de tarefa já pronto para virar Issue.
 
-Primeira submissão (sessão de 28/09/2026), 3 lotes:
+4 lotes até agora:
 
 | Lote | Origem | Conteúdo |
 |---|---|---|
 | [`2026-09-28_copiloto-ops-runbook-sop-pf24/`](TASK-SPACE/2026-09-28_copiloto-ops-runbook-sop-pf24/) | Auditoria de `executar-23/Copiloto-ops` (Runbook RUN-F1, procedimentos do plugin `executar-cop`, dependências do PF-24) | CSV de 68 linhas (granularidade de passo atômico) + dicionário de dados |
 | [`2026-09-28_plano-risco-cognitivo-hub-cms/`](TASK-SPACE/2026-09-28_plano-risco-cognitivo-hub-cms/) | Skill `plano-operacional-rastreavel` sobre o Hub Editorial CMS real (Risco Cognitivo, `CNT-RC-0001`) | Pacote de 4 entregáveis: plano interno, roadmap, backlog para import, calendário |
 | [`2026-09-28_plano-editorial-gtm-blog/`](TASK-SPACE/2026-09-28_plano-editorial-gtm-blog/) | Skill `plano-operacional-rastreavel` sobre o Foundation Doc GTM + cronograma real dos 3 pilares (escopo só editorial — engenharia do blog full stack é outra sessão) | Pacote de 4 entregáveis: plano interno, roadmap, backlog para import, calendário |
+| [`2026-09-29_plano-executarapp/`](TASK-SPACE/2026-09-29_plano-executarapp/) | Skill `plano-operacional-rastreavel` sobre a síntese de 2 mapas mentais do produto EXECUTAR APP (arquitetura, fluxos, jornada de 25 etapas, visão sistêmica) | Pacote de 4 entregáveis: plano interno (11 Epics/48 Issues/~403h), roadmap, backlog para import, calendário — só 74h alocadas em outubro/2026 |
 
 Ver [`TASK-SPACE/README.md`](TASK-SPACE/README.md) para como o Copiloto/Maestro deve tratar esse material (C-00.2, C-00.5, C-00.8, C-00.9 abaixo se aplicam).
 
