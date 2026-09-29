@@ -4,7 +4,7 @@
 > Vocabulário canônico: `BACKLOG_VALIDATED · READY · DOING · VERIFY · DONE · BLOCKED` (rótulos PT: VALIDADO ⬜ · PRONTO ⬜ · EM EXECUÇÃO 🔄 · VERIFICAR 🔎 · CONCLUÍDO ✅ · BLOQUEADO ⛔).
 > **WIP = 1.** Nenhum nó vira ✅ sem evidência (I-04). Progresso é derivado (I-09).
 
-**Última atualização:** 2026-09-29T09:54:41.399Z
+**Última atualização:** 2026-09-29T09:57:11.893Z
 **Nó ativo (WIP):** nenhum
 **Próximo elegível:** TASKSPACE-0001 — Processar TASK-SPACE/ (3 lotes: runbook Copiloto-ops CSV 68 linhas; 2 planos operacionais via plano-operacional-rastreavel) em GitHub Issues
 **Progresso derivado:** Trilha S 3/15 (20%) · Trilha L 0/10 (0%)

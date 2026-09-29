@@ -6,7 +6,7 @@
   },
   "vocabulario": "copiloto-executar",
   "wip_limite": 1,
-  "atualizado_em": "2026-09-29T09:54:41.399Z",
+  "atualizado_em": "2026-09-29T09:57:11.893Z",
   "nos": [
     {
       "id": "E0",
@@ -1371,7 +1371,7 @@
       "gaps": [
         "Volume grande (CSV 68 linhas + 2 pacotes de plano) — aprovação explícita do usuário exigida antes de criar Issues em massa (TASK-SPACE/README.md item 4, espelha I-05)",
         "titulo do nó ainda diz '3 lotes' (schema de node_update nao permite editar titulo) -- na verdade sao 4 desde o commit e3ab12a; tratar como rotulo desatualizado, nao como contagem real",
-        "4o lote (commit e3ab12a, 'feat(task-space): adiciona 4o lote plano-executarapp') atualizou README.md e TASK-SPACE/README.md descrevendo e linkando TASK-SPACE/2026-09-29_plano-executarapp/ (4 arquivos: plano-interno, roadmap, linear-import, calendario) -- mas esse diretorio e seus arquivos NAO estao no commit nem no repositorio. Referencia pendente (nao inventar conteudo -- I-02): falta o push do conteudo real antes de processar esse lote em Issues."
+        "commit e87ba8a completou 3 dos 4 arquivos do 4o lote (plano-interno-executarapp-2026-10.md, roadmap-executarapp-2026-10.md, calendario-executarapp-2026-10.html) -- ainda falta linear-import-executarapp-2026-10.md, que as instrucoes deste README (item 1) apontam como o arquivo acionavel (uma linha = uma tarefa candidata a Issue). Sem ele, o lote 4 nao pode ser processado em Issues -- nao inventar as linhas (I-02)."
       ],
       "conflitos": [],
       "decisao": null,
@@ -1397,9 +1397,16 @@
           "para": "READY",
           "motivo": "atualização [gaps]: sincronizado com commit e3ab12a (4o lote TASK-SPACE, sessao/automação concorrente via PR #19): título desatualizado e referência a diretório ausente registrados como gaps, sem inventar o conteúdo faltante (I-02)",
           "ator": "maestro"
+        },
+        {
+          "em": "2026-09-29T09:57:11.893Z",
+          "de": "READY",
+          "para": "READY",
+          "motivo": "atualização [gaps]: sincronizado com commit e87ba8a (push seguinte do 4o lote TASK-SPACE, mesma sessao/automação concorrente): 3 dos 4 arquivos chegaram, mas falta linear-import-executarapp-2026-10.md -- gap estreitado, nao fechado",
+          "ator": "maestro"
         }
       ],
-      "atualizado_em": "2026-09-29T09:54:41.386Z"
+      "atualizado_em": "2026-09-29T09:57:11.893Z"
     },
     {
       "id": "CF-ROUTE-0001",
